@@ -1,0 +1,93 @@
+<ion-header>
+
+    <ion-navbar color="navBar">
+        <button ion-button menuToggle>
+                  <ion-icon name="menu"></ion-icon>
+              </button>
+        <ion-title style="margin-top: 8px;">
+            <span>Detalhes</span>
+        </ion-title>
+    </ion-navbar>
+
+</ion-header>
+
+<ion-content>
+    <ion-card text-wrap *ngIf="produtoFornecedorDetalheEntity.nomeProduto">
+        <ion-card-header>
+            <p>
+                <span style="color: #484848">
+                <b>{{ produtoFornecedorDetalheEntity.nomeFornecedor }}</b>
+              </span>
+            </p>
+            <p>
+                <span style="color: #999">
+                    {{ produtoFornecedorDetalheEntity.enderecoFornecedor }} 
+                    <!-- <ion-icon ios="ios-heart" md="md-heart" style="float: right; font-size: 24px;" 
+                        (click)="adicionaFavoritoDetalhes(produtoFornecedorDetalheEntity.idProduto)" 
+                        *ngIf="!produtoFornecedorDetalheEntity.produtoFavoritos || !showIcon"></ion-icon> -->
+                    <ion-icon ios="ios-heart" md="md-heart" style="float: right; font-size: 24px;" 
+                        [ngClass]="{false:'corCinza', true:'corVermelha'}[showIcon]"
+                        (click)="adicionaRemoveFavoritoDetalhes(produtoFornecedorDetalheEntity.idProduto, produtoFornecedorDetalheEntity.idFavoritos)"></ion-icon>
+                        <!-- [ngClass]="{false:'corVermelha', true:'corVerde'}[showIcon]" -->
+                        
+                    <!-- <ion-icon ios="ios-heart" md="md-heart" style="float: right; font-size: 24px; color: red;" 
+                        (click)="removerFavoritoDetalhes(produtoFornecedorDetalheEntity.idFavoritos)" 
+                        *ngIf="produtoFornecedorDetalheEntity.produtoFavoritos || showIcon"></ion-icon> -->
+                </span>
+            </p>
+        </ion-card-header>
+        <ion-card-content class="border-top-color">
+            <p style="margin-top: 10px;">
+                <span>{{ produtoFornecedorDetalheEntity.nomeProduto }}</span>
+            </p>
+            <p>
+                <span style="color: #999">{{ produtoFornecedorDetalheEntity.marca }}</span>
+            </p>
+            <img src="{{ produtoFornecedorDetalheEntity.imagem }}" class="imagem-detalhes-produto" />
+        </ion-card-content>
+
+        <ion-card-content class="border-top-color">
+
+            <div class="row" style="margin-bottom: -20px;">
+                <div class="col col-30">
+                    <p style="color:#69717d;">Frete:
+                        <span style="color:#0c60ee;" *ngIf="valorFrete">{{ valorFrete }}</span>
+                        <span style="color:#0c60ee;" *ngIf="valorFrete == null || valorFrete == 0">Entrega grátis!</span>
+                    </p>
+                </div>
+            </div>
+            <!-- <div class="row" style="height: 60px;">
+                <div class="col col-50">
+                  <p style="color:#69717d;">Total:
+                    <span style="color:#234ED8;" ng-if="retornoCalculo.valorTotal && estaDisponivel">{{ retornoCalculo.valorTotal | currency:'R$ ':2}}</span>
+                    <span style="color:#234ED8;" ng-if="!retornoCalculo.valorTotal && estaDisponivel">{{ valorInicial | currency:'R$ ':2}}</span>
+                    <span style="color:#234ED8;" ng-if="!estaDisponivel">R$ ---</span>
+                  </p>
+                </div>
+                  <div class="row label-money" style="margin-top: -20px;">
+                    <div class="col" style="text-align: center;">
+                      <button class="button icon ion-minus-circled red" style="background-color: #fff;"
+                        ng-click="subtrairProduto(idProdutoFornecedorInicial);">
+                      </button>
+                    </div>
+                    <div class="col" style="text-align: center;width: 30px;"><span style="line-height: 45px;color:#234ED8;"> {{quantidade}} </span></div>
+                    <div class="col" style="text-align: center;">
+                      <button class="button icon ion-plus-circled green" style="background-color: #fff;"
+                        ng-click="addProduto(idProdutoFornecedorInicial);">
+                      </button>
+                    </div>
+                  </div>
+              </div> -->
+        </ion-card-content>
+        <ion-card-content class="border-top-color">
+            <div>
+                <p><span style="color: #999">Detalhes</span></p>
+                <p>
+                    <span>{{ produtoFornecedorDetalheEntity.descricao }}</span>
+                </p>
+
+            </div>
+        </ion-card-content>
+    </ion-card>
+
+</ion-content>

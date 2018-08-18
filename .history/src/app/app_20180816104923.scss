@@ -1,0 +1,94 @@
+// http://ionicframework.com/docs/theming/
+// App Global Sass
+// --------------------------------------------------
+.content-stable {
+    background-color: #E8E8E8 !important;
+}
+
+.border-top-color {
+    border-top: 1px solid #999;
+}
+
+.tabs-md .tab-button[aria-selected=true] {
+    color: #633492;
+    padding: 0;
+}
+
+.tabs-md .tab-button[aria-selected=true] .tab-button-icon {
+    color: #633492;
+    -webkit-transform: translate3d(0, -2px, 0);
+    transform: translate3d(0, -2px, 0);
+}
+
+.h2-color-cards {
+    // color: #fff!important;
+    color: #484848!important;
+}
+
+.custom-background-button-config {
+    background-color: #ffffff;
+}
+
+.custom-ion-card-header {
+    background-color: #fff;
+}
+
+.class-error-form-login {
+    // color: #fff;
+    color: red;
+    margin-left: 15px;
+    font-size: 13px;
+}
+
+.class-error-form {
+    color: red;
+    margin-left: 15px;
+    font-size: 13px;
+}
+
+.item-divider-style {
+    background-color: #f4f4f4!important;
+    margin-top: 10px;
+}
+
+hr {
+    display: block;
+    height: 1px;
+    border: 0;
+    border-top: 0.5px solid #999;
+    // margin: 1em 0;
+    padding: 0;
+}
+
+.corVermelha {
+    color: #FF0000;
+}
+
+.corVerde {
+    color: #28a54c;
+}
+
+.corAmarela {
+    color: #fada90;
+}
+
+.corCinza {
+    color: grey;
+}
+
+.my-label {
+    font-size: 13px;
+}
+
+.paragrafo-termos {
+    color: #999;
+    margin: 4px;
+    text-align: center;
+    // margin-top: -8px;
+    font-size: 13px;
+    // margin-top: 35%;
+}
+
+.span-termos {
+    text-decoration: underline;
+}

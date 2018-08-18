@@ -1,0 +1,47 @@
+<ion-header>
+
+    <ion-navbar color="navBar">
+        <button ion-button menuToggle>
+                    <ion-icon name="menu"></ion-icon>
+                </button>
+        <ion-title style="margin-top: 8px;">
+            <span>{{ nomeSubGrupo }}</span>
+        </ion-title>
+    </ion-navbar>
+
+</ion-header>
+
+<ion-content class="content-stable">
+    <ion-list>
+        <!-- <ion-item *ngFor="let produto of produtosList" text-wrap (click)="openProdutosPorLojaListPage(produto.idProduto)"> -->
+        <ion-item *ngFor="let produto of produtosList" text-wrap (click)="validaUsuario(produto.idProduto)">
+            <ion-thumbnail item-start>
+
+                <img *ngIf="!produto.imagem" src="assets/imgs/no-photo.png" />
+                <img *ngIf="produto.imagem" src="{{produto.imagem}}" style="width: 60px;" />
+            </ion-thumbnail>
+            <h4>{{ produto.marca }}</h4>
+            <p>{{ produto.produto }}</p>
+
+            <div style="margin-top: 20px;" *ngIf="produto.disponivel && idUsuarioLogado && isCadastroCompleto">
+                <h4 style="margin-bottom: -10px; color: #656565;">A partir de: </h4>
+                <h4 style="color: #0c60ee;margin-top: 13px;">{{ produto.apartirDe | currency:'R$ ':2}}</h4>
+            </div>
+            <div style="margin-top: 20px;" *ngIf="(isCadastroCompleto && !produto.disponivel) && idUsuarioLogado">
+                <h4 style="margin-bottom: -10px; color: #234ED8;">Produto indisponível</h4>
+            </div>
+            <div style="margin-top: 20px;" *ngIf="isCadastroCompleto == false && idUsuarioLogado">
+                <h4 style="margin-bottom: -10px; color: #234ED8;">Finalize seu cadastro para ver os preços na sua cidade </h4>
+            </div>
+            <div style="margin-top: 20px;" *ngIf="idUsuarioLogado == null">
+                <h4 style="margin-bottom: -10px; color: #234ED8;white-space: normal;">Efetue login para ver os preços na sua cidade </h4>
+            </div>
+
+        </ion-item>
+    </ion-list>
+
+    <ion-infinite-scroll (ionInfinite)="loadMore($event)">
+        <ion-infinite-scroll-content></ion-infinite-scroll-content>
+    </ion-infinite-scroll>
+
+</ion-content>

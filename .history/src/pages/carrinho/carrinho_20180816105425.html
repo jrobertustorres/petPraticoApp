@@ -1,0 +1,51 @@
+<ion-header>
+
+    <ion-navbar color="navBar">
+        <button ion-button menuToggle>
+                    <ion-icon name="menu"></ion-icon>
+                </button>
+        <!-- <ion-title style="margin-top: 8px;"> -->
+        <ion-title>
+            <span>Carrinho</span>
+        </ion-title>
+    </ion-navbar>
+
+</ion-header>
+
+<ion-content>
+    <!-- <ion-list> -->
+    <div *ngIf="!idUsuario" style="margin-top: 25px;" padding>
+        <p style="text-align: center">
+            <!-- <ion-icon ios="ios-person" md="md-person" style="color: #8f8f8f; font-size: 50px;"></ion-icon> -->
+            <ion-icon ios="ios-person" md="md-person" color="navBar" style="font-size: 50px;"></ion-icon>
+        </p>
+        <p style="text-align: center">
+            <span style="color:#000000;">Faça login para ver seu <br>carrinho de compras.</span>
+        </p>
+        <div style="text-align: center; margin-top: 20px;">
+            <button ion-button block (click)="openLoginPage()" color="navBar" class="margin-button-save span-style-color">ENTRAR OU CADASTRAR</button>
+        </div>
+    </div>
+
+    <div *ngIf="meusPedidoEntity?.length > 0">
+        <ion-item *ngFor="let item of itensCarrinho" text-wrap>
+            <ion-thumbnail item-start>
+                <img *ngIf="!item.imagemProduto" src="assets/imgs/no-photo.png" style="width: 60px; height: 60px;" />
+                <img *ngIf="item.imagemProduto" src="{{ item.imagemProduto }}" style="width: 60px; height: 60px;" />
+            </ion-thumbnail>
+            <h2>{{ item.nomeProduto }}</h2>
+            <h2>{{ item.valorTotalFormat }}</h2>
+            <ion-icon ios="ios-heart" md="md-heart" style="float: right;" (click)="removerCarrinho(itemCarrinho)"></ion-icon>
+        </ion-item>
+        <p class="border-top-color">
+            <!-- <span>
+            <b>{{ itemPedidoEntity.nomeFantasiaFornecedor }}</b> 
+        </span>
+        <span style="float: right;" [ngClass]="{false:'corVermelha', true:'corVerde'}[itemPedidoEntity.isAtendimento]">
+            <ion-icon ios="ios-alarm" md="md-alarm" style="font-size: 18px;"></ion-icon>{{ itemPedidoEntity.horarioAtendimento }}
+        </span> -->
+        </p>
+
+    </div>
+
+</ion-content>

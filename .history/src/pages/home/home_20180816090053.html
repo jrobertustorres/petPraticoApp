@@ -1,0 +1,64 @@
+<ion-header>
+    <ion-navbar color="navBar">
+        <ion-title style="text-align: left;"><img height="30" src="assets/imgs/logo.png"> </ion-title>
+        <!-- <ion-title>
+            <span style="font-size: 16px;">Market</span>
+        </ion-title> -->
+        <ion-buttons end>
+            <!-- <button ion-button icon-only (click)="openLocationPage()">
+                <ion-icon ios="ios-locate" md="md-locate"></ion-icon>
+            </button> -->
+            <button ion-button icon-only (click)="openSearchProdutosPage()">
+                <ion-icon ios="ios-search" md="md-search"></ion-icon>
+            </button>
+        </ion-buttons>
+    </ion-navbar>
+</ion-header>
+
+<ion-content>
+    <ion-slides *ngIf="propagandas && propagandas.length" (ionSlideDidChange)="slideChanged()" autoplay="5000" loop="true" speed="3000" style="height: 40%;">
+        <ion-slide *ngFor="let propaganda of propagandas">
+            <div>
+                <img [src]="sanitizer.bypassSecurityTrustUrl(propaganda.imagem)" />
+            </div>
+        </ion-slide>
+    </ion-slides>
+
+    <ion-item no-lines style="padding: 0px;" *ngIf="propagandas?.length > 0">
+        <ion-slides>
+            <ion-slide class="width-slides" (click)="openGrupoList(1)">
+                <ion-card style="width: 100px; height: 100px;">
+
+                    <img src="assets/imgs/shopping-basket.svg" class="icon-slide-card">
+                    <span style="font-size: 13px; color: #000">Grocery</span>
+
+                </ion-card>
+            </ion-slide>
+            <ion-slide class="width-slides">
+                <ion-card style="width: 100px; height: 100px;">
+
+                    <img src="assets/imgs/meat.svg" class="icon-slide-card">
+                    <span style="font-size: 13px; color: #000">Confectionery</span>
+
+                </ion-card>
+            </ion-slide>
+            <ion-slide class="width-slides">
+                <ion-card style="width: 100px; height: 100px;">
+
+                    <img src="assets/imgs/eggs.svg" class="icon-slide-card">
+                    <span style="font-size: 13px; color: #000">Households</span>
+
+                </ion-card>
+            </ion-slide>
+            <ion-slide class="width-slides">
+                <ion-card style="width: 100px; height: 100px;">
+
+                    <img src="assets/imgs/eggs.svg" class="icon-slide-card">
+                    <span style="font-size: 13px; color: #000">Households</span>
+
+                </ion-card>
+            </ion-slide>
+        </ion-slides>
+    </ion-item>
+
+</ion-content>

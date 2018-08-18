@@ -1,0 +1,111 @@
+<ion-header>
+
+    <ion-navbar color="navBar">
+        <button ion-button menuToggle>
+                <ion-icon name="menu"></ion-icon>
+            </button>
+        <ion-title>
+            Configurações
+        </ion-title>
+    </ion-navbar>
+
+</ion-header>
+
+<ion-content class="content-stable">
+
+    <div padding style="text-align: center;" *ngIf="idUsuario">
+        <div>
+            <span style="color:#000000;text-align: center; font-weight: 500;">
+                Olá {{nomeUsuarioLogado.split(' ')[0]}}, seja bem vindo(a)!
+            </span>
+        </div>
+
+        <div>
+            <span style="color:#000000;text-align: center; font-weight: 500;">Não é você? 
+                <a (click)="logout();" style="text-decoration: underline">Sair</a>
+            </span>
+        </div>
+    </div>
+
+    <div style="margin-top: 25px;" padding *ngIf="!idUsuario">
+        <p style="text-align: center">
+            <ion-icon ios="ios-person" md="md-person" item-start color="navBar" style="font-size: 50px;"></ion-icon>
+        </p>
+        <p style="text-align: center;">
+            <span style="color:#484848;">Faça login para acessar seus dados</span>
+        </p>
+        <div style="text-align: center; margin-top: 20px;">
+            <button ion-button block (click)="openLoginPage()" color="navBar" class="margin-button-save span-style-color">ENTRAR OU CADASTRAR</button>
+        </div>
+    </div>
+
+    <div *ngIf="idUsuario">
+        <ion-card>
+            <!-- <ion-card-header style="background-color: #484848;"> -->
+            <ion-card-header class="custom-ion-card-header">
+                <p class="h2-color-cards">
+                    <strong>Minha área</strong>
+                </p>
+            </ion-card-header>
+
+            <ion-list>
+                <button ion-item class="border-top-color custom-background-button-config" (click)="meusPedidos()">
+                <!-- <ion-icon ios="ios-person" md="md-person" item-start color="light"></ion-icon> -->
+                <ion-icon ios="ios-cube" md="md-cube" item-start color="navBar"></ion-icon>
+                    <span class="h2-color-cards">Meus pedidos</span>
+            </button>
+
+                <button ion-item (click)="meusDados()" class="custom-background-button-config">
+                <ion-icon ios="ios-person" md="md-person" item-start color="navBar"></ion-icon>
+                    <span class="h2-color-cards">Meus dados</span>
+            </button>
+
+                <button ion-item (click)="meuEndereco()" class="custom-background-button-config">
+                <!-- <ion-icon ios="ios-person" md="md-person" item-start color="light"></ion-icon> -->
+                <ion-icon ios="ios-pin" md="md-pin" item-start color="navBar"></ion-icon>
+                    <span class="h2-color-cards">Meu endereço</span>
+            </button>
+
+                <button ion-item (click)="minhaSenha()" class="custom-background-button-config">
+                <ion-icon ios="ios-lock" md="md-lock" item-start color="navBar"></ion-icon>
+                    <span class="h2-color-cards">Minha senha</span>
+            </button>
+            </ion-list>
+        </ion-card>
+
+        <ion-card>
+            <ion-card-header class="custom-ion-card-header">
+                <p class="h2-color-cards">
+                    <strong>Termos e condições</strong>
+                </p>
+            </ion-card-header>
+
+            <ion-list>
+                <button ion-item class="border-top-color custom-background-button-config" (click)="openModalTermos()">
+                <ion-icon ios="ios-list-box" md="md-list-box" item-start color="navBar"></ion-icon>
+                    <span class="h2-color-cards">Termos de uso</span>
+            </button>
+
+                <button ion-item (click)="openModalPolitica()" class="custom-background-button-config">
+                <ion-icon ios="ios-document" md="md-document" item-start color="navBar"></ion-icon>
+                    <span class="h2-color-cards">Política de privacidade</span>
+            </button>
+            </ion-list>
+        </ion-card>
+
+        <ion-card>
+            <ion-list>
+                <button ion-item (click)="shareAnyWhere()">
+                    <ion-icon ios="ios-share" md="md-share" item-start color="navBar"></ion-icon>
+                    <span class="h2-color-cards">Compartilhar app</span>
+                </button>
+
+                <button ion-item class="border-top-color">
+                    <ion-icon ios="ios-warning" md="md-warning" item-start color="navBar"></ion-icon>
+                    <span class="h2-color-cards">Reportar erro</span>
+                </button>
+            </ion-list>
+        </ion-card>
+    </div>
+
+</ion-content>

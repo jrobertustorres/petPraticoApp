@@ -1,0 +1,110 @@
+<ion-header>
+    <ion-navbar color="navBar">
+        <ion-title style="text-align: left;">
+            <img height="30" src="assets/imgs/logo.png">
+        </ion-title>
+        <!-- <ion-title>
+            <span style="font-size: 16px;">Market</span>
+        </ion-title> -->
+        <ion-buttons end>
+            <!-- <button ion-button icon-only (click)="openLocationPage()">
+                <ion-icon ios="ios-locate" md="md-locate"></ion-icon>
+            </button> -->
+            <button ion-button icon-only (click)="openSearchProdutosPage()">
+                <ion-icon ios="ios-search" md="md-search"></ion-icon>
+            </button>
+        </ion-buttons>
+    </ion-navbar>
+</ion-header>
+
+<ion-content class="content-stable">
+    <div class="style-box-home" style="padding: 5px;">
+        <div style="text-align: center" *ngIf="idUsuarioLogado">Você possui {{ qtdPontos }} pontos!</div>
+        <div style="text-align: center" *ngIf="idUsuarioLogado">Acumule 1 ponto a cada R$ 1,00 em compras</div>
+        <div style="text-align: center" *ngIf="!idUsuarioLogado">Faça compras pelo app e acumule pontos!</div>
+    </div>
+    <ion-slides *ngIf="propagandas && propagandas.length" (ionSlideDidChange)="slideChanged()" autoplay="5000" loop="true" speed="3000" style="height: 40%;">
+        <ion-slide *ngFor="let propaganda of propagandas">
+            <div>
+                <img [src]="sanitizer.bypassSecurityTrustUrl(propaganda.imagem)" />
+            </div>
+        </ion-slide>
+    </ion-slides>
+
+    <!-- <ion-item no-lines style="padding: 0px;" *ngIf="propagandas?.length > 0"> -->
+    <ion-item no-lines style="padding: 0px;" class="content-stable">
+        <ion-slides>
+            <ion-slide>
+                <ion-card class="card-style">
+                    <img src="assets/imgs/dog.svg" />
+                    <div class="card-title">Cachorro</div>
+                    <!-- <div class="card-subtitle">41 Listings</div> -->
+                </ion-card>
+            </ion-slide>
+            <ion-slide>
+                <ion-card class="card-style">
+                    <img src="assets/imgs/cat.svg" />
+                    <div class="card-title">Gato</div>
+                    <!-- <div class="card-subtitle">64 Listings</div> -->
+                </ion-card>
+            </ion-slide>
+            <ion-slide>
+                <ion-card class="card-style">
+                    <img src="assets/imgs/bird.svg" />
+                    <div class="card-title">Ave</div>
+                </ion-card>
+            </ion-slide>
+        </ion-slides>
+        <!-- <ion-slides>
+            <ion-slide class="width-slides" (click)="openGrupoList(1)">
+                <ion-card class="card-style">
+
+                    <img src="assets/imgs/dog.svg" class="icon-slide-card">
+                    <span style="font-size: 13px; color: #000">Cachorro</span>
+
+                </ion-card>
+            </ion-slide>
+            <ion-slide class="width-slides">
+                <ion-card class="card-style">
+
+                    <img src="assets/imgs/cat.svg" class="icon-slide-card">
+                    <span style="font-size: 13px; color: #000">Gato</span>
+
+                </ion-card>
+            </ion-slide>
+            <ion-slide class="width-slides">
+                <ion-card class="card-style">
+
+                    <img src="assets/imgs/bird.svg" class="icon-slide-card">
+                    <span style="font-size: 13px; color: #000">Ave</span>
+
+                </ion-card>
+            </ion-slide>
+            <ion-slide class="width-slides">
+                <ion-card class="card-style">
+
+                    <img src="assets/imgs/aquarium.svg" class="icon-slide-card">
+                    <span style="font-size: 13px; color: #000">Peixe</span>
+
+                </ion-card>
+            </ion-slide>
+            <ion-slide class="width-slides">
+                <ion-card class="card-style">
+
+                    <img src="assets/imgs/rabbit.svg" class="icon-slide-card">
+                    <span style="font-size: 13px; color: #000">Roedor</span>
+
+                </ion-card>
+            </ion-slide>
+            <ion-slide class="width-slides">
+                <ion-card class="card-style">
+
+                    <img src="assets/imgs/turtle.svg" class="icon-slide-card">
+                    <span style="font-size: 13px; color: #000">Réptil</span>
+
+                </ion-card>
+            </ion-slide>
+        </ion-slides> -->
+    </ion-item>
+
+</ion-content>
