@@ -4,7 +4,6 @@
         <button ion-button menuToggle>
                     <ion-icon name="menu"></ion-icon>
                 </button>
-        <!-- <ion-title style="margin-top: 8px;"> -->
         <ion-title>
             <span>Carrinho</span>
         </ion-title>
@@ -13,10 +12,8 @@
 </ion-header>
 
 <ion-content>
-    <!-- <ion-list> -->
-    <div *ngIf="!idUsuario" style="margin-top: 25px;" padding>
+    <div *ngIf="!idUsuarioLogado" style="margin-top: 25px;" padding>
         <p style="text-align: center">
-            <!-- <ion-icon ios="ios-person" md="md-person" style="color: #8f8f8f; font-size: 50px;"></ion-icon> -->
             <ion-icon ios="ios-person" md="md-person" color="navBar" style="font-size: 50px;"></ion-icon>
         </p>
         <p style="text-align: center">
@@ -27,25 +24,125 @@
         </div>
     </div>
 
-    <div *ngIf="meusPedidoEntity?.length > 0">
+    <div *ngIf="meusPedidoEntity.idPedido <= 0 && idUsuarioLogado" padding>
+        <p style="text-align: center">
+            <ion-icon ios="ios-cart" md="md-cart" color="navBar" style="font-size: 50px;"></ion-icon>
+        </p>
+        <div style="text-align:center;margin: 10px;">
+            <h4 style="color:#000000; text-align:center; margin-top: 25px;">Seu carrinho está vazio</h4>
+            <p style="color:#000000;">Para continuar comprando, navegue pelas categorias do app ou faça uma busca pelo seu produto</p>
+        </div>
+        <div style="text-align: center; margin-top: 20px;">
+            <button ion-button block (click)="goHomePage()" color="navBar" class="margin-button-save span-style-color">ESCOLHER PRODUTOS</button>
+        </div>
+    </div>
+
+    <!-- <div class="style-box-home" style="padding: 5px;" *ngIf="meusPedidoEntity.isDireitoADesconto && (itensCarrinhoAtual.length > 0 || itensCarrinho.length > 0)"> -->
+    <div class="style-box-home" style="padding: 5px;" *ngIf="meusPedidoEntity.isDireitoADesconto && meusPedidoEntity.idPedido > 0">
+        <div style="text-align: center; color: #fff;">Nesta compra você pode resgatar {{ meusPedidoEntity.qtdPontos }} pontos</div>
+        <div style="text-align: center; color: #fff;">que dá direito à R$ {{ meusPedidoEntity.valorDescontoPontoFormat }} de desconto</div>
+        <ion-item class="checkbox-style-desconto">
+            <ion-label>Resgatar nesta compra?</ion-label>
+            <ion-toggle [(ngModel)]="meusPedidoEntity.isRequerDesconto" (ionChange)="toggleChangeRequerDesconto()" checked="meusPedidoEntity.isRequerDesconto"></ion-toggle>
+        </ion-item>
+    </div>
+    <div class="style-box-home" style="padding: 5px;" *ngIf="meusPedidoEntity.primeiraCompra">
+    <!-- <div class="style-box-home" style="padding: 5px;" *ngIf="meusPedidoEntity.primeiraCompra && (itensCarrinhoAtual.length > 0 || itensCarrinho.length > 0)"> -->
+        <div style="text-align: center; color: #fff;">Esta é sua primeira compra.</div>
+        <div style="text-align: center; color: #fff;">Parabéns, você ganhou um desconto exclusivo!</div>
+    </div>
+
+    <ion-list *ngIf="meusPedidoEntity.idPedido != 0">
         <ion-item *ngFor="let item of itensCarrinho" text-wrap>
             <ion-thumbnail item-start>
                 <img *ngIf="!item.imagemProduto" src="assets/imgs/no-photo.png" style="width: 60px; height: 60px;" />
-                <img *ngIf="item.imagemProduto" src="{{ item.imagemProduto }}" style="width: 60px; height: 60px;" />
+                <img *ngIf="item.imagemProduto" src="{{ item.imagemProduto }}" style="width: 60px; height: 60px;" imageViewer />
             </ion-thumbnail>
-            <h2>{{ item.nomeProduto }}</h2>
-            <h2>{{ item.valorTotalFormat }}</h2>
-            <ion-icon ios="ios-heart" md="md-heart" style="float: right;" (click)="removerCarrinho(itemCarrinho)"></ion-icon>
-        </ion-item>
-        <p class="border-top-color">
-            <!-- <span>
-            <b>{{ itemPedidoEntity.nomeFantasiaFornecedor }}</b> 
-        </span>
-        <span style="float: right;" [ngClass]="{false:'corVermelha', true:'corVerde'}[itemPedidoEntity.isAtendimento]">
-            <ion-icon ios="ios-alarm" md="md-alarm" style="font-size: 18px;"></ion-icon>{{ itemPedidoEntity.horarioAtendimento }}
-        </span> -->
-        </p>
+            <p>
+                <span style="font-size: 14px;">{{ item.nomeProduto }}</span>
+            </p>
+            <p>
+                <span style="color: #0c60ee; font-size: 14px;">R$ {{ item.valorTotalFormat }}</span>
+            </p>
+            <!-- <button ion-button clear item-end (click)="removerCarrinho(itemCarrinho);$event.stopPropagation();"> -->
+            <ion-icon ios="ios-trash" md="md-trash" style="float: right; font-size: 20px; color: red" (click)="confirmaRemoverCarrinho(item);$event.stopPropagation();"></ion-icon>
+                <!-- </button> -->
+                
+            <div style="text-align: left;">
+                <button ion-button icon-only item-end color="danger" round (click)="subtrairProduto(item);" 
+                    style="width: 20px; height: 20px;">
+                    <ion-icon name="remove"></ion-icon>
+                </button>
+                    
+                <button ion-button clear 
+                    style="width: 20px; height: 20px;">
+                    <span style="line-height: 45px; color:#234ED8;"> {{ item.quantidadeItem }} </span>
+                </button>
+                
+                <button ion-button icon-only item-end color="secondary" round (click)="addProduto(item);" 
+                    style="width: 20px; height: 20px;">
+                    <ion-icon name="add"></ion-icon>
+                </button>
+            </div>
 
-    </div>
+        </ion-item>
+    </ion-list>
+
+    <!-- <div class="item style-div-carrinho" *ngIf="idUsuarioLogado && itensCarrinho.length > 0"> -->
+    <div padding class="style-div-carrinho" *ngIf="idUsuarioLogado && meusPedidoEntity.idPedido > 0">
+            <div>
+                <label style="font-size: 14px; color: #000; font-style: italic; font-weight: 500;">
+                    {{ meusPedidoEntity.nomeFantasiaFornecedor }}
+                </label>
+                <label class="label-money" style="font-size: 12px;margin-left: 60%;margin-top: -15px; color: #FF0000;" 
+                    *ngIf="!meusPedidoEntity.isAtendimento">
+          {{ meusPedidoEntity.horarioAtendimento }}
+        </label>
+            </div>
+            <hr class="line-separator">
+            <span style="font-size: 14px; color: #000000; font-weight: 500;">Resumo do pedido</span>
+            <div>
+                <label style="font-size: 12px;">Produtos</label>
+                <label class="label-money" style="font-size: 12px;margin-left: 60%;margin-top: -15px;">
+                    R$ {{ meusPedidoEntity.valorPedidoFormat }}
+                </label>
+            </div>
+            <div>
+                <label style="font-size: 12px;">Desconto</label>
+                <label class="label-money" style="font-size: 12px;margin-left: 60%;margin-top: -15px;">
+                    R$ {{ valorDescontoFormat }}
+                </label>
+            </div>
+            <div style="margin-top: 7px;">
+                <label style="font-size: 12px;">Entrega</label>
+                <label class="label-money" style="font-size: 12px;margin-left: 60%;margin-top: -15px;" *ngIf="meusPedidoEntity.valorFrete != 0">R$ {{ meusPedidoEntity.valorFreteFormat }}</label>
+                <label class="label-money" style="font-size: 12px;margin-left: 60%;margin-top: -15px;color:#234ED8;" *ngIf="meusPedidoEntity.valorFrete == 0"><b>Entrega grátis</b></label>
+            </div>
+            <hr class="hr">
+            <div>
+                <span style="margin-top:10px;color:#0D0D0E; font-weight: 500;">Total</span>
+                <label class="label-money" style="font-size: 12px;margin-left: 60%;margin-top: -15px;font-weight:bold">
+                    R$ {{ meusPedidoEntity.valorTotalPedidoFormat }}</label>
+            </div>
+        </div>
+
+        <!-- <button ion-button block (click)="continuarCarrinho( meusPedidoEntity.idPedido, meusPedidoEntity.idFornecedor )" color="secondary-color" 
+            class="margin-button-save span-style-color">
+            <span class="span-style-color">CONTINUAR</span>
+        </button> -->
+
 
 </ion-content>
+
+<!-- <ion-footer *ngIf="idUsuarioLogado && (itensCarrinhoAtual.length > 0 || itensCarrinho.length > 0)" > -->
+<ion-footer *ngIf="meusPedidoEntity.idPedido != 0 && idUsuarioLogado " >
+    <ion-grid>
+        <ion-row>
+            <ion-col no-padding>
+                <button no-margin ion-button full icon-end color="secondary-color" (click)="continuarCarrinho( meusPedidoEntity.idPedido, meusPedidoEntity.idFornecedor )">
+                    <span class="span-style-color">CONTINUAR</span>
+                </button>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+</ion-footer>

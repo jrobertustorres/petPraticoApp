@@ -15,11 +15,10 @@
     <ion-list>
         <!-- <ion-item *ngFor="let produto of produtosList" text-wrap (click)="openProdutosPorLojaListPage(produto.idProduto)"> -->
         <ion-item *ngFor="let produto of produtosList" text-wrap (click)="validaUsuario(produto.idProduto)" [ngClass]="{'disableClick': !produto.disponivel || !idUsuarioLogado}">
-            <ion-avatar item-start>
-
-                <img *ngIf="!produto.imagem" src="assets/imgs/no-photo.png" style="width: 60px; height: 60px;" />
-                <img *ngIf="produto.imagem" src="{{produto.imagem}}" style="width: 60px; height: 60px;" />
-            </ion-avatar>
+            <ion-thumbnail item-start>
+                <img *ngIf="!produto.imagem" src="assets/imgs/no-photo.png" style="width: 80px; height: 80px;" />
+                <img *ngIf="produto.imagem" src="{{produto.imagem}}" style="width: 80px; height: 80px;" imageViewer/>
+            </ion-thumbnail>
             <span>{{ produto.marca }}</span>
             <p style="font-size: 1.3rem;">{{ produto.produto }}</p>
 

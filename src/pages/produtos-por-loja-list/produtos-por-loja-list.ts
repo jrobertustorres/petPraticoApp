@@ -71,7 +71,7 @@ export class ProdutosPorLojaListPage {
         this.imagemProduto = this.dadosProduto[0].imagem;
         this.menorValor = this.dadosProduto[0].menorValor;
 
-        console.log(this.menorValor);
+        console.log(this.dadosProduto);
 
         this.loading.dismiss();
       }, (err) => {

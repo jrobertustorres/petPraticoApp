@@ -63,7 +63,6 @@ export class LoginPage implements OnInit {
 
   ionViewWillLeave() {
     this.tabBarElement.style.display = 'flex';
-    // this.menu.enable(true);
   }
 
   goRecuperarSenha() {

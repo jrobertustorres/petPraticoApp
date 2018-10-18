@@ -3,8 +3,9 @@ import { NgModule, ErrorHandler } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
 import 'rxjs/add/operator/map';
+import { IonicImageViewerModule } from 'ionic-img-viewer';
 
-import {LOCALE_ID} from '@angular/core';
+import { LOCALE_ID } from '@angular/core';
 import { registerLocaleData } from '@angular/common';
 import localePt from '@angular/common/locales/pt';
 registerLocaleData(localePt);
@@ -33,6 +34,7 @@ import { MeusPedidoEntity } from '../model/meus-pedido-entity';
 import { PedidoEntity } from '../model/pedido-entity';
 import { EstadoEntity } from './../model/estado-entity';
 import { CidadeEntity } from './../model/cidade-entity';
+import { TipoPagamentoFornecedorEntity } from '../model/tipo-pagamento-fornecedor-entity';
 
 //SERVICES
 import { GrupoService } from '../providers/grupo-service';
@@ -45,6 +47,7 @@ import { FavoritosService } from './../providers/favoritos-service';
 import { PedidoService } from '../providers/pedido-service';
 import { EstadosService } from './../providers/estados-service';
 import { CidadesService } from '../providers/cidades-service';
+import { PagamentoService } from '../providers/pagamento-service';
 
 //PAGES
 import { HomePage } from '../pages/home/home';
@@ -67,6 +70,8 @@ import { ModalBuscaProdutosPage } from '../pages/modal-busca-produtos/modal-busc
 import { MeusPedidosListPage } from './../pages/meus-pedidos-list/meus-pedidos-list';
 import { PedidoDetalhePage } from './../pages/pedido-detalhe/pedido-detalhe';
 import { MeuEnderecoPage } from './../pages/meu-endereco/meu-endereco';
+import { PagamentoPage } from '../pages/pagamento/pagamento';
+import { ModalTipoPagamentoPage } from '../pages/modal-tipo-pagamento/modal-tipo-pagamento';
 
 @NgModule({
   declarations: [
@@ -93,11 +98,14 @@ import { MeuEnderecoPage } from './../pages/meu-endereco/meu-endereco';
     MeusPedidosListPage,
     PedidoDetalhePage,
     MeuEnderecoPage,
+    PagamentoPage,
+    ModalTipoPagamentoPage,
     TabsPage
   ],
   imports: [
     HttpModule,
     BrowserModule,
+    IonicImageViewerModule,
     // IonicModule.forRoot(MyApp)
     IonicModule.forRoot(MyApp, {
       backButtonText: '',
@@ -129,6 +137,8 @@ import { MeuEnderecoPage } from './../pages/meu-endereco/meu-endereco';
     MeusPedidosListPage,
     PedidoDetalhePage,
     MeuEnderecoPage,
+    PagamentoPage,
+    ModalTipoPagamentoPage,
     TabsPage
   ],
   providers: [
@@ -144,6 +154,7 @@ import { MeuEnderecoPage } from './../pages/meu-endereco/meu-endereco';
     PedidoService,
     EstadosService,
     CidadesService,
+    PagamentoService,
     GrupoEntity,
     SubGrupoEntity,
     ProdutoEntity,
@@ -158,6 +169,7 @@ import { MeuEnderecoPage } from './../pages/meu-endereco/meu-endereco';
     PedidoEntity,
     EstadoEntity,
     CidadeEntity,
+    TipoPagamentoFornecedorEntity,
     {provide: LOCALE_ID, useValue: 'pt-BR'},
     {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]

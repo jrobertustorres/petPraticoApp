@@ -7,6 +7,9 @@ import { ConfiguracoesPage } from '../configuracoes/configuracoes';
 import { CarrinhoPage } from '../carrinho/carrinho';
 import { FavoritosListPage } from '../favoritos-list/favoritos-list';
 
+//SERVICES
+import { CarrinhoService } from '../../providers/carrinho-service';
+
 @Component({
   templateUrl: 'tabs.html'
 })
@@ -19,12 +22,15 @@ export class TabsPage {
   tab4Root = FavoritosListPage;
   public qtdItensCarrinho: string;
 
-  constructor() {
+  constructor(private carrinhoService: CarrinhoService) {
     this.qtdItensCarrinho = localStorage.getItem(Constants.QTD_ITENS_CARRINHO);
-    console.log('bbbbbbbbbbbbbbbbbbbbbbb '+this.qtdItensCarrinho);
   }
 
-  // ionViewDidEnter() {
-  //   let tab:Tab = this.tabRef.getSelected();//Returns the currently selected tab
-  //  }
+  ngOnInit() {
+    this.carrinhoService.qtdItensCarrinhoChangeEvent.subscribe(qtdItensCarrinhoChangeEvent => {
+      localStorage.setItem(Constants.QTD_ITENS_CARRINHO, qtdItensCarrinhoChangeEvent);
+      this.qtdItensCarrinho = localStorage.getItem(Constants.QTD_ITENS_CARRINHO);
+    });
+  }
+
 }

@@ -32,6 +32,8 @@ export class HomePage {
   // private qtdItemcarrinho: number;
   private publicidadePropagandaEntity: PublicidadePropagandaEntity;
   private usuarioEntity: UsuarioEntity;
+  private idUsuarioLogado: string;
+  private qtdPontos: number;
 
   constructor(public navCtrl: NavController,
               public alertCtrl: AlertController,
@@ -42,6 +44,7 @@ export class HomePage {
 
     this.publicidadePropagandaEntity = new PublicidadePropagandaEntity();
     this.usuarioEntity = new UsuarioEntity();
+    this.idUsuarioLogado = localStorage.getItem(Constants.ID_USUARIO);
   }
 
   ngOnInit() {
@@ -50,28 +53,27 @@ export class HomePage {
       this.findUsuarioLogado();
     } else {
       localStorage.removeItem(Constants.QTD_ITENS_CARRINHO);
-      console.log('aaaaa '+localStorage.getItem(Constants.QTD_ITENS_CARRINHO));
       this.findPublicidadePropaganda();
     }
   }
 
   findUsuarioLogado() {
     try {
-      this.loading = this.loadingCtrl.create({
-        content: 'Aguarde...'
-      });
-      this.loading.present();
+      // this.loading = this.loadingCtrl.create({
+      //   content: 'Autenticando...'
+      // });
+      // this.loading.present();
 
       this.usuarioEntity.idUsuario = parseInt(localStorage.getItem(Constants.ID_USUARIO));
       this.loginService.loginByIdService(this.usuarioEntity)
       .then((loginResult: UsuarioEntity) => {
         this.dadosUsuario = loginResult;
-        console.log(this.dadosUsuario.qtdItemcarrinho);
+        this.qtdPontos = this.dadosUsuario.qtdPontos;
         localStorage.setItem(Constants.QTD_ITENS_CARRINHO, this.dadosUsuario.qtdItemcarrinho);
         this.findPublicidadePropaganda();
         // this.loading.dismiss();
       }, (err) => {
-        this.loading.dismiss();
+        // this.loading.dismiss();
         this.alertCtrl.create({
           subTitle: err.message,
           buttons: ['OK']
@@ -87,20 +89,20 @@ export class HomePage {
 
   findPublicidadePropaganda() {
     try {
-      if(!localStorage.getItem(Constants.ID_USUARIO)) {
-        this.loading = this.loadingCtrl.create({
-          content: 'Aguarde...'
-        });
-        this.loading.present();
-      }
+      // if(!localStorage.getItem(Constants.ID_USUARIO)) {
+      //   this.loading = this.loadingCtrl.create({
+      //     content: 'Aguarde...'
+      //   });
+      //   this.loading.present();
+      // }
 
       this.homeService.findPublicidadePropaganda()
       .then((propagandasResult: PublicidadePropagandaEntity) => {
         this.propagandas = propagandasResult;
 
-        this.loading.dismiss();
+        // this.loading.dismiss();
       }, (err) => {
-        this.loading.dismiss();
+        // this.loading.dismiss();
         this.alertCtrl.create({
           subTitle: err.message,
           buttons: ['OK']

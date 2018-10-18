@@ -1,6 +1,10 @@
-// http://ionicframework.com/docs/theming/
-// App Global Sass
-// --------------------------------------------------
+// retirar linha verde do input
+.item-md.item-input.ng-valid.item-input-has-value:not(.input-has-focus):not(.item-input-has-focus) .item-inner,
+.item-md.item-input.ng-valid.input-has-value:not(.input-has-focus):not(.item-input-has-focus) .item-inner {
+    border-bottom-color: transparent;
+    box-shadow: inset 0 -1px 0 0 #dedede;
+}
+
 .content-stable {
     background-color: #E8E8E8 !important;
 }
@@ -95,4 +99,47 @@ hr {
 
 .disableClick {
     pointer-events: none;
+}
+
+hr {
+    display: block;
+    height: 1px;
+    border: 0;
+    border-top: 0.5px solid #999;
+    padding: 0;
+}
+
+alertDanger {
+    background-color: white;
+    color: red;
+    button{
+    color: red!important;
+    }
+}
+
+.style-box-home {
+    background-color: #623592;
+    margin: 5px;
+    border-radius: 4px;
+}
+
+.checkbox-style-desconto {
+    border-color: #623592!important;
+    background-color: #623592!important;
+    color: #fff!important;
+    border-top-color: #fff!important;
+    margin-top: 5px!important;
+    font-size: 15px!important;
+    line-height: 17px!important;
+}
+
+.label-money {
+    display: block;
+    text-align: right;
+}
+
+.style-div-carrinho {
+    margin-top: -20px!important;
+    border-bottom-color: #FFFFFF!important;
+    margin-bottom: 40px!important;
 }

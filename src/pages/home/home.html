@@ -24,6 +24,10 @@
         <div style="text-align: center" *ngIf="!idUsuarioLogado">Faça compras pelo app e acumule pontos!</div>
     </div>
     <div id='conteudo' class="div-style-publicidade">
+        <div class="center">
+            <ion-spinner *ngIf="!propagandas"></ion-spinner>
+        </div>
+
         <ion-slides pager *ngIf="propagandas && propagandas.length" (ionSlideDidChange)="slideChanged()" autoplay="5000" loop="true" speed="3000">
             <ion-slide *ngFor="let propaganda of propagandas">
                 <div>
@@ -32,16 +36,56 @@
             </ion-slide>
         </ion-slides>
     </div>
+
+    <!-- <div class="list" style="margin-top: 5px;padding: 10px;text-align: center;">
+        <ion-scroll overflow-scroll="false" direction="x" class="wide-as-needed" style="overflow-x: hidden;">
+            <a class="button button-style-scroll" id="buttonDog" >
+                <img src="assets/imgs/dog.svg" class="image-scroll img-margin-scroll" />
+                <span>Cachorro</span>
+            </a>
+            <a class="button button-style-scroll" >
+                <img src="assets/imgs/cat.svg" class="image-scroll img-margin-scroll" />
+                <span>Gato</span>
+            </a>
+            <a class="button button-style-scroll" >
+                <img src="assets/imgs/bird.svg" class="image-scroll img-margin-scroll" />
+                <span>Ave</span>
+            </a>
+            <a class="button button-style-scroll" >
+                <img src="assets/imgs/aquarium.svg" class="image-scroll img-margin-scroll" />
+                <span>Peixe</span>
+            </a>
+            <a class="button button-style-scroll" >
+                <img src="assets/imgs/rabbit.svg" class="image-scroll img-margin-scroll" />
+                <span>Roedor</span>
+            </a>
+            <a class="button button-style-scroll" >
+                <img src="assets/imgs/turtle.svg" class="image-scroll img-margin-scroll" />
+                <span>Réptil</span>
+            </a>
+
+        </ion-scroll>
+
+    </div> -->
+
     <!-- <ion-item no-lines style="padding: 0px;" *ngIf="propagandas?.length > 0"> -->
     <ion-item no-lines style="padding: 0px;" class="content-stable">
-        <ion-slides>
+        <ion-slides style="margin-top: -10px;">
             <ion-slide class="width-slides" (click)="openGrupoList(1)">
+              <!-- <a class="button button-style-scroll" id="buttonDog" >
+                  <img src="assets/imgs/dog.svg" class="image-scroll img-margin-scroll" />
+                  <span>Cachorro</span>
+              </a> -->
                 <ion-card class="card-style">
                     <img src="assets/imgs/dog.svg" />
                     <div class="card-title"><span class="font-card-style">Cachorro</span></div>
                 </ion-card>
             </ion-slide>
             <ion-slide class="width-slides" (click)="openGrupoList(2)">
+              <!-- <a class="button button-style-scroll" id="buttonDog" >
+                  <img src="assets/imgs/cat.svg" class="image-scroll img-margin-scroll" />
+                  <span>Cachorro</span>
+              </a> -->
                 <ion-card class="card-style">
                     <img src="assets/imgs/cat.svg" />
                     <div class="card-title"><span class="font-card-style">Gato</span></div>

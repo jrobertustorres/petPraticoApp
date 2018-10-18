@@ -20,6 +20,8 @@ export class ModalBuscaProdutosPage {
   private produtoEntity: ProdutoEntity;
   private produtosList: any;
   public nomeProduto: string;
+  private refresh: boolean = false;
+  tabBarElement: any;
 
   constructor(public navCtrl: NavController, 
               public navParams: NavParams,
@@ -27,12 +29,21 @@ export class ModalBuscaProdutosPage {
               public loadingCtrl: LoadingController,
               public alertCtrl: AlertController) {
     this.produtoEntity = new ProdutoEntity();
+    this.tabBarElement = document.querySelector('.tabbar.show-tabbar');
   }
 
   ngOnInit() {
   }
 
   ionViewDidLoad() {
+  }
+
+  ionViewWillEnter() {
+    this.tabBarElement.style.display = 'none';
+  }
+
+  ionViewWillLeave() {
+    this.tabBarElement.style.display = 'flex';
   }
 
   loadMore(infiniteScroll) {
@@ -45,29 +56,33 @@ export class ModalBuscaProdutosPage {
   }
   
   getProdutoByNomeList(nomeProduto){
-    
+
     try {
-      this.nomeProduto = nomeProduto.srcElement.value;
+      this.nomeProduto = nomeProduto;
+
       if (this.nomeProduto) {
             
         this.produtoEntity.limiteDados = this.produtoEntity.limiteDados ? this.produtosList.length : null;
+        this.produtoEntity.produto = this.nomeProduto;
 
-          if(this.nomeProduto) {
+          if(this.refresh == false) {
             this.loading = this.loadingCtrl.create({
               content: 'Aguarde...'
             });
             this.loading.present();
           }
 
-          this.produtoEntity.produto = this.nomeProduto;
           this.produtoService.findProdutoByNome(this.produtoEntity)
           .then((produtoResult: ProdutoEntity) => {
             this.produtosList = produtoResult;
             this.produtoEntity.limiteDados = this.produtosList.length;
 
-            this.loading.dismiss();
+            this.refresh = true;
+            this.loading ? this.loading.dismiss() : '';
+            // this.loading.dismiss();
           }, (err) => {
-            this.loading.dismiss();
+            this.loading ? this.loading.dismiss() : '';
+            // this.loading.dismiss();
             this.alertCtrl.create({
               subTitle: err.message,
               buttons: ['OK']

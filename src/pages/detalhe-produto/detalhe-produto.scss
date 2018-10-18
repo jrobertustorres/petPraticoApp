@@ -9,4 +9,11 @@ page-detalhe-produto {
     .show {
         display: block;
     }
+    .label-money {
+        display: block;
+        text-align: right;
+    }
+    .item-md .radio-md[item-left], .item-md .radio-md[item-start] {
+        margin: 11px 13px 10px 4px;
+    }
 }

@@ -1,0 +1,62 @@
+<ion-header>
+
+    <ion-navbar color="navBar">
+        <button ion-button menuToggle>
+                    <ion-icon name="menu"></ion-icon>
+                </button>
+        <ion-title>
+            <span>Pagamento</span>
+        </ion-title>
+    </ion-navbar>
+
+</ion-header>
+
+<ion-content>
+    <!-- <form [formGroup]="pagamentoForm" (ngSubmit)="submeterDadosPagamento()"> -->
+
+        <ion-list radio-group>
+            <ion-item class="item-divider-style" style="margin-top: 0px;">
+                <h3 style="color: #999;"><i class="icon icon-wallet"> </i> Tipo de entrega </h3>
+            </ion-item>
+          
+            <ion-item *ngFor="let tipo of tipoEntrega">
+              <ion-label>{{ tipo.nomeTipoEntrega }}</ion-label>
+              <ion-radio checked="checked" value="{{ tipo.idTipoEntrega }}" ></ion-radio>
+            </ion-item>
+        </ion-list>
+
+        <ion-list radio-group>
+            <!-- <ion-item class="item-divider-style">
+                <h3 style="color: #999;"><i class="icon icon-wallet"> </i> Forma de pagamento </h3>
+            </ion-item> -->
+            <ion-item>
+                <p (click)="showModalTipoPagamento()">
+                    <span class="tipo-pagamento-label-style my-label label label-md">Forma de pagamento </span>
+                    <span class="tipo-pagamento-span-style"> {{ dadosTipoPagamento.nomeTipoPagamento }}
+                        <ion-icon name="arrow-dropdown" class="tipo-pagamento-dropdown-icon"></ion-icon>
+                    </span>
+                </p>
+            </ion-item>
+            <!-- <ion-item *ngFor="let pagamento of tiposPagamento">
+                <ion-label>{{ pagamento.nomeTipoPagamento }}</ion-label>
+                <ion-radio checked="checked" value="{{ pagamento.idTipoPagamento }}"></ion-radio>
+            </ion-item> -->
+        </ion-list>
+      <!-- </form> -->
+
+          <p style="color: #000;" padding>* O pagamento online ainda não está disponível</p>
+
+</ion-content>
+
+<!-- <ion-footer *ngIf="meusPedidoEntity.idPedido != 0 && idUsuarioLogado " > -->
+<!-- <ion-footer>
+    <ion-grid>
+        <ion-row>
+            <ion-col no-padding>
+                <button no-margin ion-button full icon-end color="secondary-color" (click)="continuarCarrinho( meusPedidoEntity.idPedido, meusPedidoEntity.idFornecedor )">
+                    <span class="span-style-color">FAZER PEDIDO</span>
+                </button>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+</ion-footer> -->

@@ -12,10 +12,10 @@
 </ion-header>
 
 <ion-content class="content-stable">
-    <ion-searchbar (search)="getProdutoByNomeList($event)" placeholder="Buscar"></ion-searchbar>
+    <ion-searchbar (search)="getProdutoByNomeList($event.srcElement.value)" placeholder="Buscar"></ion-searchbar>
 
     <ion-list>
-        <ion-item *ngFor="let produto of produtosList" text-wrap (click)="openProdutosPorLojaListPage(produto.idProduto)">
+        <ion-item *ngFor="let produto of produtosList" text-wrap (click)="openProdutosPorLojaListPage(produto.idProduto)" [ngClass]="{'disableClick': !produto.disponivel || !idUsuarioLogado}">
             <ion-thumbnail item-start>
 
                 <img *ngIf="!produto.imagem" src="assets/imgs/no-photo.png" />
@@ -23,7 +23,21 @@
             </ion-thumbnail>
             <h4>{{ produto.marca }}</h4>
             <p>{{ produto.produto }}</p>
-            <p><span style="color: #999;">A partir de:</span> <span style="color: dodgerblue">R$ 150,00</span></p>
+
+            <div *ngIf="produto.disponivel && idUsuarioLogado && isCadastroCompleto">
+                    <span style="color: #656565;">A partir de: </span>
+                    <span style="color: #0c60ee; margin-top: 13px;">{{ produto.apartirDe | currency:'BRL':true }}</span>
+                </div>
+                <div *ngIf="(isCadastroCompleto && !produto.disponivel) && idUsuarioLogado">
+                    <span style="color: #234ED8; font-size: 13px;">Produto indisponível</span>
+                </div>
+                <div *ngIf="isCadastroCompleto == false && idUsuarioLogado">
+                    <span style="color: #234ED8; font-size: 13px;">Finalize seu cadastro para ver os preços na sua cidade </span>
+                </div>
+                <div *ngIf="!idUsuarioLogado">
+                    <span style="color: #234ED8; font-size: 13px;">Efetue login para ver os preços na sua cidade </span>
+                </div>
+            <!-- <p><span style="color: #999;">A partir de:</span> <span style="color: dodgerblue">R$ 150,00</span></p> -->
         </ion-item>
     </ion-list>
 

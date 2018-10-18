@@ -1,0 +1,31 @@
+<ion-header>
+    <ion-navbar color="navBar">
+        <ion-title>
+            Selecione o cartão
+        </ion-title>
+        <ion-buttons end>
+            <button ion-button (click)="closeModal()">
+              <ion-icon ios="ios-close" md="md-close"></ion-icon>
+            </button>
+        </ion-buttons>
+    </ion-navbar>
+</ion-header>
+
+<ion-content>
+
+  <ion-item *ngFor="let tipo of tiposPagamento">
+      <ion-label>{{ tipo.nomeTipoPagamento }}</ion-label>
+      <ion-radio checked="checked" value="{{ tipo.idTipoPagamento }}" (click)="setTipoPagamento(tipo.idTipoPagamento, tipo.nomeTipoPagamento)"></ion-radio>
+  </ion-item>
+
+    <!-- <ion-item *ngFor="let tipo of tiposPagamento" (click)="setTipo(tipo.idMarca, tipo.marca)">
+        <ion-label style="color: #000; max-width: 40px;">
+            <img *ngIf="!marcaVeiculo.logo" src="assets/imgs/no-photo.png" style="width: 30px;" />
+            <img *ngIf="marcaVeiculo.logo" src="{{marcaVeiculo.logo}}" style="width: 30px;" />
+        </ion-label>
+        <ion-label style="color: #000">
+            {{ tipo.nomeTipoPagamento }}
+        </ion-label>
+    </ion-item> -->
+
+</ion-content>

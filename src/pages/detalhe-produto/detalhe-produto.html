@@ -22,40 +22,90 @@
             <p>
                 <span style="color: #999">
                     {{ produtoFornecedorDetalheEntity.enderecoFornecedor }} 
-                    <!-- <ion-icon ios="ios-heart" md="md-heart" style="float: right; font-size: 24px;" 
-                        (click)="adicionaFavoritoDetalhes(produtoFornecedorDetalheEntity.idProduto)" 
-                        *ngIf="!produtoFornecedorDetalheEntity.produtoFavoritos || !showIcon"></ion-icon> -->
                     <ion-icon ios="ios-heart" md="md-heart" style="float: right; font-size: 24px;" 
                         [ngClass]="{false:'corCinza', true:'corVermelha'}[showIcon]"
                         (click)="adicionaRemoveFavoritoDetalhes(produtoFornecedorDetalheEntity.idProduto, produtoFornecedorDetalheEntity.idFavoritos)"></ion-icon>
-                        <!-- [ngClass]="{false:'corVermelha', true:'corVerde'}[showIcon]" -->
-                        
-                    <!-- <ion-icon ios="ios-heart" md="md-heart" style="float: right; font-size: 24px; color: red;" 
-                        (click)="removerFavoritoDetalhes(produtoFornecedorDetalheEntity.idFavoritos)" 
-                        *ngIf="produtoFornecedorDetalheEntity.produtoFavoritos || showIcon"></ion-icon> -->
                 </span>
             </p>
         </ion-card-header>
-        <ion-card-content class="border-top-color">
+        <ion-card-content>
+            <hr class="hr">
             <p style="margin-top: 10px;">
                 <span>{{ produtoFornecedorDetalheEntity.nomeProduto }}</span>
             </p>
             <p>
                 <span style="color: #999">{{ produtoFornecedorDetalheEntity.marca }}</span>
             </p>
-            <img src="{{ produtoFornecedorDetalheEntity.imagem }}" class="imagem-detalhes-produto" />
+            <img src="{{ produtoFornecedorDetalheEntity.imagem }}" class="imagem-detalhes-produto" imageViewer/>
         </ion-card-content>
+        
+        <ion-card-content >
+            <hr class="hr">
 
-        <ion-card-content class="border-top-color">
+                <ion-item *ngFor="let medida of medidasVenda" style="padding-left: 0px;">
+                    <ion-radio item-left checked="true" value="medida.unidadeProduto"></ion-radio>
+                    <ion-label style="text-align: right;">
+                        {{ medida.unidadeProduto }}
+                        <span *ngIf="medida.disponivel" style="margin-left: 40%; margin-top: -15px; font-weight: 400;">{{ medida.valor | currency:'R$ ':2 }}</span>
+                        <span *ngIf="!medida.disponivel" style="margin-left: 40%; margin-top: -15px;color:#234ED8;">Indisponível</span>
 
-            <div class="row" style="margin-bottom: -20px;">
-                <div class="col col-30">
-                    <p style="color:#69717d;">Frete:
-                        <span style="color:#0c60ee;" *ngIf="valorFrete">{{ valorFrete }}</span>
-                        <span style="color:#0c60ee;" *ngIf="valorFrete == null || valorFrete == 0">Entrega grátis!</span>
+                    </ion-label>
+    
+                </ion-item>
+
+                <p style="color:#69717d;">Frete:
+                    <span style="color:#0c60ee;" *ngIf="valorFrete">{{ valorFrete | currency:'BRL' }}</span>
+                    <span style="color:#0c60ee;" *ngIf="valorFrete == null || valorFrete == 0">Entrega grátis!</span>
+                </p>
+                <hr class="hr">
+
+                <div class="col col-50">
+                    <p style="color:#69717d;">Total:
+                        <span style="color:#234ED8; float: right;" *ngIf="produtoFornecedorEntity.valorTotal && estaDisponivel">{{ produtoFornecedorEntity.valorTotal | currency:'R$ ':2}}</span>
+                        <span style="color:#234ED8; float: right;" *ngIf="!produtoFornecedorEntity.valorTotal && estaDisponivel">{{ valorInicial | currency:'R$ ':2}}</span>
+                        <span style="color:#234ED8; float: right;" *ngIf="!estaDisponivel">R$ ---</span>
                     </p>
                 </div>
-            </div>
+
+                <div style="text-align: right;">
+                    <button ion-button icon-only item-end color="danger" round (click)="subtrairProduto();" 
+                        style="width: 20px; height: 20px;">
+                        <ion-icon name="remove"></ion-icon>
+                    </button>
+
+                    <button ion-button clear 
+                        style="width: 20px; height: 20px;">
+                        <span style="line-height: 45px; color:#234ED8;"> {{ quantidade }} </span>
+                    </button>
+
+                    <button ion-button icon-only item-end color="secondary" round (click)="addProduto();" 
+                        style="width: 20px; height: 20px;">
+                        <ion-icon name="add"></ion-icon>
+                    </button>
+
+                </div>
+
+                <!-- <ion-grid>
+                    <ion-row>
+                        <ion-col col-2>
+                            <button ion-button icon-only item-end color="danger" round (click)="subtrairProduto(idProdutoFornecedorInicial);" 
+                                style="width: 20px; height: 20px;">
+                                <ion-icon name="remove"></ion-icon>
+                            </button>
+                        </ion-col>
+                        <ion-col col-2>
+                            <span style="line-height: 45px; color:#234ED8;"> {{ quantidade }} </span>
+                        </ion-col>
+                        <ion-col col-2>
+                            <button ion-button icon-only item-end color="secondary" round (click)="addProduto(idProdutoFornecedorInicial);" 
+                                style="width: 20px; height: 20px;">
+                                <ion-icon name="add"></ion-icon>
+                            </button>
+                        </ion-col>
+                        </ion-row>
+                    </ion-grid> -->
+
+            <!-- </div> -->
             <!-- <div class="row" style="height: 60px;">
                 <div class="col col-50">
                   <p style="color:#69717d;">Total:
@@ -79,8 +129,9 @@
                   </div>
               </div> -->
         </ion-card-content>
-        <ion-card-content class="border-top-color">
-            <div>
+        <ion-card-content>
+            <hr class="hr">
+            <div style="margin-bottom: 40px;">
                 <p><span style="color: #999">Detalhes</span></p>
                 <p>
                     <span>{{ produtoFornecedorDetalheEntity.descricao }}</span>
@@ -91,3 +142,15 @@
     </ion-card>
 
 </ion-content>
+
+<ion-footer *ngIf="produtoFornecedorDetalheEntity.nomeProduto" style="background-color: #fff;">
+    <ion-grid>
+        <ion-row>
+            <ion-col no-padding>
+                <button no-margin ion-button full icon-end color="secondary-color" (click)="validaProdutoIndisponivel(idProdutoFornecedorInicial)">
+                    <span class="span-style-color">ADICIONAR AO CARRINHO</span>
+                </button>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+</ion-footer>
