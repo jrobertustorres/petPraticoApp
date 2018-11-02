@@ -84,8 +84,6 @@ export class ProdutosSubGrupoListPage {
         this.produtosList = produtosSubGruposListResult;
         this.produtoEntity.limiteDados = this.produtosList.length;
 
-        console.log(this.produtosList);
-
         this.refresh = true;
         this.loading ? this.loading.dismiss() : '';
       }, (err) => {

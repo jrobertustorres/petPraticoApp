@@ -4,6 +4,13 @@ import { BrowserModule } from '@angular/platform-browser';
 import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
 import 'rxjs/add/operator/map';
 import { IonicImageViewerModule } from 'ionic-img-viewer';
+import { Facebook } from '@ionic-native/facebook';
+import { AppVersion } from '@ionic-native/app-version';
+import { Network } from '@ionic-native/network';
+import { Device } from '@ionic-native/device';
+import { EmailComposer } from '@ionic-native/email-composer';
+import { SocialSharing } from '@ionic-native/social-sharing';
+import { Push, PushObject, PushOptions } from '@ionic-native/push';
 
 import { LOCALE_ID } from '@angular/core';
 import { registerLocaleData } from '@angular/common';
@@ -35,6 +42,7 @@ import { PedidoEntity } from '../model/pedido-entity';
 import { EstadoEntity } from './../model/estado-entity';
 import { CidadeEntity } from './../model/cidade-entity';
 import { TipoPagamentoFornecedorEntity } from '../model/tipo-pagamento-fornecedor-entity';
+import { IndicacaoUsuarioEntity } from '../model/indicacao-usuario-entity';
 
 //SERVICES
 import { GrupoService } from '../providers/grupo-service';
@@ -48,6 +56,7 @@ import { PedidoService } from '../providers/pedido-service';
 import { EstadosService } from './../providers/estados-service';
 import { CidadesService } from '../providers/cidades-service';
 import { PagamentoService } from '../providers/pagamento-service';
+import { IndicacaoService } from '../providers/indicacao-service';
 
 //PAGES
 import { HomePage } from '../pages/home/home';
@@ -72,6 +81,7 @@ import { PedidoDetalhePage } from './../pages/pedido-detalhe/pedido-detalhe';
 import { MeuEnderecoPage } from './../pages/meu-endereco/meu-endereco';
 import { PagamentoPage } from '../pages/pagamento/pagamento';
 import { ModalTipoPagamentoPage } from '../pages/modal-tipo-pagamento/modal-tipo-pagamento';
+import { ModalSobrePage } from '../pages/modal-sobre/modal-sobre';
 
 @NgModule({
   declarations: [
@@ -100,6 +110,7 @@ import { ModalTipoPagamentoPage } from '../pages/modal-tipo-pagamento/modal-tipo
     MeuEnderecoPage,
     PagamentoPage,
     ModalTipoPagamentoPage,
+    ModalSobrePage,
     TabsPage
   ],
   imports: [
@@ -139,11 +150,19 @@ import { ModalTipoPagamentoPage } from '../pages/modal-tipo-pagamento/modal-tipo
     MeuEnderecoPage,
     PagamentoPage,
     ModalTipoPagamentoPage,
+    ModalSobrePage,
     TabsPage
   ],
   providers: [
     StatusBar,
     SplashScreen,
+    Facebook,
+    AppVersion,
+    Network,
+    Device,
+    EmailComposer,
+    SocialSharing,
+    Push,
     GrupoService,
     UsuarioService,
     LoginService,
@@ -155,6 +174,7 @@ import { ModalTipoPagamentoPage } from '../pages/modal-tipo-pagamento/modal-tipo
     EstadosService,
     CidadesService,
     PagamentoService,
+    IndicacaoService,
     GrupoEntity,
     SubGrupoEntity,
     ProdutoEntity,
@@ -170,6 +190,7 @@ import { ModalTipoPagamentoPage } from '../pages/modal-tipo-pagamento/modal-tipo
     EstadoEntity,
     CidadeEntity,
     TipoPagamentoFornecedorEntity,
+    IndicacaoUsuarioEntity,
     {provide: LOCALE_ID, useValue: 'pt-BR'},
     {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]

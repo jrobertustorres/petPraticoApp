@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { NavController, NavParams, LoadingController, ModalController, AlertController } from 'ionic-angular';
-// import { EmailComposer } from '@ionic-native/email-composer';
-// import { AppVersion } from '@ionic-native/app-version';
-// import { Device } from '@ionic-native/device';
+import { NavController, NavParams, LoadingController, ModalController, AlertController, Platform } from 'ionic-angular';
+import { EmailComposer } from '@ionic-native/email-composer';
+import { Device } from '@ionic-native/device';
+import { SocialSharing } from '@ionic-native/social-sharing';
 import { Constants } from '../../app/constants';
 
 // PAGES
@@ -14,6 +14,15 @@ import { HomePage } from '../home/home';
 import { LoginPage } from '../login/login';
 import { MeusPedidosListPage } from '../meus-pedidos-list/meus-pedidos-list';
 import { MeuEnderecoPage } from '../meu-endereco/meu-endereco';
+import { ModalSobrePage } from '../modal-sobre/modal-sobre';
+
+//SERVICES
+import { IndicacaoService } from '../../providers/indicacao-service';
+import { UsuarioService } from '../../providers/usuario-service';
+
+//ENTITIES
+import { IndicacaoUsuarioEntity } from '../../model/indicacao-usuario-entity';
+import { UsuarioEntity } from '../../model/usuario-entity';
 
 // @IonicPage()
 @Component({
@@ -27,20 +36,34 @@ export class ConfiguracoesPage implements OnInit {
   // private erroAppBody: string;
   // private infoSuporte: string;
   // private loading = null;
-  public idUsuario: string;
+  private linkLoja: string;
+  public idUsuarioLogado: string;
   public nomeUsuarioLogado: string;
+  private loading = null;
+  private indicacaoUsuarioEntity: IndicacaoUsuarioEntity;
+  private usuarioEntity: UsuarioEntity;
+  // private usuarioEntityPontos: any;
 
   constructor(public navCtrl: NavController, 
               public navParams: NavParams, 
               public loadingCtrl: LoadingController,
               public modalCtrl: ModalController,
+              private emailComposer: EmailComposer,
+              private socialSharing: SocialSharing,
+              public platform: Platform,
+              private device: Device,
+              private indicacaoService: IndicacaoService,
+              private usuarioService: UsuarioService,
               public alertCtrl: AlertController) {
+    this.indicacaoUsuarioEntity = new IndicacaoUsuarioEntity();
+    this.usuarioEntity = new UsuarioEntity();
 
   }
 
   ngOnInit() {
-    this.idUsuario = localStorage.getItem(Constants.ID_USUARIO);
+    this.idUsuarioLogado = localStorage.getItem(Constants.ID_USUARIO);
     this.nomeUsuarioLogado = localStorage.getItem(Constants.NOME_PESSOA);
+    this.findByPontuacao();
   }
 
   ionViewDidLoad() {
@@ -60,6 +83,32 @@ export class ConfiguracoesPage implements OnInit {
   //   toast.present();
   // }
 
+  findByPontuacao() {
+    this.loading = this.loadingCtrl.create({
+      content: 'Aguarde...'
+    });
+    this.loading.present();
+
+    this.usuarioService
+    .findByPontuacao()
+    .then((usuarioEntityResult: UsuarioEntity) => {
+      this.usuarioEntity = usuarioEntityResult;
+      // localStorage.setItem(Constants.QTD_PONTOS, this.usuarioEntity.qtdPontos);
+
+      console.log(this.usuarioEntity);
+
+      this.loading.dismiss();
+
+    }, (err) => {
+      this.loading.dismiss();
+      this.alertCtrl.create({
+        subTitle: err.message,
+        buttons: ['OK']
+      }).present();
+    });
+
+  }
+
   openModalTermos(){
     let modal = this.modalCtrl.create(ModalTermosPage);
     modal.present();
@@ -70,27 +119,70 @@ export class ConfiguracoesPage implements OnInit {
     modal.present();
   }
 
-  // sendEmailBug() {
-  //   this.emailComposer.isAvailable().then((available: boolean) =>{
-  //     if(available) {
-  //     }
-  //    });
-     
-  //    let email = {
-  //      to: 'diretoria@logiic.com.br',
-  //      cc: ['jose@logiic.com.br', 'bruno@logiic.com.br'],
-  //      subject: this.erroAppSubject,
-  //      body: '<p><h1>'+ this.erroAppBody +'</h1></p>' +
-  //      '<h1>'+ this.infoSuporte +'</h1>'+
-  //      '<h1>JoyBees v'+ this.appVersion.getVersionCode() +'</h1>' +
-  //      '<h1>'+ this.device.model +'</h1>' +
-  //      '<h1>'+ this.device.platform +' '+ this.device.version +'</h1>' +
-  //      '<h1>----------------------</h1>',
-  //      isHtml: true
-  //    };
+  openModalSobre(){
+    let modal = this.modalCtrl.create(ModalSobrePage);
+    modal.present();
+  }
 
-  //    this.emailComposer.open(email);
-  // }
+  getPlatform() {
+    if (this.platform.is('ios')) {
+      this.linkLoja = "https://play.google.com/store/apps/details?id=br.com.spacetrack.mobile";
+    }
+    
+    if (this.platform.is('android')) {
+      this.linkLoja = "https://play.google.com/store/apps/details?id=br.com.spacetrack.mobile";
+    }
+  }
+
+  shareAnyWhere() {
+    this.loading = this.loadingCtrl.create({
+      content: 'Aguarde...'
+    });
+    this.loading.present();
+
+    this.indicacaoService
+    .indicaAplicativo()
+    .then((indicacaoUsuarioEntityResult: IndicacaoUsuarioEntity) => {
+      this.indicacaoUsuarioEntity = indicacaoUsuarioEntityResult;
+
+      this.loading.dismiss();
+
+      this.socialSharing.share("Estou gostando muito do Pet Prático! Tenha todos os Pet Shops na palma de sua mão! Use o código de indicação e ganhe pontos: " + this.indicacaoUsuarioEntity.codigoIndicacao,
+      "http://www.petpratico.com.br/img/logo_shared.jpg", this.linkLoja)
+      .then(() => {
+      }).catch(() => {
+      });
+    }, (err) => {
+      this.loading.dismiss();
+      this.alertCtrl.create({
+        subTitle: err.message,
+        buttons: ['OK']
+      }).present();
+    });
+    
+  }
+
+  sendEmailBug() {
+    this.emailComposer.isAvailable().then((available: boolean) =>{
+      if(available) {
+      }
+     });
+     
+     let email = {
+       to: 'diretoria@logiic.com.br',
+       cc: ['jose@logiic.com.br', 'bruno@logiic.com.br'],
+       subject: 'Problema encontrado no app.',
+       body: '<p><h1>Olá! Descreva abaixo o problema encontrado e logo analizaremos.</h1></p>' +
+       '<h1>Informações para suporte</h1>'+
+       '<h1>Pet Prático v'+ localStorage.getItem(Constants.VERSION_NUMBER) +'</h1>' +
+       '<h1>'+ this.device.model +'</h1>' +
+       '<h1>'+ this.device.platform +' '+ this.device.version +'</h1>' +
+       '<h1>----------------------</h1>',
+       isHtml: true
+     };
+
+     this.emailComposer.open(email);
+  }
 
   openLoginPage() {
     this.navCtrl.push(LoginPage);

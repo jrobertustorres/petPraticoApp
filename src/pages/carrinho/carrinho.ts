@@ -91,9 +91,6 @@ export class CarrinhoPage {
         this.meusPedidoEntity = itemResult;
         this.itensCarrinho = this.meusPedidoEntity.listMeusItemPedidoEntities;
         this.isRequerDesconto = this.meusPedidoEntity.isRequerDesconto;
-        console.log(this.meusPedidoEntity);
-        console.log(this.itensCarrinho);
-        console.log(this.meusPedidoEntity.listMeusItemPedidoEntities);
 
         if (this.meusPedidoEntity.isRequerDesconto || this.meusPedidoEntity.valorDescontoFormat != null) {
           this.valorDescontoFormat = this.meusPedidoEntity.valorDescontoFormat;
@@ -237,7 +234,7 @@ export class CarrinhoPage {
   continuarCarrinho() {
     if (this.meusPedidoEntity.isCadastroCompleto) {
       // if (!this.meusPedidoEntity.isAtendimento) {
-      if (this.meusPedidoEntity.isAtendimento) {
+      if (!this.meusPedidoEntity.isAtendimento) {
           this.showAlertIsAtendimento();
       } else {
           // $location.path("/pagamento/" + idPedido + "/" + idFornecedor);

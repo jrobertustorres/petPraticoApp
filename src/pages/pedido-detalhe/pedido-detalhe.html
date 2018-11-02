@@ -14,10 +14,10 @@
 
                 <div *ngIf="meusPedidoEntity.nomeFantasiaFornecedor">
                     <img src="assets/imgs/no-photo.png" class="item-start custom-avatar" *ngIf="!meusPedidoEntity.logoFornecedor" />
-                    <img src="{{meusPedidoEntity.logoFornecedor}}" class="item-start custom-avatar" *ngIf="meusPedidoEntity.logoFornecedor" />
+                    <img src="{{ meusPedidoEntity.logoFornecedor }}" class="item-start custom-avatar" *ngIf="meusPedidoEntity.logoFornecedor" />
                 </div>
                 <div>
-                    <span style="font-size: 16px;">{{meusPedidoEntity.nomeFantasiaFornecedor}}</span>
+                    <span style="font-size: 16px;">{{ meusPedidoEntity.nomeFantasiaFornecedor }}</span>
                 </div>
             </div>
         </ion-title>
@@ -30,7 +30,7 @@
 
     <div *ngIf="meusPedidoEntity.nomeFantasiaFornecedor">
         <ion-item-divider class="content-stable">
-            <ion-icon ios="ios-cube" md="md-cube"></ion-icon> Pedido: #{{meusPedidoEntity.idPedido}}
+            <ion-icon ios="ios-cube" md="md-cube"></ion-icon> Pedido: #{{ meusPedidoEntity.idPedido }}
         </ion-item-divider>
 
         <ion-list>
@@ -40,12 +40,12 @@
                     <ion-row>
                         <ion-col col-8>
                             <span style="color: #000; font-size: 13px;">
-                          {{item.quantidadeItem}} x {{item.nomeProduto}}
+                          {{ item.quantidadeItem }} x {{ item.nomeProduto }}
                       </span>
                         </ion-col>
                         <ion-col col-4>
                             <span style="color: #000; float: right; font-size: 13px;">
-                          R$ {{item.valorTotalFormat}}
+                          R$ {{ item.valorTotalFormat }}
                       </span>
                         </ion-col>
                     </ion-row>
@@ -60,7 +60,7 @@
                 Taxa de entrega:
             </span>
                 <span style="color: #000; float: right; font-size: 13px;" *ngIf="meusPedidoEntity.valorFrete > 0">
-                R$ {{meusPedidoEntity.valorFreteFormat}}
+                R$ {{ meusPedidoEntity.valorFreteFormat }}
               </span>
                 <span style="color: #234ED8; float: right; font-size: 13px;" *ngIf="meusPedidoEntity.valorFrete == 0">
                 Entrega grátis
@@ -73,51 +73,17 @@
                 Valor desconto:
             </span>
                 <span style="color: #000; float: right; font-size: 13px;">
-                R$ {{meusPedidoEntity.valorDescontoFormat}}
+                R$ {{ meusPedidoEntity.valorDescontoFormat }}
               </span>
             </p>
         </div>
-        <!-- <ion-grid style="margin-top: -30px;">
-            <ion-row>
-                <ion-col col-8>
-                    <span style="color: #000">
-                  Taxa de entrega:
-              </span>
-                </ion-col>
-                <ion-col col-4>
-                    <span style="color: #000; float: right; font-size: 13px;" *ngIf="meusPedidoEntity.valorFrete > 0">
-                      R$ {{meusPedidoEntity.valorFreteFormat}}
-                    </span>
-                    <span style="color: #234ED8; float: right; font-size: 13px;" *ngIf="meusPedidoEntity.valorFrete == 0">
-                      Entrega grátis
-                    </span>
-                  </ion-col>
-                </ion-row>
-              </ion-grid> -->
-        <!-- <span style="color: #000; float: right; font-size: 13px;">
-                                  R$ {{meusPedidoEntity.valorDescontoFormat}}
-                                </span> -->
-        <!-- <ion-grid>
-            <ion-row>
-                <ion-col col-8>
-                    <span style="color: #000">
-                  Total:
-              </span>
-                </ion-col>
-                <ion-col col-4>
-                    <span style="color: #000; float: right; font-size: 13px;">
-                      R$ {{meusPedidoEntity.valorTotalPedidoFormat}}
-                    </span>
-                </ion-col>
-            </ion-row>
-        </ion-grid> -->
         <div style="padding: 0px 9px 0px;">
             <p>
                 <span style="color: #000">
                     <strong>Total:</strong>
             </span>
                 <span style="color: #000; float: right; font-size: 13px;">
-                <strong>R$ {{meusPedidoEntity.valorTotalPedidoFormat}}</strong>
+                <strong>R$ {{ meusPedidoEntity.valorTotalPedidoFormat }}</strong>
               </span>
             </p>
         </div>
@@ -126,7 +92,7 @@
         </ion-item-divider>
         <div text-wrap style="padding: 0px 9px 0px;">
             <p>
-                <span style="color: #000; float: right; font-size: 13px;">
+                <span style="color: #000; float: right; font-size: 13px; margin-bottom: 10px;">
                   {{ meusPedidoEntity.endereco }}
                 </span>
             </p>
@@ -141,7 +107,7 @@
                     Data do pedido:
             </span>
                 <span style="color: #000; float: right; font-size: 13px;">
-                {{meusPedidoEntity.dataPedidoFormat}}
+                {{ meusPedidoEntity.dataPedidoFormat }}
               </span>
             </p>
             <p>
@@ -149,7 +115,7 @@
                     Tipo de pagamento:
             </span>
                 <span style="color: #000; float: right; font-size: 13px;">
-                {{meusPedidoEntity.tipoPagamento}}
+                {{ meusPedidoEntity.tipoPagamento }}
               </span>
             </p>
         </div>

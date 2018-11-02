@@ -15,14 +15,16 @@ export class LoginService {
   private usuarioEntity: UsuarioEntity;
 
   constructor(public http: Http) {
+    this.usuarioEntity = new UsuarioEntity();
   }
 
   public login(usuarioEntity) {
     try {
       
-      this.usuarioEntity = new UsuarioEntity();
       this.usuarioEntity = usuarioEntity;
-      // this.usuarioEntity.tokenPush = localStorage.getItem(Constants.TOKEN_PUSH);
+      this.usuarioEntity.tokenPush = localStorage.getItem(Constants.TOKEN_PUSH);
+      this.usuarioEntity.versaoApp = localStorage.getItem(Constants.VERSION_NUMBER);
+      this.usuarioEntity.versaoApp = localStorage.getItem(Constants.UUID);
       
       return new Promise((resolve, reject) => {
         this.http.post(Constants.API_URL + 'login/', 
@@ -31,14 +33,12 @@ export class LoginService {
           .subscribe(data => {
             resolve(data);
 
-            // this._storage.set(Constants.ID_USUARIO, data.idUsuario);
-            // this._storage.set(Constants.TOKEN_USUARIO, data.token);
-            // this._storage.set(Constants.NOME_PESSOA, data.nomePessoa);
-
             localStorage.setItem(Constants.TOKEN_USUARIO, data.token);
             localStorage.setItem(Constants.NOME_PESSOA, data.nomePessoa);
             localStorage.setItem(Constants.ID_USUARIO, data.idUsuario);
             localStorage.setItem(Constants.IS_CADASTRO_COMPLETO, data.isCadastroCompleto);
+            localStorage.setItem(Constants.QTD_ITENS_CARRINHO, data.qtdItemcarrinho);
+            localStorage.setItem(Constants.QTD_PONTOS, data.qtdPontos);
 
             this.userChangeEvent.emit(data.nomePessoa);
             this.emailPessoaChangeEvent.emit(data.email);
@@ -57,9 +57,9 @@ export class LoginService {
 
   public loginByIdService(usuarioEntity) {
     try {
-      // this.usuarioEntity = new UsuarioEntity();
-      // this.usuarioEntity = usuarioEntity;
-      // this.usuarioEntity.tokenPush = localStorage.getItem(Constants.TOKEN_PUSH);
+      this.usuarioEntity.tokenPush = localStorage.getItem(Constants.TOKEN_PUSH);
+      this.usuarioEntity.versaoApp = localStorage.getItem(Constants.VERSION_NUMBER);
+      this.usuarioEntity.versaoApp = localStorage.getItem(Constants.UUID);
       
       return new Promise((resolve, reject) => {
         this.http.post(Constants.API_URL + 'loginById/', 
@@ -73,10 +73,48 @@ export class LoginService {
             // localStorage.setItem(Constants.EMAIL_PESSOA, data.email);
             localStorage.setItem(Constants.ID_USUARIO, data.idUsuario);
             localStorage.setItem(Constants.IS_CADASTRO_COMPLETO, data.isCadastroCompleto);
+            localStorage.setItem(Constants.QTD_ITENS_CARRINHO, data.qtdItemcarrinho);
+            localStorage.setItem(Constants.QTD_PONTOS, data.qtdPontos);
 
             this.userChangeEvent.emit(data.nomePessoa);
             this.emailPessoaChangeEvent.emit(data.email);
 
+          }, (err) => {
+            reject(err.json());
+          });
+      });
+
+    } catch (e){
+      if(e instanceof RangeError){
+        console.log('out of range');
+      }
+    }
+  }
+
+  public loginFacebook(usuarioEntity) {
+    try {
+
+      this.usuarioEntity = usuarioEntity;
+      this.usuarioEntity.tokenPush = localStorage.getItem(Constants.TOKEN_PUSH);
+      this.usuarioEntity.versaoApp = localStorage.getItem(Constants.VERSION_NUMBER);
+      this.usuarioEntity.versaoApp = localStorage.getItem(Constants.UUID);
+      return new Promise((resolve, reject) => {
+        this.http.post(Constants.API_URL + 'loginByIdFacebook/', 
+          JSON.stringify(this.usuarioEntity), this.options)
+          .map(res=>res.json())
+          .subscribe(data => {
+            resolve(data);
+            data.idiomaUsuario = data.idiomaUsuario == 'Português' ? 'pt-br' : 'en';
+
+            localStorage.setItem(Constants.TOKEN_USUARIO, data.token);
+            localStorage.setItem(Constants.NOME_PESSOA, data.nomePessoa);
+            localStorage.setItem(Constants.ID_USUARIO, data.idUsuario);
+            localStorage.setItem(Constants.IS_CADASTRO_COMPLETO, data.isCadastroCompleto);
+            localStorage.setItem(Constants.QTD_ITENS_CARRINHO, data.qtdItemcarrinho);
+            localStorage.setItem(Constants.QTD_PONTOS, data.qtdPontos);
+
+            this.userChangeEvent.emit(data.nomePessoa);
+            this.emailPessoaChangeEvent.emit(data.login);
           }, (err) => {
             reject(err.json());
           });

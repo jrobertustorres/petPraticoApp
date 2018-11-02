@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-// import { Constants } from '../../app/constants';
+import { Constants } from '../../app/constants';
 import { NavController, AlertController, LoadingController, MenuController, ModalController } from 'ionic-angular';
 import { RecuperarSenhaPage } from '../recuperar-senha/recuperar-senha';
 import { FormBuilder,	FormGroup, Validators } from '@angular/forms';
+import { Facebook } from '@ionic-native/facebook';
 
 //PAGE
 import { HomePage } from '../home/home';
@@ -29,6 +30,10 @@ export class LoginPage implements OnInit {
   private loading = null;
   private loadingText: string;
   tabBarElement: any;
+  private usuarioEntityResult: any;
+
+  isLoggedIn: boolean = false;
+  users: any;
 
   constructor(public navCtrl: NavController, 
               private loginService: LoginService, 
@@ -36,10 +41,23 @@ export class LoginPage implements OnInit {
               public loadingCtrl: LoadingController,
               private menu : MenuController,
               public modalCtrl: ModalController,
+              public facebook: Facebook,
               private formBuilder: FormBuilder) {
 
     this.tabBarElement = document.querySelector('.tabbar.show-tabbar');
     this.usuarioEntity = new UsuarioEntity();
+
+    if(localStorage.getItem(Constants.ID_USUARIO)) {
+      facebook.getLoginStatus()
+      .then(res => {
+        if(res.status === "connect") {
+          this.isLoggedIn = true;
+        } else {
+          this.isLoggedIn = false;
+        }
+      })
+      .catch(e => console.log(e));
+    }
   }
 
   ngOnInit() {
@@ -54,7 +72,6 @@ export class LoginPage implements OnInit {
   }
 
   ionViewDidEnter() {
-    // this.menu.enable(false);
   }
 
   ionViewWillEnter() {
@@ -77,14 +94,28 @@ export class LoginPage implements OnInit {
     try {
       if (this.loginForm.valid) {
 
-        this.loadingText = 'Aguarde...';
         this.loading = this.loadingCtrl.create({
-          content: this.loadingText
+          content: 'Aguarde...'
         });
         this.loading.present();
 
       this.loginService.login(this.loginForm.value)
         .then((usuarioEntityResult: UsuarioEntity) => {
+          // this.usuarioEntityResult = usuarioEntityResult;
+
+          // console.log(this.usuarioEntityResult);
+
+          // localStorage.setItem('token', usuarioEntityResult.token);
+          // localStorage.setItem('idUsuarioLogado', usuarioEntityResult.idUsuario);
+          // localStorage.setItem('nomeUsuarioLogado', usuarioEntityResult.nomePessoa);
+          // localStorage.setItem(Constants.IS_CADASTRO_COMPLETO, this.usuarioEntityResult.isCadastroCompleto);
+          // localStorage.setItem('token', data.token);
+          // localStorage.setItem('qtdPontos', this.usuarioEntityResult.qtdPontos);
+          // data.emailUsuario = data.email;
+          // data.telefonePessoa = data.telefone;
+          // localStorage.setItem(Constants.QTD_ITENS_CARRINHO, this.usuarioEntityResult.qtdItemcarrinho);
+
+          // registraToken(); ===============> VAMOS USAR?
 
           this.navCtrl.setRoot(HomePage);
           this.loading.dismiss();
@@ -118,6 +149,50 @@ export class LoginPage implements OnInit {
   openModalPolitica(){
     let modal = this.modalCtrl.create(ModalPoliticaPrivacidadePage);
     modal.present();
+  }
+
+  doFbLogin(){
+    this.facebook.login(['public_profile', 'email'])
+    .then(res => {
+      if(res.status === "connected") {
+        this.isLoggedIn = true;
+        this.getUserDetail(res.authResponse.userID);
+      } else {
+        this.isLoggedIn = false;
+      }
+    })
+    .catch(e => console.log('Error logging into Facebook', e));
+  }
+
+  getUserDetail(userid) {
+    this.facebook.api("/"+userid+"/?fields=id,email,name,picture,gender",["public_profile"])
+      .then(res => {
+        this.users = res;
+        this.usuarioEntity.idUsuarioFacebook = this.users.id;
+        this.usuarioEntity.nomePessoa = this.users.name;
+        this.usuarioEntity.emailUsuario = this.users.email;
+
+      this.callLoginFacebookWS(this.usuarioEntity);
+    })
+    .catch(e => {
+      console.log(e);
+    });
+  }
+
+  callLoginFacebookWS(usuarioEntity) {
+    this.loginService.loginFacebook(usuarioEntity)
+    .then((usuarioEntityResult: UsuarioEntity) => {
+
+      this.navCtrl.setRoot(HomePage);
+
+      // this.loading.dismiss();
+    }, (err) => {
+      // this.loading.dismiss();
+      this.alertCtrl.create({
+        subTitle: err.message,
+        buttons: ['OK']
+      }).present();
+    });
   }
 
 }

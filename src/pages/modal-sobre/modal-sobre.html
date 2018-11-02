@@ -1,0 +1,30 @@
+<ion-header>
+
+    <ion-navbar color="navBar">
+        <button ion-button menuToggle>
+                <ion-icon name="menu"></ion-icon>
+            </button>
+        <ion-title>
+            <span>Sobre esta versão</span>
+        </ion-title>
+        <ion-buttons start>
+            <button ion-button (click)="closeModal()">
+                <ion-icon ios="ios-close" md="md-close"></ion-icon>
+            </button>
+        </ion-buttons>
+    </ion-navbar>
+
+</ion-header>
+
+<ion-content padding>
+  <div>
+    <p class="paragrafo-versao" style="color: #454545;">
+        Desenvolvido por: Logiic Ltda
+      <span class="span-termos" (click)="openSite()">www.logiic.com.br</span>
+    </p>
+    <p class="paragrafo-versao" style="margin-top: 10px;">
+      Versão: {{ versaoApp }}
+    </p>
+  </div>
+
+</ion-content>

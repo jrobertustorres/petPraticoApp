@@ -39,8 +39,6 @@ export class DetalheProdutoPage {
   private quantidade: number = 1;
   private idProdutoFornecedorInicial: number;
   private estaDisponivel: boolean;
-  // private retornoCalculo: any;
-  // private calculoProdutoFornecedor: [];
   public showLoading: boolean = false;
 
   constructor(public navCtrl: NavController, 
@@ -102,8 +100,6 @@ export class DetalheProdutoPage {
       .then((produtoResult: ProdutoFornecedorDetalheEntity) => {
         this.produtoFornecedorDetalheEntity = produtoResult;
 
-        console.log(this.produtoFornecedorDetalheEntity);
-        
         this.showIcon = this.produtoFornecedorDetalheEntity.idFavoritos != null ? true : false;
 
         this.medidasVenda = this.produtoFornecedorDetalheEntity.listProdutoFornecedorEntities;
@@ -188,15 +184,11 @@ export class DetalheProdutoPage {
         }).present();
       });
 
-
-    // var promiseCalculo = getCalculoIdProdutoFornecedorService.getCalculoIdProdutoFornecedor($scope.calculoProdutoFornecedor);
   }
 
   adicionaRemoveFavoritoDetalhes(idProduto, idFavoritos){
     try {
       this.showIcon = !this.showIcon;
-
-      console.log(this.showIcon);
 
       if(!this.showIcon) {
         this.removerFavoritoDetalhes(idFavoritos);
@@ -222,7 +214,6 @@ export class DetalheProdutoPage {
       this.favoritoEntity.idProduto = idProduto;
       this.favoritosService.adicionaFavoritos(this.favoritoEntity)
       .then((favoritoResult: FavoritoEntity) => {
-        // this.showIcon = !this.showIcon;
 
         this.loading.dismiss();
         this.toastMessage = 'O produto foi adicionado aos seus favoritos!';
@@ -288,9 +279,6 @@ export class DetalheProdutoPage {
 
       try {
 
-        console.log(localStorage.getItem(Constants.ID_FORNECEDOR_ATUAL_CARRINHO));
-        console.log(this.produtoFornecedorDetalheEntity.idFornecedor);
-
         if ((localStorage.getItem(Constants.ID_FORNECEDOR_ATUAL_CARRINHO) == null) || 
             this.produtoFornecedorDetalheEntity.idFornecedor == parseInt(localStorage.getItem(Constants.ID_FORNECEDOR_ATUAL_CARRINHO))) {
 
@@ -302,8 +290,6 @@ export class DetalheProdutoPage {
             this.itemPedidoEntity.idProdutoFornecedor = idProdutoFornecedor;
             this.itemPedidoEntity.qtdItem = this.quantidade;
 
-            console.log(this.itemPedidoEntity);
-    
             this.carrinhoService.adicionaItemPedidoCarrinho(this.itemPedidoEntity)
             .then((itemPedidoResult: ItemPedidoEntity) => {
               localStorage.setItem(Constants.QTD_ITENS_CARRINHO, JSON.stringify(itemPedidoResult.qtdItemCarrinho));
@@ -311,7 +297,6 @@ export class DetalheProdutoPage {
       
               this.loading.dismiss();
               this.showConfirmItemCarrinho();
-              // this.toastMessage = 'O produto foi adicionado ao pedido!';
               this.presentToast();
             }, (err) => {
               this.loading.dismiss();

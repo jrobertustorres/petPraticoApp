@@ -53,20 +53,45 @@ export class UsuarioService {
   }
 
   public getDadosUsuario() {
-      try {
-  
-        return this._http.post(Constants.API_URL + 'findDadosUsuario/'
-          + localStorage.getItem(Constants.TOKEN_USUARIO), this.options)
-          .map(res => res.json())
-          .toPromise()
-          .catch();
-  
-      } catch (e){
-        if(e instanceof RangeError){
-          console.log('out of range');
-        }
+    try {
+
+      return this._http.post(Constants.API_URL + 'findDadosUsuario/'
+        + localStorage.getItem(Constants.TOKEN_USUARIO), this.options)
+        .map(res => res.json())
+        .toPromise()
+        .catch();
+
+    } catch (e){
+      if(e instanceof RangeError){
+        console.log('out of range');
       }
     }
+  }
+
+  public findByPontuacao() {
+    try {
+      return new Promise((resolve, reject) => {
+        this._http.post(Constants.API_URL + 'findByPontuacao/'+
+        localStorage.getItem(Constants.TOKEN_USUARIO), this.options)
+          .subscribe(data => {
+            resolve(data.json());
+          }, (err) => {
+            reject(err.json());
+          });
+      });
+
+      // return this._http.post(Constants.API_URL + 'findByPontuacao/'
+      //   + localStorage.getItem(Constants.TOKEN_USUARIO), this.options)
+      //   .map(res => res.json())
+      //   .toPromise()
+      //   .catch();
+
+    } catch (e){
+      if(e instanceof RangeError){
+        console.log('out of range');
+      }
+    }
+  }
 
     public atualizaUsuario(usuarioEntity) {
         try {
