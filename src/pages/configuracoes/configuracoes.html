@@ -21,7 +21,7 @@
         </div>
 
         <div>
-            <span style="color:#000000;text-align: center; font-weight: 500;">Não é você? 
+            <span style="color:#000000;text-align: center; font-weight: 500;">Fazer logout 
                 <a (click)="logout();" style="text-decoration: underline">Sair</a>
             </span>
         </div>
@@ -79,39 +79,23 @@
             </ion-card-header>
 
             <ion-list>
-                    <!-- <ion-item class="item-icon-left positive" ng-click="meusPontos()">
-                        <i class="icon ion-ribbon-b menu-icons-color"></i>Meus pontos
-                        <ion-spinner class="ion-spinner-right" icon="spiral" ng-hide="dadosPontos.qtdPontos!=null"/>
-                    </ion-item> -->
-                    <!-- <ion-item class="item-icon-left positive" style="border-color: #FFFFFF;" ng-click="indiqueAmigo()">
-                            <i class="icon ion-person-add menu-icons-color"></i>
-                              Indique e ganhe!
-                              <span class="badge badge-assertive">{{dadosPontos.qtdIndicacao}}</span>
-                              <ion-spinner class="ion-spinner-right" icon="spiral" ng-hide="dadosPontos.qtdIndicacao>=0"/>
-                          </ion-item> -->
-                          <!-- <ion-item class="item-icon-left positive" style="border-color: #FFFFFF;" ng-click="politicaPontuacao()">
-                                <i class="icon ion-ios-copy menu-icons-color"></i>Política de pontuação
-                              </ion-item> -->
-
-                <button ion-item class="border-top-color custom-background-button-config" (click)="meusPontos()">
+                <button ion-item class="border-top-color custom-background-button-config" (click)="openModalMeusPontos()">
                     <ion-icon ios="ios-ribbon" md="md-ribbon" item-start color="navBar"></ion-icon>
                     <span class="h2-color-cards">Meus pontos</span>
-                    <!-- <ion-spinner *ngIf="!usuarioEntity.qtdPontos"></ion-spinner> -->
+                    <ion-spinner *ngIf="!usuarioEntity.qtdPontos && usuarioEntity.qtdPontos != 0" style="float: right;"></ion-spinner>
                 </button>
 
                 <button ion-item (click)="indiqueAmigo()" class="custom-background-button-config">
                     <ion-icon ios="ios-person-add" md="md-person-add" item-start color="navBar"></ion-icon>
                     <span class="h2-color-cards">Indique e ganhe!</span>
                     <ion-badge item-end color="secondary-color">{{ usuarioEntity.qtdIndicacao }}</ion-badge>
-                    <!-- <span style="color: #000; float: right;">{{ usuarioEntity.qtdIndicacao }}</span> -->
-                    <!-- <ion-spinner *ngIf="usuarioEntity.qtdIndicacao >= 0"></ion-spinner> -->
-                    <!-- <ion-spinner class="ion-spinner-right" icon="spiral" ng-hide="usuarioEntity.qtdIndicacao>=0"/> -->
+                    <ion-spinner *ngIf="!usuarioEntity.qtdIndicacao && usuarioEntity.qtdIndicacao != 0" style="float: right;"></ion-spinner>
                 </button>
 
                 <button ion-item (click)="politicaPontuacao()" class="custom-background-button-config">
-                <ion-icon ios="ios-copy" md="md-copy" item-start color="navBar"></ion-icon>
-                    <span class="h2-color-cards">Política de pontuação</span>
-            </button>
+                    <ion-icon ios="ios-copy" md="md-copy" item-start color="navBar"></ion-icon>
+                        <span class="h2-color-cards">Política de pontuação</span>
+                </button>
 
             </ion-list>
         </ion-card>

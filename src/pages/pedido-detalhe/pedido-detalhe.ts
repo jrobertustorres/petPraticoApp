@@ -29,7 +29,7 @@ export class PedidoDetalhePage {
               public navParams: NavParams) {
     this.pedidoEntity = new PedidoEntity();
     this.meusPedidoEntity = new MeusPedidoEntity();
-    this.idPedido = navParams.get('idPedido');    
+    this.idPedido = navParams.get('idPedido');
     this.tabBarElement = document.querySelector('.tabbar.show-tabbar');
   }
 

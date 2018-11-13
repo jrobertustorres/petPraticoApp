@@ -13,10 +13,9 @@ export class CidadesService {
   private options = new RequestOptions({ headers: this.headers, method: "post" });
   private cidadeEntity: CidadeEntity;
 
-  constructor(public _http: Http) {}
+  constructor(public _http: Http) {this.cidadeEntity = new CidadeEntity();}
 
   public getCidades(idEstado) {
-    this.cidadeEntity = new CidadeEntity();
     this.cidadeEntity.idEstado = idEstado;
     
     try {

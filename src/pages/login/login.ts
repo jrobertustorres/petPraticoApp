@@ -118,6 +118,7 @@ export class LoginPage implements OnInit {
           // registraToken(); ===============> VAMOS USAR?
 
           this.navCtrl.setRoot(HomePage);
+          // this.navCtrl.parent.select(0);
           this.loading.dismiss();
         }, (err) => {
           this.loading.dismiss();

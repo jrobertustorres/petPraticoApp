@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { NavController, Slides, AlertController, LoadingController } from 'ionic-angular';
+import { NavController, Slides, AlertController, LoadingController, NavParams } from 'ionic-angular';
 import {DomSanitizer} from '@angular/platform-browser';
 import { Constants } from '../../app/constants';
 
@@ -34,6 +34,7 @@ export class HomePage {
   private usuarioEntity: UsuarioEntity;
   private idUsuarioLogado: string;
   private qtdPontos: number;
+  // seltabix: number;
 
   constructor(public navCtrl: NavController,
               public alertCtrl: AlertController,
@@ -44,17 +45,34 @@ export class HomePage {
 
     this.publicidadePropagandaEntity = new PublicidadePropagandaEntity();
     this.usuarioEntity = new UsuarioEntity();
-    this.idUsuarioLogado = localStorage.getItem(Constants.ID_USUARIO);
+    // this.idUsuarioLogado = localStorage.getItem(Constants.ID_USUARIO);
   }
-
+  
   ngOnInit() {
     
+    // if(localStorage.getItem(Constants.ID_USUARIO)) {
+      //   this.findUsuarioLogado();
+      // } else {
+        //   localStorage.removeItem(Constants.QTD_ITENS_CARRINHO);
+        //   this.findPublicidadePropaganda();
+        // }
+      }
+      
+  ionViewWillEnter() {
+    this.idUsuarioLogado = localStorage.getItem(Constants.ID_USUARIO);
     if(localStorage.getItem(Constants.ID_USUARIO)) {
       this.findUsuarioLogado();
     } else {
       localStorage.removeItem(Constants.QTD_ITENS_CARRINHO);
       this.findPublicidadePropaganda();
     }
+    
+  }
+
+  ionViewDidEnter() {
+    // this.findPublicidadePropaganda();
+    // this.idUsuarioLogado = localStorage.getItem(Constants.ID_USUARIO);
+
   }
 
   findUsuarioLogado() {
@@ -89,12 +107,7 @@ export class HomePage {
 
   findPublicidadePropaganda() {
     try {
-      // if(!localStorage.getItem(Constants.ID_USUARIO)) {
-      //   this.loading = this.loadingCtrl.create({
-      //     content: 'Aguarde...'
-      //   });
-      //   this.loading.present();
-      // }
+      this.propagandas = null;
 
       this.homeService.findPublicidadePropaganda()
       .then((propagandasResult: PublicidadePropagandaEntity) => {

@@ -15,6 +15,7 @@ import { LoginPage } from '../login/login';
 import { MeusPedidosListPage } from '../meus-pedidos-list/meus-pedidos-list';
 import { MeuEnderecoPage } from '../meu-endereco/meu-endereco';
 import { ModalSobrePage } from '../modal-sobre/modal-sobre';
+import { ModalMeusPontosPage } from '../modal-meus-pontos/modal-meus-pontos';
 
 //SERVICES
 import { IndicacaoService } from '../../providers/indicacao-service';
@@ -57,50 +58,35 @@ export class ConfiguracoesPage implements OnInit {
               public alertCtrl: AlertController) {
     this.indicacaoUsuarioEntity = new IndicacaoUsuarioEntity();
     this.usuarioEntity = new UsuarioEntity();
-
   }
 
   ngOnInit() {
+    
+    // this.idUsuarioLogado = localStorage.getItem(Constants.ID_USUARIO);
+    // this.nomeUsuarioLogado = localStorage.getItem(Constants.NOME_PESSOA);
+    // if(this.idUsuarioLogado) {
+    //   this.findByPontuacao();
+    // }
+  }
+
+  ionViewWillEnter() {  
     this.idUsuarioLogado = localStorage.getItem(Constants.ID_USUARIO);
     this.nomeUsuarioLogado = localStorage.getItem(Constants.NOME_PESSOA);
-    this.findByPontuacao();
+    if(this.idUsuarioLogado) {
+      this.findByPontuacao();
+    }  
   }
-
-  ionViewDidLoad() {
-  }
-
-  // presentToast() {
-  //   let toast = this.toastCtrl.create({
-  //     message: this.messagePresentToast,
-  //     duration: 3000,
-  //     position: 'bottom',
-  //     cssClass: "toast-success"
-  //   });
-
-  //   toast.onDidDismiss(() => {
-  //   });
-
-  //   toast.present();
-  // }
 
   findByPontuacao() {
-    this.loading = this.loadingCtrl.create({
-      content: 'Aguarde...'
-    });
-    this.loading.present();
+    this.usuarioEntity.qtdPontos = null;
+    this.usuarioEntity.qtdIndicacao = null;
 
     this.usuarioService
     .findByPontuacao()
     .then((usuarioEntityResult: UsuarioEntity) => {
       this.usuarioEntity = usuarioEntityResult;
-      // localStorage.setItem(Constants.QTD_PONTOS, this.usuarioEntity.qtdPontos);
-
-      console.log(this.usuarioEntity);
-
-      this.loading.dismiss();
 
     }, (err) => {
-      this.loading.dismiss();
       this.alertCtrl.create({
         subTitle: err.message,
         buttons: ['OK']
@@ -109,28 +95,13 @@ export class ConfiguracoesPage implements OnInit {
 
   }
 
-  openModalTermos(){
-    let modal = this.modalCtrl.create(ModalTermosPage);
-    modal.present();
-  }
-
-  openModalPolitica(){
-    let modal = this.modalCtrl.create(ModalPoliticaPrivacidadePage);
-    modal.present();
-  }
-
-  openModalSobre(){
-    let modal = this.modalCtrl.create(ModalSobrePage);
-    modal.present();
-  }
-
   getPlatform() {
     if (this.platform.is('ios')) {
-      this.linkLoja = "https://play.google.com/store/apps/details?id=br.com.spacetrack.mobile";
+      this.linkLoja = "https://play.google.com/store/apps/details?id=br.com.logiictecnologia.petpratico";
     }
     
     if (this.platform.is('android')) {
-      this.linkLoja = "https://play.google.com/store/apps/details?id=br.com.spacetrack.mobile";
+      this.linkLoja = "https://play.google.com/store/apps/details?id=br.com.logiictecnologia.petpratico";
     }
   }
 
@@ -184,6 +155,27 @@ export class ConfiguracoesPage implements OnInit {
      this.emailComposer.open(email);
   }
 
+  openModalTermos(){
+    let modal = this.modalCtrl.create(ModalTermosPage);
+    modal.present();
+  }
+
+  openModalPolitica(){
+    let modal = this.modalCtrl.create(ModalPoliticaPrivacidadePage);
+    modal.present();
+  }
+
+  openModalSobre(){
+    let modal = this.modalCtrl.create(ModalSobrePage);
+    modal.present();
+  }
+  
+  openModalMeusPontos(){
+    let modal = this.modalCtrl.create(ModalMeusPontosPage, {qtdPontos: this.usuarioEntity.qtdPontos, 
+      dataAtualizacaoPontosFormat: this.usuarioEntity.dataAtualizacaoPontosFormat});
+    modal.present();
+  }
+
   openLoginPage() {
     this.navCtrl.push(LoginPage);
   }
@@ -219,10 +211,8 @@ export class ConfiguracoesPage implements OnInit {
             localStorage.removeItem(Constants.TOKEN_USUARIO);
             localStorage.removeItem(Constants.NOME_PESSOA);
             localStorage.removeItem(Constants.QTD_ITENS_CARRINHO);
-            // localStorage.removeItem(Constants.EMAIL_PESSOA);
-            // localStorage.removeItem('clienteLogado');
-            // this.navCtrl.setRoot(LoginPage);
             this.navCtrl.setRoot(HomePage);
+            // this.navCtrl.parent.select(0);
           }
         }
       ]

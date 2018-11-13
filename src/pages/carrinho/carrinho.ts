@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, LoadingController, AlertController, ToastController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, LoadingController, AlertController, ToastController, App } from 'ionic-angular';
 import { Constants } from '../../app/constants';
 
 //ENTITYS
@@ -24,7 +24,6 @@ export class CarrinhoPage {
   public loading = null;
   public dadosPedido: any;
   public itensCarrinho: {};
-  // private itemPedidoEntity: any;
   private itemPedidoEntity: ItemPedidoEntity;
   private meusPedidoEntity: MeusPedidoEntity;
   public idUsuarioLogado: string;
@@ -32,7 +31,6 @@ export class CarrinhoPage {
   private itensCarrinhoAtual: any;
   private valorDescontoFormat: any;
   private isRequerDesconto: boolean;
-  // private quantidade: number = 0;
   public showLoading: boolean = true;
 
   constructor(public navCtrl: NavController, 
@@ -40,6 +38,7 @@ export class CarrinhoPage {
               private carrinhoService: CarrinhoService,
               public loadingCtrl: LoadingController,
               private toastCtrl: ToastController,
+              private appCtrl: App,
               public alertCtrl: AlertController) {
     this.itemPedidoEntity = new ItemPedidoEntity;
     this.meusPedidoEntity = new MeusPedidoEntity();
@@ -47,20 +46,14 @@ export class CarrinhoPage {
 
   ngOnInit() {
     this.idUsuarioLogado = localStorage.getItem(Constants.ID_USUARIO);
-    // this.carrinhoService.qtdItensCarrinhoChangeEvent.subscribe(qtdItensCarrinhoChangeEvent => {
-    //   console.log(qtdItensCarrinhoChangeEvent);
-    //   localStorage.setItem(Constants.QTD_ITENS_CARRINHO, qtdItensCarrinhoChangeEvent);
-    // });
+  }
 
-    // if (this.idUsuario = localStorage.getItem(Constants.ID_USUARIO)) {
+  ionViewWillEnter(){
     if (localStorage.getItem(Constants.ID_USUARIO)) {
-      this.getDadoscarrinho();
+      this.getDadosCarrinho();
     }
   }
-
-  ionViewDidLoad() {
-  }
-
+  
   presentToast() {
     let toast = this.toastCtrl.create({
       message: this.toastMessage,
@@ -75,7 +68,7 @@ export class CarrinhoPage {
     toast.present();
   }
 
-  getDadoscarrinho(){
+  getDadosCarrinho(){
     try {
       if(this.showLoading == true) {
         this.loading = this.loadingCtrl.create({
@@ -84,11 +77,10 @@ export class CarrinhoPage {
         this.loading.present();
       }
 
-      // this.itemPedidoEntity.idUsuario = localStorage.getItem(Constants.ID_USUARIO);
-      // this.carrinhoService.getItensPedidoCarrinho(this.itemPedidoEntity)
-      this.carrinhoService.listarItemPedidoCarrinho(this.itemPedidoEntity)
+      this.carrinhoService.listarItemPedidoCarrinho()
       .then((itemResult: MeusPedidoEntity) => {
         this.meusPedidoEntity = itemResult;
+
         this.itensCarrinho = this.meusPedidoEntity.listMeusItemPedidoEntities;
         this.isRequerDesconto = this.meusPedidoEntity.isRequerDesconto;
 
@@ -135,7 +127,7 @@ export class CarrinhoPage {
           localStorage.setItem(Constants.QTD_ITENS_CARRINHO, JSON.stringify(0));
         }
         this.showLoading = false;
-        this.getDadoscarrinho();
+        this.getDadosCarrinho();
 
         // this.loading.dismiss();
         this.toastMessage = 'O produto foi removido do carrinho!';
@@ -190,7 +182,7 @@ export class CarrinhoPage {
 
       this.carrinhoService.alteraItemPedidoCarrinho(this.itemPedidoEntity)
       .then((itemPedidoResult: MeusPedidoEntity) => {
-        this.getDadoscarrinho();
+        this.getDadosCarrinho();
 
         // this.loading.dismiss();
       }, (err) => {
@@ -274,7 +266,7 @@ export class CarrinhoPage {
   }
 
   goHomePage() {
-    this.navCtrl.push(HomePage);
+    this.navCtrl.parent.select(0);
   }
 
 }

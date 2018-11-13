@@ -11,13 +11,13 @@
 
 </ion-header>
 
-<ion-content>
+<ion-content class="content-stable">
     <div *ngIf="!idUsuarioLogado" style="margin-top: 25px;" padding>
         <p style="text-align: center">
             <ion-icon ios="ios-person" md="md-person" color="navBar" style="font-size: 50px;"></ion-icon>
         </p>
         <p style="text-align: center">
-            <span style="color:#000000;">Faça login para ver seu <br>carrinho de compras.</span>
+            <span style="color:#484848;">Faça login para ver seu <br>carrinho de compras.</span>
         </p>
         <div style="text-align: center; margin-top: 20px;">
             <button ion-button block (click)="openLoginPage()" color="navBar" class="margin-button-save span-style-color">ENTRAR OU CADASTRAR</button>
@@ -29,8 +29,8 @@
             <ion-icon ios="ios-cart" md="md-cart" color="navBar" style="font-size: 50px;"></ion-icon>
         </p>
         <div style="text-align:center;margin: 10px;">
-            <h4 style="color:#000000; text-align:center; margin-top: 25px;">Seu carrinho está vazio</h4>
-            <p style="color:#000000;">Para continuar comprando, navegue pelas categorias do app ou faça uma busca pelo seu produto</p>
+            <h4 style="color:#484848; text-align:center; margin-top: 25px;">Seu carrinho está vazio</h4>
+            <p style="color:#484848;">Para continuar comprando, navegue pelas categorias do app ou faça uma busca pelo seu produto</p>
         </div>
         <div style="text-align: center; margin-top: 20px;">
             <button ion-button block (click)="goHomePage()" color="navBar" class="margin-button-save span-style-color">ESCOLHER PRODUTOS</button>
@@ -126,16 +126,10 @@
             </div>
         </div>
 
-        <!-- <button ion-button block (click)="continuarCarrinho( meusPedidoEntity.idPedido, meusPedidoEntity.idFornecedor )" color="secondary-color" 
-            class="margin-button-save span-style-color">
-            <span class="span-style-color">CONTINUAR</span>
-        </button> -->
-
-
 </ion-content>
 
 <!-- <ion-footer *ngIf="idUsuarioLogado && (itensCarrinhoAtual.length > 0 || itensCarrinho.length > 0)" > -->
-<ion-footer *ngIf="meusPedidoEntity.idPedido != 0 && idUsuarioLogado " >
+<ion-footer *ngIf="meusPedidoEntity.idPedido != null && idUsuarioLogado " >
     <ion-grid>
         <ion-row>
             <ion-col no-padding>

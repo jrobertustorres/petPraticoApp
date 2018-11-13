@@ -22,18 +22,12 @@
         <div padding>
             <button ion-button block color="navBar" class="margin-button-save span-style-color" (click)="goHome()">COMECE A COMPRAR</button>
         </div>
-        <!-- <div style="text-align: center;">
-                    <ion-icon style="font-size: 30px;color: #484848;" ios="ios-sad" md="md-sad"></ion-icon>
-                </div> -->
     </div>
     <ion-list>
         <button ion-item *ngFor="let pedido of pedidosList" text-wrap (click)="openPedidoDetalhePage(pedido.idPedido)">
-            <!-- <ion-avatar item-start>
-                <img src="img/avatar-cher.png">
-            </ion-avatar> -->
               <p>{{ pedido.nomeFantasiaFornecedor }}</p>
               <p>{{ pedido.dataPedidoFormat }}</p>
-              <p> Status do pedido: <span [ngClass]="{Concluido:'corVermelha', Pendente:'corAmarela', Aberto:'corVerde'}[pedido.statusPedido]"> {{ pedido.statusPedido }}</span></p>
+              <p> Status do pedido: <span [ngClass]="{Concluido:'corVerde', Pendente:'corAzul', Aberto:'corLaranja'}[pedido.statusPedido]"> {{ pedido.statusPedido }}</span></p>
           </button>
     </ion-list>
 

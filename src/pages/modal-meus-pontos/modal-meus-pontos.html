@@ -1,0 +1,36 @@
+<ion-header>
+  <ion-navbar color="navBar">
+      <ion-title>
+          Meus pontos
+      </ion-title>
+      <ion-buttons start>
+          <button ion-button (click)="closeModal()">
+              <ion-icon ios="ios-close" md="md-close"></ion-icon>
+          </button>
+      </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+
+    <h5 class="title-pontos">Seu saldo de pontos é de:</h5>
+
+    <div id="circle">
+      <!-- <div class="position-div-pontos">{{ usuarioEntity.qtdPontos }}</div> -->
+      <div class="position-div-pontos">{{ qtdPontos }}</div>
+      <div class="position-div-pontos" style="margin-top: 15px;">pontos</div>
+    </div>
+    <div style="margin-top: 40px;">
+      <span class="text-style">Atualizado em </span>
+      <span class="text-style">{{ dataAtualizacaoPontosFormat }}</span>
+      <!-- <span class="text-style">{{ usuarioEntity.dataAtualizacaoPontosFormat }}</span> -->
+    </div>
+    <hr style="color: #999999;">
+    <div>
+      <span class="text-style">* Cada 1 real em compras vale 1 ponto.</span>
+    </div>
+    <div class="div-politica">
+      <span class="text-style"><u>Ver a Política de pontuação</u></span>
+    </div>
+
+</ion-content>

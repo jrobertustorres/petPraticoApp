@@ -19,7 +19,7 @@
             <ion-thumbnail item-start>
 
                 <img *ngIf="!produto.imagem" src="assets/imgs/no-photo.png" />
-                <img *ngIf="produto.imagem" src="{{produto.imagem}}" />
+                <img *ngIf="produto.imagem" src="{{produto.imagem}}" imageViewer/>
             </ion-thumbnail>
             <h4>{{ produto.marca }}</h4>
             <p>{{ produto.produto }}</p>

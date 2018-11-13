@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, LoadingController, AlertController } from 'ionic-angular';
+import { Constants } from '../../app/constants';
 
 //SERVICES
 import { ProdutoService } from '../../providers/produto-service';
@@ -22,6 +23,7 @@ export class ModalBuscaProdutosPage {
   public nomeProduto: string;
   private refresh: boolean = false;
   tabBarElement: any;
+  public idUsuarioLogado: string;
 
   constructor(public navCtrl: NavController, 
               public navParams: NavParams,
@@ -33,6 +35,7 @@ export class ModalBuscaProdutosPage {
   }
 
   ngOnInit() {
+    this.idUsuarioLogado = localStorage.getItem(Constants.ID_USUARIO);
   }
 
   ionViewDidLoad() {

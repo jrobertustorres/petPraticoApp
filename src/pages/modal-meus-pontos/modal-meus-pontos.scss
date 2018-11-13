@@ -1,0 +1,47 @@
+page-modal-meus-pontos {
+    #circle {
+        border: 6px solid #FFFFFF;
+        box-shadow: 0 0 0 6px #633492;
+        -webkit-background-clip: padding-box;
+        /* for Safari */
+        background-clip: padding-box;
+        /* for IE9+, Firefox 4+, Opera, Chrome */
+        margin-top: 40px;
+        border-radius: 50%;
+        width: 150px;
+        height: 150px;
+        background-color: #633492;
+        display: table;
+        position: relative;
+        overflow: hidden;
+        opacity: 0.99;
+        z-index: 999;
+        display: table;
+        margin-right: auto;
+        margin-left: auto;
+        color: #fff;
+    }
+
+    .position-div-pontos {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+
+    .div-politica {
+        text-align: center;
+        margin-top: 10px;
+    }
+
+    .title-pontos {
+        text-align: center; 
+        color: #555;
+    }
+
+    .text-style {
+        text-align: center;
+        color: #777777;
+    }
+
+}

@@ -82,6 +82,7 @@ import { MeuEnderecoPage } from './../pages/meu-endereco/meu-endereco';
 import { PagamentoPage } from '../pages/pagamento/pagamento';
 import { ModalTipoPagamentoPage } from '../pages/modal-tipo-pagamento/modal-tipo-pagamento';
 import { ModalSobrePage } from '../pages/modal-sobre/modal-sobre';
+import { ModalMeusPontosPage } from '../pages/modal-meus-pontos/modal-meus-pontos';
 
 @NgModule({
   declarations: [
@@ -111,6 +112,7 @@ import { ModalSobrePage } from '../pages/modal-sobre/modal-sobre';
     PagamentoPage,
     ModalTipoPagamentoPage,
     ModalSobrePage,
+    ModalMeusPontosPage,
     TabsPage
   ],
   imports: [
@@ -151,6 +153,7 @@ import { ModalSobrePage } from '../pages/modal-sobre/modal-sobre';
     PagamentoPage,
     ModalTipoPagamentoPage,
     ModalSobrePage,
+    ModalMeusPontosPage,
     TabsPage
   ],
   providers: [

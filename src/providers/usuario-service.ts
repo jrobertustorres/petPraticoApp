@@ -16,8 +16,6 @@ export class UsuarioService {
   public cadastraUsuario(usuarioEntity) {
     try {
 
-      // this.usuarioEntity = new UsuarioEntity();
-
       return new Promise((resolve, reject) => {
 
         this._http.post(Constants.API_URL + 'adicionaUsuario/', 
@@ -25,18 +23,8 @@ export class UsuarioService {
           .map(function (res) { return res.json(); })
           .subscribe(data => {
             resolve(data);
-            // localStorage.setItem('idUsuarioLogado', data.idUsuario);
-            // localStorage.setItem('nomePessoa', data.nomePessoa);
-
-            // this._storage.set(Constants.ID_USUARIO, data.idUsuario);
-            // this._storage.set(Constants.TOKEN_USUARIO, data.token);
-            // this._storage.set(Constants.NOME_PESSOA, data.nomePessoa);
-            // this._storage.set(Constants.EMAIL_PESSOA, data.email);
-            
             localStorage.setItem(Constants.ID_USUARIO, data.idUsuario);
             localStorage.setItem(Constants.TOKEN_USUARIO, data.token);
-            // localStorage.setItem(Constants.NOME_PESSOA, data.nomePessoa);
-            // localStorage.setItem(Constants.EMAIL_PESSOA, data.email);
 
             this.userChangeEvent.emit(data.nomePessoa);
             this.emailPessoaChangeEvent.emit(data.email);
@@ -119,8 +107,6 @@ export class UsuarioService {
   public atualizaSenhaUsuario(usuarioEntity) {
       try {
   
-        // this.usuarioEntity = new UsuarioEntity();
-  
         return new Promise((resolve, reject) => {
           this._http.post(Constants.API_URL + 'alteraSenhaUsuario/'+
           localStorage.getItem(Constants.TOKEN_USUARIO), 
@@ -142,7 +128,6 @@ export class UsuarioService {
   public recuperasenhaService(usuarioEntity) {
     try {
 
-      // this.usuarioEntity = new UsuarioEntity();
       return new Promise((resolve, reject) => {
         this._http.post(Constants.API_URL + 'recuperaSenha/', 
         JSON.stringify(usuarioEntity), this.options)
