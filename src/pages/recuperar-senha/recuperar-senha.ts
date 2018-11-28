@@ -22,6 +22,7 @@ export class RecuperarSenhaPage implements OnInit {
   private loading: any;
   private usuarioEntity: UsuarioEntity;
   public recuperarSenhaForm: FormGroup;
+  tabBarElement: any;
 
   constructor(public navCtrl: NavController, 
               public navParams: NavParams, 
@@ -31,6 +32,7 @@ export class RecuperarSenhaPage implements OnInit {
               public alertCtrl: AlertController,
               private toastCtrl: ToastController) {
 
+    this.tabBarElement = document.querySelector('.tabbar.show-tabbar');
     this.usuarioEntity = new UsuarioEntity();
 
   }
@@ -42,6 +44,14 @@ export class RecuperarSenhaPage implements OnInit {
   }
 
   ionViewDidLoad() {
+  }
+
+  ionViewWillEnter() {
+    this.tabBarElement.style.display = 'none';
+  }
+
+  ionViewWillLeave() {
+    this.tabBarElement.style.display = 'flex';
   }
 
   presentToast() {

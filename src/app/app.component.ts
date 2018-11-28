@@ -63,16 +63,16 @@ export class MyApp {
 
   pushSetup() {
     const options: PushOptions = {
-     android: {
-         senderID: '319096550167'
-     },
-     ios: {
-         alert: 'true',
-         badge: true,
-         sound: 'true'
-     },
-     windows: {}
-  };
+      android: {
+          senderID: '319096550167'
+      },
+      ios: {
+          alert: 'true',
+          badge: true,
+          sound: 'true'
+      },
+      windows: {}
+    };
 
   const pushObject: PushObject = this.push.init(options);
 
@@ -92,6 +92,7 @@ export class MyApp {
           text: 'ENTRAR ',
           handler: () => {
             // this.nav.push(HomePage);
+            // this.nav.parent.select(0);
           }
         }]
       });
@@ -101,7 +102,7 @@ export class MyApp {
     }
   });
 
-  pushObject.on('error').subscribe(error => alert('Error with Push plugin' + error));
+    pushObject.on('error').subscribe(error => alert('Error with Push plugin' + error));
   }
 
   checkNetwork() {

@@ -35,15 +35,18 @@ page-home {
         border-radius: 4px;
     }
     .width-slides {
-        width: 35%!important;
+        width: 33%!important;
         margin-right: -15px;
     }
     .card-style {
         border-radius: 5px;
+        width: 80px;
+        // padding: 15px;
     }
     .font-card-style {
-        font-weight: 500;
-        color: #484848;
+        font-weight: 600;
+        color: #999999;
+        // color: #484848;
     }
     .div-style-publicidade {
         min-width: 325px;
@@ -59,14 +62,51 @@ page-home {
         height: 100%;
     }
 
-    .div-style-publicidade {
-        min-width: 325px;
-        min-height: 180px;
-    }
     .center {
         text-align: center;
         line-height: 190px;
     }
+
+    .card-title {
+        text-align: center;
+    }
+
+    // DESCOMENTAR ISSO PARA A VERSÃO 2. DIMINUI A ALTURA DO SLIDE DE PUBLICIDADE E ABRE MAIS ESPAÇO NA TELA.
+    .swiper-container {
+        width: 100%;
+        height: 200px;
+    }
+    .ion-slide-margin {
+        margin-top: -50px;
+    }
+    //**********************
+
+    // .inner {
+    //     width: 500px;
+    //     height: 100%;
+    //     ion-card {
+    //         display: table-cell;
+    //         border: solid 1px #ccc;
+    //     }
+    // }
+
+    // configuração do ion-scroll
+    .table {
+        display: table;
+        border-collapse: separate;
+        border-spacing: 10px;
+        width: 550px;
+      }
+      
+      .row { display:table-row; }
+      
+      .cell {
+        //   width: 500px;
+    //     height: 100%;
+        display:table-cell;
+        padding:5px;
+      }
+      // FIM da configuração do ion-scroll
 
 
 }

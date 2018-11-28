@@ -103,18 +103,6 @@ export class LoginPage implements OnInit {
         .then((usuarioEntityResult: UsuarioEntity) => {
           // this.usuarioEntityResult = usuarioEntityResult;
 
-          // console.log(this.usuarioEntityResult);
-
-          // localStorage.setItem('token', usuarioEntityResult.token);
-          // localStorage.setItem('idUsuarioLogado', usuarioEntityResult.idUsuario);
-          // localStorage.setItem('nomeUsuarioLogado', usuarioEntityResult.nomePessoa);
-          // localStorage.setItem(Constants.IS_CADASTRO_COMPLETO, this.usuarioEntityResult.isCadastroCompleto);
-          // localStorage.setItem('token', data.token);
-          // localStorage.setItem('qtdPontos', this.usuarioEntityResult.qtdPontos);
-          // data.emailUsuario = data.email;
-          // data.telefonePessoa = data.telefone;
-          // localStorage.setItem(Constants.QTD_ITENS_CARRINHO, this.usuarioEntityResult.qtdItemcarrinho);
-
           // registraToken(); ===============> VAMOS USAR?
 
           this.navCtrl.setRoot(HomePage);

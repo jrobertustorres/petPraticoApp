@@ -335,7 +335,9 @@ export class DetalheProdutoPage {
         {
           text: 'VISUALIZAR CARRINHO',
           handler: () => {
-            this.navCtrl.push(CarrinhoPage);
+            // this.navCtrl.push(CarrinhoPage);
+            this.navCtrl.setRoot(CarrinhoPage);
+            // this.navCtrl.parent.select(0);
           }
         },
         {

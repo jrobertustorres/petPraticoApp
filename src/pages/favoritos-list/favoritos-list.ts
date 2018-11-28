@@ -42,6 +42,7 @@ export class FavoritosListPage {
   
   ionViewWillEnter(){
     if (this.idUsuario) {
+      console.log(this.idUsuario);
       this.getListaFavoritos();
     }
   }
