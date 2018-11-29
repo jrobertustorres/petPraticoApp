@@ -45,9 +45,8 @@ export class CarrinhoPage {
   }
 
   ngOnInit() {
-    // this.idUsuarioLogado = localStorage.getItem(Constants.ID_USUARIO);
-  }
-  
+    }
+    
   ionViewWillEnter(){
     this.idUsuarioLogado = localStorage.getItem(Constants.ID_USUARIO);
     if (localStorage.getItem(Constants.ID_USUARIO)) {

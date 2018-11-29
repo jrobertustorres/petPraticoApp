@@ -19,10 +19,10 @@ import { LoginPage } from '../login/login';
 })
 export class FavoritosListPage {
   public loading = null;
-  public favoritosList: any;
+  public favoritosList: any = null;
   private favoritoEntity: FavoritoEntity;
   private toastMessage: string;
-  public idUsuario: string;
+  public idUsuario: string = null;
 
   constructor(public navCtrl: NavController, 
               public loadingCtrl: LoadingController,
@@ -34,15 +34,13 @@ export class FavoritosListPage {
   }
 
   ngOnInit() {
-    this.idUsuario = localStorage.getItem(Constants.ID_USUARIO);
-  }
-  
-  ionViewDidLoad() {
+    // this.idUsuario = localStorage.getItem(Constants.ID_USUARIO);
   }
   
   ionViewWillEnter(){
-    if (this.idUsuario) {
-      console.log(this.idUsuario);
+    this.favoritosList = null;
+    this.idUsuario = localStorage.getItem(Constants.ID_USUARIO);
+    if (localStorage.getItem(Constants.ID_USUARIO)) {
       this.getListaFavoritos();
     }
   }

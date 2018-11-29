@@ -45,18 +45,11 @@ export class HomePage {
 
     this.publicidadePropagandaEntity = new PublicidadePropagandaEntity();
     this.usuarioEntity = new UsuarioEntity();
-    // this.idUsuarioLogado = localStorage.getItem(Constants.ID_USUARIO);
   }
   
   ngOnInit() {
     
-    // if(localStorage.getItem(Constants.ID_USUARIO)) {
-      //   this.findUsuarioLogado();
-      // } else {
-        //   localStorage.removeItem(Constants.QTD_ITENS_CARRINHO);
-        //   this.findPublicidadePropaganda();
-        // }
-      }
+  }
       
   ionViewWillEnter() {
     this.idUsuarioLogado = localStorage.getItem(Constants.ID_USUARIO);
@@ -65,22 +58,11 @@ export class HomePage {
     } else {
       localStorage.removeItem(Constants.QTD_ITENS_CARRINHO);
       this.findPublicidadePropaganda();
-    }
-    
-  }
-
-  ionViewDidEnter() {
-    // this.findPublicidadePropaganda();
-    // this.idUsuarioLogado = localStorage.getItem(Constants.ID_USUARIO);
-
+    }    
   }
 
   findUsuarioLogado() {
     try {
-      // this.loading = this.loadingCtrl.create({
-      //   content: 'Autenticando...'
-      // });
-      // this.loading.present();
 
       this.usuarioEntity.idUsuario = parseInt(localStorage.getItem(Constants.ID_USUARIO));
       this.loginService.loginByIdService(this.usuarioEntity)
@@ -89,7 +71,6 @@ export class HomePage {
         this.qtdPontos = this.dadosUsuario.qtdPontos;
         localStorage.setItem(Constants.QTD_ITENS_CARRINHO, this.dadosUsuario.qtdItemcarrinho);
         this.findPublicidadePropaganda();
-        // this.loading.dismiss();
       }, (err) => {
         // this.loading.dismiss();
         this.alertCtrl.create({
@@ -113,7 +94,6 @@ export class HomePage {
       .then((propagandasResult: PublicidadePropagandaEntity) => {
         this.propagandas = propagandasResult;
 
-        // this.loading.dismiss();
       }, (err) => {
         // this.loading.dismiss();
         this.alertCtrl.create({
@@ -146,4 +126,9 @@ export class HomePage {
   openSearchProdutosPage() {
     this.navCtrl.push(ModalBuscaProdutosPage);
   }
+
+  openServicoList() {
+    // this.navCtrl.push(ModalBuscaProdutosPage);
+  }
+
 }

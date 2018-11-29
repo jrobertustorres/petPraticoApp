@@ -17,23 +17,28 @@
         <div style="text-align: center" *ngIf="idUsuarioLogado">Acumule 1 ponto a cada R$ 1,00 em compras</div>
         <div style="text-align: center" *ngIf="!idUsuarioLogado">Faça compras pelo app e acumule pontos!</div>
     </div>
-    <div id='conteudo' class="div-style-publicidade">
+    <!-- <div id='conteudo' class="div-style-publicidade"> -->
+    <div id='conteudo'>
         <div class="center">
             <ion-spinner *ngIf="!propagandas"></ion-spinner>
         </div>
 
+        <!-- <div>
+            <img src="assets/imgs/3333.jpg"/>
+        </div> -->
+
         <ion-slides pager *ngIf="propagandas && propagandas.length" (ionSlideDidChange)="slideChanged()" autoplay="5000" loop="true" speed="3000">
             <ion-slide *ngFor="let propaganda of propagandas">
                 <div>
-                    <img [src]="sanitizer.bypassSecurityTrustUrl(propaganda.imagem)" />
+                    <img [src]="sanitizer.bypassSecurityTrustUrl(propaganda.imagem)"/>
                 </div>
             </ion-slide>
         </ion-slides>
+
     </div>
 
-    <ion-item no-lines style="padding: 0px;" class="content-stable">
+    <ion-item no-lines style="padding: 0px; margin-top: -20px;" class="content-stable">
 
-        <!-- <ion-scroll scrollX="true" style="width: 100vh; height: 100vw;"> -->
         <ion-scroll scrollX="true">
             <div class="table">
                 <div class="row">
@@ -93,45 +98,24 @@
 
         </ion-scroll>
 
+        <div style="text-align: center; padding-left: 16px; padding-right: 16px;">
+            <button ion-button outline icon-start block (click)="openServicoList()" style="height: 50px; background-color: #623592; border-color: #623592;">
+                    <img src="assets/imgs/banho3.png" style="height: 40px; margin-right: 10px;"/>
+                    <span class="font-card-style" style="color: #fff;"> Banho e tosa</span>
+            </button>
 
-        <!-- <ion-slides class="ion-slide-margin">
-            <ion-slide class="width-slides" (click)="openGrupoList(1)">
-                <ion-card class="card-style">
-                    <img src="assets/imgs/dog.svg" />
-                    <div class="card-title"><span class="font-card-style">Cachorro</span></div>
-                </ion-card>
-            </ion-slide>
-            <ion-slide class="width-slides" (click)="openGrupoList(2)">
-                <ion-card class="card-style">
-                    <img src="assets/imgs/cat.svg" />
-                    <div class="card-title"><span class="font-card-style">Gato</span></div>
-                </ion-card>
-            </ion-slide>
-            <ion-slide class="width-slides" (click)="openGrupoList(3)">
-                <ion-card class="card-style">
-                    <img src="assets/imgs/bird.svg" />
-                    <div class="card-title"><span class="font-card-style">Ave</span></div>
-                </ion-card>
-            </ion-slide>
-            <ion-slide class="width-slides" (click)="openGrupoList(5)">
-                <ion-card class="card-style">
-                    <img src="assets/imgs/aquarium.svg" />
-                    <div class="card-title"><span class="font-card-style">Peixe</span></div>
-                </ion-card>
-            </ion-slide>
-            <ion-slide class="width-slides" (click)="openGrupoList(6)">
-                <ion-card class="card-style">
-                    <img src="assets/imgs/rabbit.svg" />
-                    <div class="card-title"><span class="font-card-style">Roedor</span></div>
-                </ion-card>
-            </ion-slide>
-            <ion-slide class="width-slides" (click)="openGrupoList(4)">
-                <ion-card class="card-style">
-                    <img src="assets/imgs/turtle.svg" />
-                    <div class="card-title"><span class="font-card-style">Réptil</span></div>
-                </ion-card>
-            </ion-slide>
-        </ion-slides> -->
+        </div>
+
+
+        <!-- <div style="padding: 6px; margin-top: -10px;">
+            <ion-card class="card-style-banho cell" (click)="openServicoList()">
+                <img src="assets/imgs/banho.png" />
+                <div class="card-title">
+                    <span class="font-card-style">Banho e <br>tosa</span>
+                </div>
+            </ion-card>
+        </div> -->
+
         
     </ion-item>
 

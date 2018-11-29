@@ -17,8 +17,7 @@
 
         <ion-item class="content-stable">
             <ion-label stacked color="secondary-grey">E-mail</ion-label>
-            <!-- <ion-input [(ngModel)]="usuarioEntity.login" formControlName="login" type="email" placeholder="Ex.: nome@email.com" spellcheck="false" autocapitalize="off"></ion-input> -->
-            <ion-input formControlName="email" type="email" placeholder="Ex.: nome@email.com" spellcheck="false" autocapitalize="off"></ion-input>
+            <ion-input formControlName="email" type="email" placeholder="Ex.: email@email.com" spellcheck="false" autocapitalize="off"></ion-input>
         </ion-item>
         <div *ngIf="(!loginForm.get('email').valid && loginForm.get('email').touched) && !loginForm.get('email').hasError('pattern')" [ngClass]="'class-error-form-login'">campo obrigatório</div>
         <div *ngIf="loginForm.get('email').hasError('pattern')" [ngClass]="'class-error-form-login'">e-mail inválido</div>
@@ -31,7 +30,6 @@
                 <ion-icon *ngIf="showPwd" name="eye"></ion-icon>
                 <ion-icon *ngIf="!showPwd" name="eye-off"></ion-icon>
             </button>
-            <!-- <ion-input formControlName="senha" type="password" placeholder="Digite sua senha"></ion-input> -->
         </ion-item>
         <div *ngIf="!loginForm.get('senha').valid && loginForm.get('senha').touched" [ngClass]="'class-error-form-login'">campo obrigatório</div>
 
@@ -39,7 +37,7 @@
         <button ion-button block type="submit" color="navBar" style="color: #fff; margin-top: 20px;">ENTRAR</button>
     </form>
 
-    <button ion-button full icon-left (click)="doFbLogin();" style="margin-top: 10px;">
+    <button ion-button full icon-left (click)="doFbLogin();" style="margin-top: 10px;" class="facebook-button-color">
         <ion-icon name="logo-facebook"></ion-icon>ENTRAR COM O FACEBOOK
     </button>
 

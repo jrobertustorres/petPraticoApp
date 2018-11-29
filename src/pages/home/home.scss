@@ -41,7 +41,10 @@ page-home {
     .card-style {
         border-radius: 5px;
         width: 80px;
-        // padding: 15px;
+    }
+    .card-style-banho {
+        border-radius: 5px;
+        width: 84px;
     }
     .font-card-style {
         font-weight: 600;
@@ -81,32 +84,47 @@ page-home {
     }
     //**********************
 
-    // .inner {
-    //     width: 500px;
-    //     height: 100%;
-    //     ion-card {
-    //         display: table-cell;
-    //         border: solid 1px #ccc;
-    //     }
-    // }
-
     // configuração do ion-scroll
     .table {
         display: table;
         border-collapse: separate;
-        border-spacing: 10px;
+        border-spacing: 5px;
         width: 550px;
       }
       
       .row { display:table-row; }
       
       .cell {
-        //   width: 500px;
-    //     height: 100%;
         display:table-cell;
         padding:5px;
       }
       // FIM da configuração do ion-scroll
 
+    // .slide-zoom {
+	// 	height: 100%;
+    // }
+    
+    // ion-slides {
+    //     height: 50%;
+    // }
+
+    // .img-style {
+    //     max-width: 240px;
+    //     width: auto;
+    // }
+
+
+
+
+
+
+    // .card-background-page {
+
+    //     ion-card {
+    //         position: relative;
+    //         text-align: center;
+    //     }
+        
+    // }
 
 }

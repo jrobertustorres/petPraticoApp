@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { NavController, NavParams, LoadingController, ModalController, AlertController, Platform } from 'ionic-angular';
+import { NavController, NavParams, LoadingController, ModalController, AlertController, Platform, App } from 'ionic-angular';
 import { EmailComposer } from '@ionic-native/email-composer';
 import { Device } from '@ionic-native/device';
 import { SocialSharing } from '@ionic-native/social-sharing';
@@ -53,6 +53,7 @@ export class ConfiguracoesPage implements OnInit {
               private socialSharing: SocialSharing,
               public platform: Platform,
               private device: Device,
+              private app: App,
               private indicacaoService: IndicacaoService,
               private usuarioService: UsuarioService,
               public alertCtrl: AlertController) {
@@ -211,8 +212,8 @@ export class ConfiguracoesPage implements OnInit {
             localStorage.removeItem(Constants.TOKEN_USUARIO);
             localStorage.removeItem(Constants.NOME_PESSOA);
             localStorage.removeItem(Constants.QTD_ITENS_CARRINHO);
-            this.navCtrl.setRoot(HomePage);
-            // this.navCtrl.parent.select(0);
+            // this.navCtrl.setRoot(HomePage);
+            this.navCtrl.parent.select(0);
           }
         }
       ]

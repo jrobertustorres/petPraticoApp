@@ -24,7 +24,7 @@ export class LoginService {
       this.usuarioEntity = usuarioEntity;
       this.usuarioEntity.tokenPush = localStorage.getItem(Constants.TOKEN_PUSH);
       this.usuarioEntity.versaoApp = localStorage.getItem(Constants.VERSION_NUMBER);
-      this.usuarioEntity.versaoApp = localStorage.getItem(Constants.UUID);
+      this.usuarioEntity.uuid = localStorage.getItem(Constants.UUID);
       
       return new Promise((resolve, reject) => {
         this.http.post(Constants.API_URL + 'login/', 
@@ -59,7 +59,7 @@ export class LoginService {
     try {
       this.usuarioEntity.tokenPush = localStorage.getItem(Constants.TOKEN_PUSH);
       this.usuarioEntity.versaoApp = localStorage.getItem(Constants.VERSION_NUMBER);
-      this.usuarioEntity.versaoApp = localStorage.getItem(Constants.UUID);
+      this.usuarioEntity.uuid = localStorage.getItem(Constants.UUID);
       
       return new Promise((resolve, reject) => {
         this.http.post(Constants.API_URL + 'loginById/', 
@@ -97,7 +97,8 @@ export class LoginService {
       this.usuarioEntity = usuarioEntity;
       this.usuarioEntity.tokenPush = localStorage.getItem(Constants.TOKEN_PUSH);
       this.usuarioEntity.versaoApp = localStorage.getItem(Constants.VERSION_NUMBER);
-      this.usuarioEntity.versaoApp = localStorage.getItem(Constants.UUID);
+      this.usuarioEntity.uuid = localStorage.getItem(Constants.UUID);
+
       return new Promise((resolve, reject) => {
         this.http.post(Constants.API_URL + 'loginByIdFacebook/', 
           JSON.stringify(this.usuarioEntity), this.options)

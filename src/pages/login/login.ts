@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Constants } from '../../app/constants';
-import { NavController, AlertController, LoadingController, MenuController, ModalController } from 'ionic-angular';
+import { NavController, AlertController, LoadingController, MenuController, ModalController, App } from 'ionic-angular';
 import { RecuperarSenhaPage } from '../recuperar-senha/recuperar-senha';
 import { FormBuilder,	FormGroup, Validators } from '@angular/forms';
 import { Facebook } from '@ionic-native/facebook';
@@ -10,6 +10,7 @@ import { HomePage } from '../home/home';
 import { MeusDadosPage } from '../meus-dados/meus-dados';
 import { ModalTermosPage } from './../modal-termos/modal-termos';
 import { ModalPoliticaPrivacidadePage } from '../modal-politica-privacidade/modal-politica-privacidade';
+import { TabsPage } from '../tabs/tabs';
 
 //ENTITY
 import { UsuarioEntity } from '../../model/usuario-entity';
@@ -41,6 +42,7 @@ export class LoginPage implements OnInit {
               public loadingCtrl: LoadingController,
               private menu : MenuController,
               public modalCtrl: ModalController,
+              public app: App,
               public facebook: Facebook,
               private formBuilder: FormBuilder) {
 
@@ -62,7 +64,6 @@ export class LoginPage implements OnInit {
 
   ngOnInit() {
     this.loginForm 	= this.formBuilder.group({
-      // 'login': ['', [Validators.required, Validators.minLength(3), Validators.maxLength(20)]],
       'email': ['', [Validators.required, Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$')]],
       'senha': ['', Validators.required]
    });
@@ -101,12 +102,15 @@ export class LoginPage implements OnInit {
 
       this.loginService.login(this.loginForm.value)
         .then((usuarioEntityResult: UsuarioEntity) => {
-          // this.usuarioEntityResult = usuarioEntityResult;
 
-          // registraToken(); ===============> VAMOS USAR?
-
-          this.navCtrl.setRoot(HomePage);
           // this.navCtrl.parent.select(0);
+
+          // se não fizer assim, a tela de login fica aberta sobre a tela de configurações
+          let currentIndex = this.navCtrl.getActive().index;
+          this.navCtrl.parent.select(0).then(() => {
+              this.navCtrl.remove(currentIndex);
+          });
+
           this.loading.dismiss();
         }, (err) => {
           this.loading.dismiss();
@@ -169,6 +173,9 @@ export class LoginPage implements OnInit {
   }
 
   callLoginFacebookWS(usuarioEntity) {
+    
+    console.log(usuarioEntity);
+
     this.loginService.loginFacebook(usuarioEntity)
     .then((usuarioEntityResult: UsuarioEntity) => {
 

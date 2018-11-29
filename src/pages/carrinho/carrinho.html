@@ -12,7 +12,7 @@
 </ion-header>
 
 <ion-content class="content-stable">
-    <div *ngIf="!idUsuarioLogado" style="margin-top: 25px;" padding>
+    <div *ngIf="idUsuarioLogado == null" style="margin-top: 25px;" padding>
         <p style="text-align: center">
             <ion-icon ios="ios-person" md="md-person" color="navBar" style="font-size: 50px;"></ion-icon>
         </p>
@@ -24,7 +24,7 @@
         </div>
     </div>
 
-    <div *ngIf="meusPedidoEntity.idPedido <= 0 && idUsuarioLogado" padding>
+    <div *ngIf="meusPedidoEntity.idPedido <= 0 && idUsuarioLogado != null" padding>
         <p style="text-align: center">
             <ion-icon ios="ios-cart" md="md-cart" color="navBar" style="font-size: 50px;"></ion-icon>
         </p>
@@ -89,7 +89,7 @@
     </ion-list>
 
     <!-- <div class="item style-div-carrinho" *ngIf="idUsuarioLogado && itensCarrinho.length > 0"> -->
-    <div padding class="style-div-carrinho" *ngIf="idUsuarioLogado && meusPedidoEntity.idPedido > 0">
+    <div padding class="style-div-carrinho" *ngIf="idUsuarioLogado != null && meusPedidoEntity.idPedido > 0">
             <div>
                 <label style="font-size: 14px; color: #000; font-style: italic; font-weight: 500;">
                     {{ meusPedidoEntity.nomeFantasiaFornecedor }}
@@ -129,7 +129,7 @@
 </ion-content>
 
 <!-- <ion-footer *ngIf="idUsuarioLogado && (itensCarrinhoAtual.length > 0 || itensCarrinho.length > 0)" > -->
-<ion-footer *ngIf="meusPedidoEntity.idPedido != null && idUsuarioLogado " >
+<ion-footer *ngIf="meusPedidoEntity.idPedido != null && idUsuarioLogado != null" >
     <ion-grid>
         <ion-row>
             <ion-col no-padding>

@@ -44,6 +44,8 @@ export class MeuEnderecoPage {
   }
 
   ngOnInit() {
+
+    // aqui temos que analizar se já temos o cadastro de endereço ===================================
     this.callGetEnderecoUsuario();
     this.enderecoUsuarioForm = this.formBuilder.group({
       'cepEndereco': ['', [Validators.required, Validators.maxLength(10)]],
@@ -87,6 +89,38 @@ export class MeuEnderecoPage {
     toast.present();
   }
 
+  callGetEnderecoUsuario() {
+    try {
+      this.loading = this.loadingCtrl.create({
+        content: 'Aguarde...',
+      });
+      this.loading.present();
+
+      this.usuarioService
+        .getDadosUsuario()
+        .then((dadosUsuarioDetalheResult) => {
+          this.usuarioDetalheEntity = dadosUsuarioDetalheResult;
+
+          if(this.usuarioDetalheEntity.idEstado) {
+            this.getCidadesByEstadoUsuario(this.usuarioDetalheEntity.idEstado);
+          } else {
+            this.loading.dismiss();
+          }
+        })
+        .catch(err => {
+          this.loading.dismiss();
+          this.alertCtrl.create({
+            subTitle: err.message,
+            buttons: ['OK']
+          }).present();
+        });
+    }catch (err){
+      if(err instanceof RangeError){
+      }
+      console.log(err);
+    }
+  }
+
   getCidadesByEstadoUsuario(idEstado) {
     try {
       // this.loadingCidades = this.loadingCtrl.create({
@@ -113,36 +147,6 @@ export class MeuEnderecoPage {
       console.log(err);
     }
   }
-
-  callGetEnderecoUsuario() {
-    try {
-      this.loading = this.loadingCtrl.create({
-        content: 'Aguarde...',
-      });
-      this.loading.present();
-
-      this.usuarioService
-        .getDadosUsuario()
-        .then((dadosUsuarioDetalheResult) => {
-          this.usuarioDetalheEntity = dadosUsuarioDetalheResult;
-
-          // this.loadingDados.dismiss();
-          this.getCidadesByEstadoUsuario(dadosUsuarioDetalheResult.idEstado);
-        })
-        .catch(err => {
-          this.loading.dismiss();
-          this.alertCtrl.create({
-            subTitle: err.message,
-            buttons: ['OK']
-          }).present();
-        });
-    }catch (err){
-      if(err instanceof RangeError){
-      }
-      console.log(err);
-    }
-  }
-
 
   submeterEnderecoUsuario() {
     try {
