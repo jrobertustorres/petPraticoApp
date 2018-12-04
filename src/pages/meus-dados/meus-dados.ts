@@ -1,5 +1,5 @@
 import { Component, OnInit, EventEmitter } from '@angular/core';
-import { NavController, NavParams, LoadingController, AlertController, ToastController, ModalController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, LoadingController, AlertController, ToastController, ModalController } from 'ionic-angular';
 import { Constants } from '../../app/constants';
 import { FormBuilder,	FormGroup, Validators } from '@angular/forms';
 
@@ -17,7 +17,7 @@ import { ConfiguracoesPage } from '../configuracoes/configuracoes';
 // SERVICES
 import { UsuarioService } from '../../providers/usuario-service';
 
-// @IonicPage()
+@IonicPage()
 @Component({
   selector: 'page-meus-dados',
   templateUrl: 'meus-dados.html',
@@ -32,8 +32,7 @@ export class MeusDadosPage implements OnInit {
   private isReadOnly = null;
   private idUsuarioLogado = null;
   tabBarElement: any;
-  // public userChangeEvent = new EventEmitter();
-  // public emailPessoaChangeEvent = new EventEmitter();
+  public isCadastroCompleto: any;
 
   constructor(public navCtrl: NavController, 
               public navParams: NavParams, 
@@ -47,6 +46,8 @@ export class MeusDadosPage implements OnInit {
     this.usuarioDetalheEntity = new UsuarioDetalheEntity();
     this.usuarioEntity = new UsuarioEntity();
     this.tabBarElement = document.querySelector('.tabbar.show-tabbar');
+    this.isCadastroCompleto = localStorage.getItem(Constants.IS_CADASTRO_COMPLETO);
+
   }
 
   ngOnInit() {
@@ -56,11 +57,11 @@ export class MeusDadosPage implements OnInit {
       'cpfPessoa': ['', [Validators.required, Validators.maxLength(14)]],
       'emailUsuario': ['', [Validators.required, Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$')]],
       'telefonePessoa': ['', Validators.maxLength(50)],
+      'codigoIndicacao': [''],
       'senhaUsuario': [''],
       'confirmSenha': ['']
-      // 'statusAceitoTermoUso': ['false']
     }, {
-        validator: PasswordValidation.MatchPassword // your validation method
+        validator: PasswordValidation.MatchPassword
       }
     );
 
@@ -78,9 +79,7 @@ export class MeusDadosPage implements OnInit {
   }
 
   ionViewWillEnter() {
-    // if(!localStorage.getItem(Constants.ID_USUARIO)) {
     this.tabBarElement.style.display = 'none';
-    // }
   }
 
   ionViewWillLeave() {
@@ -107,18 +106,15 @@ export class MeusDadosPage implements OnInit {
       if (this.dadosUsuarioForm.valid) {
         this.loading = this.loadingCtrl.create({
           content: 'Aguarde...',
-          // dismissOnPageChange: true
         });
         this.loading.present();
 
-        // this._storage.get(Constants.ID_USUARIO).then((idUsuario) => {
-          if(!localStorage.getItem(Constants.ID_USUARIO)){
-            this.cadastraUsuario();
-          }
-          else if(localStorage.getItem(Constants.ID_USUARIO)) {
-            this.editaUsuario();
-          }
-        // });
+        if(!localStorage.getItem(Constants.ID_USUARIO)){
+          this.cadastraUsuario();
+        }
+        else if(localStorage.getItem(Constants.ID_USUARIO)) {
+          this.editaUsuario();
+        }
 
       } else {
         Object.keys(this.dadosUsuarioForm.controls).forEach(campo => {
@@ -174,7 +170,6 @@ export class MeusDadosPage implements OnInit {
     try {
       this.loadingDados = this.loadingCtrl.create({
         content: 'Aguarde...',
-        // dismissOnPageChange: true
       });
       this.loadingDados.present();
 
@@ -184,7 +179,6 @@ export class MeusDadosPage implements OnInit {
           this.usuarioDetalheEntity = dadosUsuarioDetalheResult;
 
           this.loadingDados.dismiss();
-          // this.getCidadesByEstadoUsuario(dadosUsuarioDetalheResult.idEstado);
         })
         .catch(err => {
           this.loadingDados.dismiss();

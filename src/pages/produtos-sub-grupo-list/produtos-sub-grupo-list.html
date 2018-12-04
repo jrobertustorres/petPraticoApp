@@ -20,8 +20,7 @@
     </div>
 
     <ion-list>
-        <!-- <ion-item *ngFor="let produto of produtosList" text-wrap (click)="openProdutosPorLojaListPage(produto.idProduto)"> -->
-        <ion-item *ngFor="let produto of produtosList" text-wrap (click)="validaUsuario(produto.idProduto)" [ngClass]="{'disableClick': !produto.disponivel || !idUsuarioLogado}">
+        <ion-item *ngFor="let produto of produtosList" text-wrap (click)="validaCadastroUsuario(produto.idProduto)" [ngClass]="{'disableClick': !produto.disponivel || !idUsuarioLogado}">
             <ion-thumbnail item-start>
                 <img *ngIf="!produto.imagem" src="assets/imgs/no-photo.png" style="width: 80px; height: 80px;" />
                 <img *ngIf="produto.imagem" src="{{ produto.imagem }}" style="width: 70px; height: 80px;" imageViewer/>
@@ -29,15 +28,21 @@
             <span>{{ produto.marca }}</span>
             <p style="font-size: 1.3rem;">{{ produto.produto }}</p>
 
-            <div *ngIf="produto.disponivel && idUsuarioLogado && isCadastroCompleto">
+            <div *ngIf="produto.disponivel && idUsuarioLogado && isCadastroCompleto == 'true'">
                 <span style="color: #656565;">A partir de: </span>
                 <span style="color: #0c60ee; margin-top: 13px;">{{ produto.apartirDe | currency:'BRL' }}</span>
             </div>
-            <div *ngIf="(isCadastroCompleto && !produto.disponivel) && idUsuarioLogado">
+                <div *ngIf="(isCadastroCompleto == 'true' && !produto.disponivel && isCadastroEnderecoCompleto == 'true') && idUsuarioLogado">
                 <span style="color: #234ED8; font-size: 13px;">Produto indisponível</span>
             </div>
-            <div *ngIf="isCadastroCompleto == false && idUsuarioLogado">
-                <span style="color: #234ED8; font-size: 13px;">Finalize seu cadastro para ver os preços na sua cidade </span>
+            <div *ngIf="isCadastroCompleto == 'false' && isCadastroEnderecoCompleto == 'true' && idUsuarioLogado">
+                <span style="color: #234ED8; font-size: 13px;">Finalize seu cadastro de dados pessoais </span>
+            </div>
+            <div *ngIf="isCadastroCompleto == 'true' && isCadastroEnderecoCompleto =='false' && idUsuarioLogado">
+                <span style="color: #234ED8; font-size: 13px;">Complete seu endereço para ver os preços na sua cidade </span>
+            </div>
+            <div *ngIf="isCadastroCompleto == 'false' && isCadastroEnderecoCompleto == 'false' && idUsuarioLogado">
+                <span style="color: #234ED8; font-size: 13px;">Finalize seu cadastro de dados pessoais e endereço para ver os preços na sua cidade </span>
             </div>
             <div *ngIf="!idUsuarioLogado">
                 <span style="color: #234ED8; font-size: 13px;">Efetue login para ver os preços na sua cidade </span>

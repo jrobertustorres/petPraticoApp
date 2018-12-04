@@ -8,11 +8,13 @@ export class Constants {
   public static ID_USUARIO = 'id_usuario';
   public static TOKEN_USUARIO = 'token_usuario';
   public static IS_CADASTRO_COMPLETO = 'is_cadastro_completo';
+  public static IS_CADASTRO_ENDERECO_COMPLETO = 'is_cadastro_endereco_completo';
   public static TOKEN_PUSH = 'token_push';
   public static UUID = 'uuid_usuario';
   public static NOME_PESSOA = 'nome_pessoa';
   public static QTD_ITENS_CARRINHO = 'qtd_itens_carrinho';
   public static QTD_PONTOS = 'qtd_pontos';
+  public static CIDADES_POR_ESTADO = 'cidades_por_estado';
   public static ID_FORNECEDOR_ATUAL_CARRINHO = 'id_fornecedor_atual_carrinho';
   // public static EMAIL_PESSOA = 'email_pessoa';
   // public static APP_NAME = 'app_name';

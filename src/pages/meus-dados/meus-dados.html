@@ -42,6 +42,11 @@
             <ion-input formControlName="telefonePessoa" [(ngModel)]="usuarioDetalheEntity.telefonePessoa" type="text"></ion-input>
         </ion-item>
         <div *ngIf="dadosUsuarioForm.get('telefonePessoa').hasError('maxlength')" [ngClass]="'class-error-form'">máximo 50 caracteres</div>
+        
+        <ion-item *ngIf="isCadastroCompleto == 'false'" >
+            <ion-label stacked>Possui código de indicação?</ion-label>
+            <ion-input formControlName="codigoIndicacao" [(ngModel)]="usuarioDetalheEntity.codigoIndicacao" type="text" placeholder="Insira o código aqui"></ion-input>
+        </ion-item>
 
         <div *ngIf="!idUsuarioLogado">
             <ion-item-divider class="item-divider-style">

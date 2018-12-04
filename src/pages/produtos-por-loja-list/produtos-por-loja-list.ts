@@ -40,7 +40,7 @@ export class ProdutosPorLojaListPage {
   }
 
   ngOnInit() {
-    this.getDadosProduto();
+    this.getLojasPorProdutoList();
   }
 
   ionViewDidLoad() {
@@ -54,7 +54,7 @@ export class ProdutosPorLojaListPage {
     this.tabBarElement.style.display = 'flex';
   }
 
-  getDadosProduto(){
+  getLojasPorProdutoList(){
     try {
       this.loading = this.loadingCtrl.create({
         content: 'Aguarde...'
@@ -64,14 +64,11 @@ export class ProdutosPorLojaListPage {
       this.produtoFornecedorEntity.idProduto = this.idProduto;
       this.produtoService.findProdutoFornecedorByProduto(this.produtoFornecedorEntity)
       .then((produtoResult: ProdutoFornecedorEntity) => {
-        // this.produtoFornecedorEntity = produtoResult;
         this.dadosProduto = produtoResult;
         this.nomeProduto = this.dadosProduto[0].nomeProduto;
         this.unidadeProduto = this.dadosProduto[0].unidadeProduto;
         this.imagemProduto = this.dadosProduto[0].imagem;
         this.menorValor = this.dadosProduto[0].menorValor;
-
-        console.log(this.dadosProduto);
 
         this.loading.dismiss();
       }, (err) => {

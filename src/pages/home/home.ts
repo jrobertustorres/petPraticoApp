@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { NavController, Slides, AlertController, LoadingController, NavParams } from 'ionic-angular';
+import { NavController, Slides, AlertController, LoadingController } from 'ionic-angular';
 import {DomSanitizer} from '@angular/platform-browser';
 import { Constants } from '../../app/constants';
 
@@ -13,8 +13,8 @@ import { UsuarioEntity } from '../../model/usuario-entity';
 
 //PAGES
 import { GruposListPage } from '../grupos-list/grupos-list';
-import { LocationPage } from '../location/location';
 import { ModalBuscaProdutosPage } from '../modal-busca-produtos/modal-busca-produtos';
+import { AgendaPage } from '../agenda/agenda';
 
 @Component({
   selector: 'page-home',
@@ -24,17 +24,14 @@ export class HomePage {
   @ViewChild(Slides) slides: Slides;
 
   search:string;
-  // slides:any[];
   haveData:boolean = false;
   private loading = null;
   private propagandas: any;
   private dadosUsuario: any;
-  // private qtdItemcarrinho: number;
   private publicidadePropagandaEntity: PublicidadePropagandaEntity;
   private usuarioEntity: UsuarioEntity;
   private idUsuarioLogado: string;
   private qtdPontos: number;
-  // seltabix: number;
 
   constructor(public navCtrl: NavController,
               public alertCtrl: AlertController,
@@ -119,16 +116,12 @@ export class HomePage {
     })
   }
 
-  openLocationPage() {
-    this.navCtrl.push(LocationPage);
-  }
-
   openSearchProdutosPage() {
     this.navCtrl.push(ModalBuscaProdutosPage);
   }
 
   openServicoList() {
-    // this.navCtrl.push(ModalBuscaProdutosPage);
+    this.navCtrl.push(AgendaPage);
   }
 
 }

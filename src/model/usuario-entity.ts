@@ -30,6 +30,7 @@ export class UsuarioEntity {
   public novaSenha: string;
 
   public isCadastroCompleto: boolean;
+  public isCadastroEnderecoCompleto: boolean;
 
   constructor(){
   }

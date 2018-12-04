@@ -37,6 +37,7 @@ export class LoginService {
             localStorage.setItem(Constants.NOME_PESSOA, data.nomePessoa);
             localStorage.setItem(Constants.ID_USUARIO, data.idUsuario);
             localStorage.setItem(Constants.IS_CADASTRO_COMPLETO, data.isCadastroCompleto);
+            localStorage.setItem(Constants.IS_CADASTRO_ENDERECO_COMPLETO, data.isCadastroEnderecoCompleto);
             localStorage.setItem(Constants.QTD_ITENS_CARRINHO, data.qtdItemcarrinho);
             localStorage.setItem(Constants.QTD_PONTOS, data.qtdPontos);
 
@@ -73,6 +74,7 @@ export class LoginService {
             // localStorage.setItem(Constants.EMAIL_PESSOA, data.email);
             localStorage.setItem(Constants.ID_USUARIO, data.idUsuario);
             localStorage.setItem(Constants.IS_CADASTRO_COMPLETO, data.isCadastroCompleto);
+            localStorage.setItem(Constants.IS_CADASTRO_ENDERECO_COMPLETO, data.isCadastroEnderecoCompleto);
             localStorage.setItem(Constants.QTD_ITENS_CARRINHO, data.qtdItemcarrinho);
             localStorage.setItem(Constants.QTD_PONTOS, data.qtdPontos);
 
@@ -99,6 +101,8 @@ export class LoginService {
       this.usuarioEntity.versaoApp = localStorage.getItem(Constants.VERSION_NUMBER);
       this.usuarioEntity.uuid = localStorage.getItem(Constants.UUID);
 
+      console.log(JSON.stringify(this.usuarioEntity));
+
       return new Promise((resolve, reject) => {
         this.http.post(Constants.API_URL + 'loginByIdFacebook/', 
           JSON.stringify(this.usuarioEntity), this.options)
@@ -111,6 +115,7 @@ export class LoginService {
             localStorage.setItem(Constants.NOME_PESSOA, data.nomePessoa);
             localStorage.setItem(Constants.ID_USUARIO, data.idUsuario);
             localStorage.setItem(Constants.IS_CADASTRO_COMPLETO, data.isCadastroCompleto);
+            localStorage.setItem(Constants.IS_CADASTRO_ENDERECO_COMPLETO, data.isCadastroEnderecoCompleto);
             localStorage.setItem(Constants.QTD_ITENS_CARRINHO, data.qtdItemcarrinho);
             localStorage.setItem(Constants.QTD_PONTOS, data.qtdPontos);
 

@@ -12,110 +12,85 @@
 </ion-header>
 
 <ion-content class="content-stable">
-    <div class="style-box-home" style="padding: 5px;">
+    <div class="style-box-home">
         <div style="text-align: center" *ngIf="idUsuarioLogado">Você possui {{ qtdPontos }} pontos!</div>
         <div style="text-align: center" *ngIf="idUsuarioLogado">Acumule 1 ponto a cada R$ 1,00 em compras</div>
         <div style="text-align: center" *ngIf="!idUsuarioLogado">Faça compras pelo app e acumule pontos!</div>
     </div>
+    
     <!-- <div id='conteudo' class="div-style-publicidade"> -->
-    <div id='conteudo'>
+    <div>
         <div class="center">
             <ion-spinner *ngIf="!propagandas"></ion-spinner>
         </div>
 
-        <!-- <div>
-            <img src="assets/imgs/3333.jpg"/>
-        </div> -->
-
         <ion-slides pager *ngIf="propagandas && propagandas.length" (ionSlideDidChange)="slideChanged()" autoplay="5000" loop="true" speed="3000">
             <ion-slide *ngFor="let propaganda of propagandas">
-                <div>
-                    <img [src]="sanitizer.bypassSecurityTrustUrl(propaganda.imagem)"/>
-                </div>
+                <img [src]="sanitizer.bypassSecurityTrustUrl(propaganda.imagem)"  />
             </ion-slide>
         </ion-slides>
 
     </div>
 
-    <ion-item no-lines style="padding: 0px; margin-top: -20px;" class="content-stable">
-
+    <ion-item no-lines style="padding: 0px; margin-top: -10px;" class="content-stable">
         <ion-scroll scrollX="true">
             <div class="table">
                 <div class="row">
                     <ion-card class="card-style cell" (click)="openGrupoList(1)">
                         <img src="assets/imgs/dog.svg" />
-                        <div class="card-title"><span class="font-card-style">Cachorro</span></div>
+                        <div class="card-title"><span class="font-card-style">Cães</span></div>
                     </ion-card>
                     <ion-card class="card-style cell" (click)="openGrupoList(2)">
                         <img src="assets/imgs/cat.svg" />
-                        <div class="card-title"><span class="font-card-style">Gato</span></div>
+                        <div class="card-title"><span class="font-card-style">Gatos</span></div>
                     </ion-card>
                     <ion-card class="card-style cell" (click)="openGrupoList(3)">
                         <img src="assets/imgs/bird.svg" />
-                        <div class="card-title"><span class="font-card-style">Ave</span></div>
+                        <div class="card-title"><span class="font-card-style">Aves</span></div>
                     </ion-card>
                     <ion-card class="card-style cell" (click)="openGrupoList(5)">
                         <img src="assets/imgs/aquarium.svg" />
-                        <div class="card-title"><span class="font-card-style">Peixe</span></div>
+                        <div class="card-title"><span class="font-card-style">Peixes</span></div>
                     </ion-card>
                     <ion-card class="card-style cell" (click)="openGrupoList(6)">
                         <img src="assets/imgs/rabbit.svg" />
-                        <div class="card-title"><span class="font-card-style">Roedor</span></div>
+                        <div class="card-title"><span class="font-card-style">Roedores</span></div>
                     </ion-card>
                     <ion-card class="card-style cell" (click)="openGrupoList(4)">
                         <img src="assets/imgs/turtle.svg" />
-                        <div class="card-title"><span class="font-card-style">Réptil</span></div>
+                        <div class="card-title"><span class="font-card-style">Répteis</span></div>
                     </ion-card>
                 </div>
             </div>
 
-            <!-- <div class="inner" style="padding: 10px;">
-                <ion-card class="card-style" (click)="openGrupoList(1)">
-                    <img src="assets/imgs/dog.svg" />
-                    <div class="card-title"><span class="font-card-style">Cachorro</span></div>
-                </ion-card>
-                <ion-card class="card-style" (click)="openGrupoList(2)">
-                    <img src="assets/imgs/cat.svg" />
-                    <div class="card-title"><span class="font-card-style">Gato</span></div>
-                </ion-card>
-                <ion-card class="card-style" (click)="openGrupoList(3)">
-                    <img src="assets/imgs/bird.svg" />
-                    <div class="card-title"><span class="font-card-style">Ave</span></div>
-                </ion-card>
-                <ion-card class="card-style" (click)="openGrupoList(5)">
-                    <img src="assets/imgs/aquarium.svg" />
-                    <div class="card-title"><span class="font-card-style">Peixe</span></div>
-                </ion-card>
-                <ion-card class="card-style" (click)="openGrupoList(6)">
-                    <img src="assets/imgs/rabbit.svg" />
-                    <div class="card-title"><span class="font-card-style">Roedor</span></div>
-                </ion-card>
-                <ion-card class="card-style" (click)="openGrupoList(4)">
-                    <img src="assets/imgs/turtle.svg" />
-                    <div class="card-title"><span class="font-card-style">Réptil</span></div>
-                </ion-card>
-            </div> -->
-
         </ion-scroll>
 
-        <div style="text-align: center; padding-left: 16px; padding-right: 16px;">
-            <button ion-button outline icon-start block (click)="openServicoList()" style="height: 50px; background-color: #623592; border-color: #623592;">
-                    <img src="assets/imgs/banho3.png" style="height: 40px; margin-right: 10px;"/>
-                    <span class="font-card-style" style="color: #fff;"> Banho e tosa</span>
-            </button>
-
-        </div>
-
-
-        <!-- <div style="padding: 6px; margin-top: -10px;">
-            <ion-card class="card-style-banho cell" (click)="openServicoList()">
-                <img src="assets/imgs/banho.png" />
-                <div class="card-title">
-                    <span class="font-card-style">Banho e <br>tosa</span>
+        <ion-scroll scrollX="true">
+            <div class="table table-ajust">
+                <div class="row">
+                    <div id="tudo">
+                        <ion-card class="card-style-banho cell" (click)="openServicoList()" style="height: 85px;">
+                            <img src="assets/imgs/banho.png" />
+                            <div class="card-title">
+                                <span class="font-card-style">Banho e <br>tosa</span>
+                            </div>
+                        </ion-card>
+                        <ion-card class="card-style-banho cell" (click)="openServicoList()" style="height: 85px;">
+                            <img src="assets/imgs/veterinary.png" />
+                            <div class="card-title">
+                                <span class="font-card-style">Consulta</span>
+                            </div>
+                        </ion-card>
+                        <ion-card class="card-style-banho cell" (click)="openServicoList()" style="height: 85px;">
+                            <img src="assets/imgs/services2.png" />
+                            <div class="card-title">
+                                <span class="font-card-style">Outros <br>serviços</span>
+                            </div>
+                        </ion-card>
+                    </div>
                 </div>
-            </ion-card>
-        </div> -->
-
+            </div>
+        </ion-scroll>
         
     </ion-item>
 

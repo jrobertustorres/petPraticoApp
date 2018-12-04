@@ -343,7 +343,14 @@ export class DetalheProdutoPage {
         {
           text: 'CONTINUAR COMPRANDO',
           handler: () => {
-            this.navCtrl.push(HomePage);
+            this.navCtrl.setRoot(HomePage);
+            // se não fizer assim, a tela de login fica aberta sobre a tela de configurações
+            // let currentIndex = this.navCtrl.getActive().index;
+            // this.navCtrl.parent.select(0).then(() => {
+            //     this.navCtrl.remove(currentIndex);
+            // });
+            // this.navCtrl.push(HomePage);
+            // this.navCtrl.parent.select(0);
           }
         }
       ]

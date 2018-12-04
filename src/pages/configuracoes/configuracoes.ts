@@ -10,12 +10,12 @@ import { ModalTermosPage } from '../modal-termos/modal-termos';
 import { ModalPoliticaPrivacidadePage } from '../modal-politica-privacidade/modal-politica-privacidade';
 import { MeusDadosPage } from '../meus-dados/meus-dados';
 import { MinhaSenhaPage } from './../minha-senha/minha-senha';
-import { HomePage } from '../home/home';
 import { LoginPage } from '../login/login';
 import { MeusPedidosListPage } from '../meus-pedidos-list/meus-pedidos-list';
 import { MeuEnderecoPage } from '../meu-endereco/meu-endereco';
 import { ModalSobrePage } from '../modal-sobre/modal-sobre';
 import { ModalMeusPontosPage } from '../modal-meus-pontos/modal-meus-pontos';
+import { ModalIndiqueEGanhePage } from '../modal-indique-e-ganhe/modal-indique-e-ganhe';
 
 //SERVICES
 import { IndicacaoService } from '../../providers/indicacao-service';
@@ -31,19 +31,12 @@ import { UsuarioEntity } from '../../model/usuario-entity';
   templateUrl: 'configuracoes.html',
 })
 export class ConfiguracoesPage implements OnInit {
-  // private messagePresentToast: string;
-  // private socialSharingTitle: string;
-  // private erroAppSubject: string;
-  // private erroAppBody: string;
-  // private infoSuporte: string;
-  // private loading = null;
   private linkLoja: string;
   public idUsuarioLogado: string;
   public nomeUsuarioLogado: string;
   private loading = null;
   private indicacaoUsuarioEntity: IndicacaoUsuarioEntity;
   private usuarioEntity: UsuarioEntity;
-  // private usuarioEntityPontos: any;
 
   constructor(public navCtrl: NavController, 
               public navParams: NavParams, 
@@ -63,11 +56,6 @@ export class ConfiguracoesPage implements OnInit {
 
   ngOnInit() {
     
-    // this.idUsuarioLogado = localStorage.getItem(Constants.ID_USUARIO);
-    // this.nomeUsuarioLogado = localStorage.getItem(Constants.NOME_PESSOA);
-    // if(this.idUsuarioLogado) {
-    //   this.findByPontuacao();
-    // }
   }
 
   ionViewWillEnter() {  
@@ -81,6 +69,7 @@ export class ConfiguracoesPage implements OnInit {
   findByPontuacao() {
     this.usuarioEntity.qtdPontos = null;
     this.usuarioEntity.qtdIndicacao = null;
+    this.usuarioEntity.qtdPontuacaoIndicacao = null;
 
     this.usuarioService
     .findByPontuacao()
@@ -142,7 +131,7 @@ export class ConfiguracoesPage implements OnInit {
      
      let email = {
        to: 'diretoria@logiic.com.br',
-       cc: ['jose@logiic.com.br', 'bruno@logiic.com.br'],
+       cco: ['jose@logiic.com.br', 'bruno@logiic.com.br'],
        subject: 'Problema encontrado no app.',
        body: '<p><h1>Olá! Descreva abaixo o problema encontrado e logo analizaremos.</h1></p>' +
        '<h1>Informações para suporte</h1>'+
@@ -172,8 +161,15 @@ export class ConfiguracoesPage implements OnInit {
   }
   
   openModalMeusPontos(){
+    console.log(this.usuarioEntity);
     let modal = this.modalCtrl.create(ModalMeusPontosPage, {qtdPontos: this.usuarioEntity.qtdPontos, 
       dataAtualizacaoPontosFormat: this.usuarioEntity.dataAtualizacaoPontosFormat});
+    modal.present();
+  }
+
+  openModalIndiqueEGanhe() {
+    let modal = this.modalCtrl.create(ModalIndiqueEGanhePage, {qtdIndicacao: this.usuarioEntity.qtdIndicacao, 
+      qtdPontuacaoIndicacao: this.usuarioEntity.qtdPontuacaoIndicacao});
     modal.present();
   }
 
@@ -212,6 +208,9 @@ export class ConfiguracoesPage implements OnInit {
             localStorage.removeItem(Constants.TOKEN_USUARIO);
             localStorage.removeItem(Constants.NOME_PESSOA);
             localStorage.removeItem(Constants.QTD_ITENS_CARRINHO);
+            localStorage.removeItem(Constants.CIDADES_POR_ESTADO);
+            localStorage.removeItem(Constants.IS_CADASTRO_COMPLETO);
+            localStorage.removeItem(Constants.IS_CADASTRO_ENDERECO_COMPLETO);
             // this.navCtrl.setRoot(HomePage);
             this.navCtrl.parent.select(0);
           }

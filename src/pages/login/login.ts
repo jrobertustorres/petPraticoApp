@@ -174,16 +174,16 @@ export class LoginPage implements OnInit {
 
   callLoginFacebookWS(usuarioEntity) {
     
-    console.log(usuarioEntity);
-
     this.loginService.loginFacebook(usuarioEntity)
     .then((usuarioEntityResult: UsuarioEntity) => {
 
-      this.navCtrl.setRoot(HomePage);
+      // se não fizer assim, a tela de login fica aberta sobre a tela de configurações
+      let currentIndex = this.navCtrl.getActive().index;
+      this.navCtrl.parent.select(0).then(() => {
+          this.navCtrl.remove(currentIndex);
+      });
 
-      // this.loading.dismiss();
     }, (err) => {
-      // this.loading.dismiss();
       this.alertCtrl.create({
         subTitle: err.message,
         buttons: ['OK']

@@ -22,6 +22,7 @@ export class MeusPedidoEntity {
   public qtdItemcarrinhoCliente: number;
   
   public isCadastroCompleto: boolean;
+  public isCadastroEnderecoCompleto: boolean;
   
   public isRequerDesconto: boolean;
   public isDireitoADesconto: boolean;

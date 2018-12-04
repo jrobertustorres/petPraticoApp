@@ -11,6 +11,7 @@ import { GrupoService } from '../../providers/grupo-service';
 
 //PAGES
 import { ProdutosPorLojaListPage } from '../produtos-por-loja-list/produtos-por-loja-list';
+import { ConfiguracoesPage } from '../configuracoes/configuracoes';
 
 @IonicPage()
 @Component({
@@ -27,6 +28,8 @@ export class ProdutosSubGrupoListPage {
   private refresh: boolean = false;
   private idUsuarioLogado: any;
   private isCadastroCompleto: any;
+  private isCadastroEnderecoCompleto: any;
+  private messageDadosCadastrais: string;
 
   constructor(public navCtrl: NavController, 
               public navParams: NavParams,
@@ -38,12 +41,15 @@ export class ProdutosSubGrupoListPage {
     this.idSubGrupo = navParams.get("idSubGrupo");
     this.nomeSubGrupo = navParams.get("nomeSubGrupo");
     this.tabBarElement = document.querySelector('.tabbar.show-tabbar');
+    this.isCadastroCompleto = localStorage.getItem(Constants.IS_CADASTRO_COMPLETO);
+    this.isCadastroEnderecoCompleto = localStorage.getItem(Constants.IS_CADASTRO_ENDERECO_COMPLETO);
 
   }
 
   ngOnInit() {
     this.idUsuarioLogado = localStorage.getItem(Constants.ID_USUARIO);
-    this.isCadastroCompleto = localStorage.getItem(Constants.IS_CADASTRO_COMPLETO)
+    this.isCadastroCompleto = localStorage.getItem(Constants.IS_CADASTRO_COMPLETO);
+    this.isCadastroEnderecoCompleto = localStorage.getItem(Constants.IS_CADASTRO_ENDERECO_COMPLETO);
     this.findProdutosSubGruposList();
   }
 
@@ -59,9 +65,7 @@ export class ProdutosSubGrupoListPage {
   }
 
   loadMore(infiniteScroll) {
-
     setTimeout(() => {
-
       this.findProdutosSubGruposList();
       infiniteScroll.complete();
     }, 500);
@@ -102,11 +106,36 @@ export class ProdutosSubGrupoListPage {
 
   }
 
-  showConfirm() {
-    // SERIA MELHOR VALIDAR SÓ O EDEREÇO!!!!!!!!!!!!!!!!
+  validaCadastroUsuario(idProduto) {
+    // let tipoCadastro = null;
+    if(this.idUsuarioLogado) {
+
+      this.messageDadosCadastrais = (!this.isCadastroCompleto && !this.isCadastroEnderecoCompleto) ? 'Finalize seu cadastro de dados pessoais e endereço para ver os preços na sua cidade' : null;
+      this.messageDadosCadastrais = !this.isCadastroCompleto ? 'Para continuar, complete seus dados pessoais.' : null;
+      this.messageDadosCadastrais = !this.isCadastroEnderecoCompleto ? 'Complete seu endereço para ver os preços na sua cidade' : null;
+      // if(!this.isCadastroCompleto && !this.isCadastroEnderecoCompleto) {
+      //   this.messageDadosCadastrais = 'Finalize seu cadastro de dados pessoais e endereço para ver os preços na sua cidade';
+      //   this.showConfirmCadastro();
+      // }
+
+      if(this.messageDadosCadastrais != null) {
+      // if(!this.isCadastroCompleto) {
+      //   this.messageDadosCadastrais = 'Para continuar, complete seus dados pessoais.';
+      //   this.showConfirmCadastro();
+      // } else if(!this.isCadastroEnderecoCompleto) {
+      //   this.messageDadosCadastrais = 'Complete seu endereço para ver os preços na sua cidade';
+        this.showConfirmCadastro();
+      } else {
+        this.openProdutosPorLojaListPage(idProduto);
+      }
+    }
+
+  }
+
+  showConfirmCadastro() {
     const confirm = this.alertCtrl.create({
       title: 'Seu cadastro está incompleto!',
-      message: 'Para ver os preços na sua cidade complete seus dados pessoais e endereço.',
+      message: this.messageDadosCadastrais,
       buttons: [
         {
           text: 'Cancelar',
@@ -117,20 +146,12 @@ export class ProdutosSubGrupoListPage {
           text: 'Completar',
           handler: () => {
             console.log('Agree clicked');
-            // IR PARA A TELA DE LOGIN
+            this.navCtrl.setRoot(ConfiguracoesPage);
           }
         }
       ]
     });
     confirm.present();
-  }
-
-  validaUsuario(idProduto) {
-    if(!this.isCadastroCompleto && this.idUsuarioLogado) {
-      this.showConfirm();
-    } else {
-      this.openProdutosPorLojaListPage(idProduto);
-    }
   }
 
   openProdutosPorLojaListPage(idProduto) {

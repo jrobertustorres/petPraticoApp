@@ -1,0 +1,40 @@
+<ion-header>
+    <ion-navbar color="navBar">
+        <ion-title>
+            Indique e ganhe
+        </ion-title>
+        <ion-buttons start>
+            <button ion-button (click)="closeModal()">
+                <ion-icon ios="ios-close" md="md-close"></ion-icon>
+            </button>
+        </ion-buttons>
+    </ion-navbar>
+</ion-header>
+
+<ion-content>
+
+    <div class="style-box-home" *ngIf="qtdIndicacao > 0">
+        <div class="div-style">
+          <ion-icon ios="ios-person-add" md="ios-person-add" style="font-size: 46px;"></ion-icon>
+          <div>Aqui no Pet Prático seus amigos valem pontos!</div>
+          <div class="div-indique">Indique um amigo e quando ele utilizar o código da indicação,
+            <br> você e ele GANHAM {{ qtdPontuacaoIndicacao }} PONTOS cada!</div>
+          <div class="div-validade">*O código enviado vale por 7 dias. Caso não seja usado nesse período, a indicação deve ser feita novamente.</div>
+        </div>
+      </div>
+
+      <div class="style-box-home" *ngIf="qtdIndicacao == 0 || qtdIndicacao == null">
+        <div class="div-style">
+          <ion-icon ios="ios-person-add" md="ios-person-add" style="font-size: 46px;"></ion-icon>
+          <div style="text-align: center;">Você atingiu o número máximo de indicações!</div>
+          <div class="div-indique">Mas continue indicando seus AMIGOS.
+            <br> Eles GANHAM {{ qtdPontuacaoIndicacao }} PONTOS!</div>
+          <div class="div-validade">*O código enviado vale por 7 dias. Caso não seja usado nesse período, a indicação deve ser feita novamente.</div>
+        </div>
+      </div>
+
+      <div padding>
+        <button ion-button color="secondary" outline block (click)="shareAnyWhere()">Compartilhar</button>
+      </div>
+
+</ion-content>

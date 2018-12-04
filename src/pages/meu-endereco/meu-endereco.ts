@@ -1,10 +1,11 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, LoadingController, ToastController, AlertController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, LoadingController, ToastController, AlertController, ModalController } from 'ionic-angular';
 import { FormBuilder,	FormGroup, Validators } from '@angular/forms';
 import { Constants } from '../../app/constants';
 
 //ENTITYS
 import { UsuarioDetalheEntity } from './../../model/usuario-detalhe-entity';
+import { EnderecoEntity } from '../../model/endereco-entity';
 
 //SERVICES
 import { UsuarioService } from '../../providers/usuario-service';
@@ -13,6 +14,8 @@ import { CidadesService } from '../../providers/cidades-service';
 
 //PAGES
 import { ConfiguracoesPage } from '../configuracoes/configuracoes';
+import { ModalCidadesPage } from '../modal-cidades/modal-cidades';
+import { HomePage } from '../home/home';
 
 @IonicPage()
 @Component({
@@ -23,11 +26,15 @@ export class MeuEnderecoPage {
   public enderecoUsuarioForm: FormGroup;
   private loading = null;
   private usuarioDetalheEntity: UsuarioDetalheEntity;
+  private enderecoEntity: EnderecoEntity;
   private estados = [];
-  private cidades = [];
-  // private loadingDados = null;
-  // private loadingCidades = null;
+  private cidades: any = [];
   tabBarElement: any;
+
+  public idCidade: string;
+  public cidade: string;
+  public dadosCidades = {'idCidade': this.idCidade, 'cidade': this.cidade};
+  idEstado: number;
 
   constructor(public navCtrl: NavController, 
               private formBuilder: FormBuilder,
@@ -37,8 +44,10 @@ export class MeuEnderecoPage {
               private toastCtrl: ToastController,
               private estadosService: EstadosService, 
               private cidadesService: CidadesService, 
+              public modalCtrl: ModalController,
               public navParams: NavParams) {
     this.usuarioDetalheEntity = new UsuarioDetalheEntity();
+    this.enderecoEntity = new EnderecoEntity();
     this.tabBarElement = document.querySelector('.tabbar.show-tabbar');
 
   }
@@ -47,6 +56,7 @@ export class MeuEnderecoPage {
 
     // aqui temos que analizar se já temos o cadastro de endereço ===================================
     this.callGetEnderecoUsuario();
+
     this.enderecoUsuarioForm = this.formBuilder.group({
       'cepEndereco': ['', [Validators.required, Validators.maxLength(10)]],
       'endereco': ['', [Validators.required, Validators.maxLength(200)]],
@@ -54,7 +64,7 @@ export class MeuEnderecoPage {
       'complementoEndereco': ['', [Validators.required, Validators.maxLength(50)]],
       'bairro': ['', [Validators.required, Validators.maxLength(100)]],
       'idEstado': ['', Validators.required],
-      'idCidade': ['', Validators.required],
+      'idCidade': [''],
     });
 
     this.estadosService
@@ -100,9 +110,11 @@ export class MeuEnderecoPage {
         .getDadosUsuario()
         .then((dadosUsuarioDetalheResult) => {
           this.usuarioDetalheEntity = dadosUsuarioDetalheResult;
+          this.enderecoEntity = this.usuarioDetalheEntity;
 
           if(this.usuarioDetalheEntity.idEstado) {
             this.getCidadesByEstadoUsuario(this.usuarioDetalheEntity.idEstado);
+            this.idEstado = this.usuarioDetalheEntity.idEstado; // setando o idEstado para habilitar o combo de cidades
           } else {
             this.loading.dismiss();
           }
@@ -123,15 +135,17 @@ export class MeuEnderecoPage {
 
   getCidadesByEstadoUsuario(idEstado) {
     try {
-      // this.loadingCidades = this.loadingCtrl.create({
-      //   content: 'Buscando cidades...'
-      // });
-      // this.loadingCidades.present();
 
       this.cidadesService
         .getCidades(idEstado)
         .then((listCidadesResult) => {
           this.cidades = listCidadesResult;
+
+          for (let cidade of this.cidades) {
+            if (cidade.idCidade == this.usuarioDetalheEntity.idCidade) {
+              this.dadosCidades = cidade; 
+            }
+          }
           this.loading.dismiss();
         })
         .catch(err => {
@@ -157,25 +171,14 @@ export class MeuEnderecoPage {
         });
         this.loading.present();
 
-        console.log(this.usuarioDetalheEntity);
+        // AQUI TEMOS QUE TER UMA FORMA DE VER SE O ENDEREÇO ESTÁ COMPLETO OU NÃO
+        if(!localStorage.getItem(Constants.ID_USUARIO)){
+          this.cadastraEndereco();
+        }
+        else if(localStorage.getItem(Constants.ID_USUARIO)) {
+          this.editaEndereco();
+        }
 
-          this.usuarioService
-          .atualizaUsuario(this.usuarioDetalheEntity)
-          .then((usuarioDetalheEntityResult: UsuarioDetalheEntity) => {
-      
-            this.loading.dismiss();
-            this.presentToast();
-            setTimeout(() => {
-              this.navCtrl.setRoot(ConfiguracoesPage);
-            }, 3000);
-          }, (err) => {
-            this.loading.dismiss();
-            this.alertCtrl.create({
-              subTitle: err.message,
-              buttons: ['OK']
-            }).present();
-          });
-        
       } else {
         Object.keys(this.enderecoUsuarioForm.controls).forEach(campo => {
           const controle = this.enderecoUsuarioForm.get(campo);
@@ -191,7 +194,62 @@ export class MeuEnderecoPage {
     }
   }
 
+  cadastraEndereco() {
+    this.usuarioService
+    .cadastroEndereco(this.enderecoUsuarioForm.value)
+    .then((enderecoEntityResult: EnderecoEntity) => {
 
+      this.loading.dismiss();
+      this.navCtrl.setRoot(HomePage);
+    }, (err) => {
+      this.loading.dismiss();
+      this.alertCtrl.create({
+        subTitle: err.message,
+        buttons: ['OK']
+      }).present();
+    });
+
+  }
+
+  editaEndereco() {
+    this.enderecoUsuarioForm.value.idCidade = this.dadosCidades.idCidade;
+    this.enderecoEntity = this.enderecoUsuarioForm.value;
+
+    this.usuarioService
+      .alteraEndereco(this.enderecoEntity)
+      .then((enderecoEntityResult: EnderecoEntity) => {
+  
+        this.loading.dismiss();
+        this.presentToast();
+        setTimeout(() => {
+          this.navCtrl.setRoot(ConfiguracoesPage);
+        }, 3000);
+      }, (err) => {
+        this.loading.dismiss();
+        this.alertCtrl.create({
+          subTitle: err.message,
+          buttons: ['OK']
+        }).present();
+      });
+
+  }
+
+  getIdEstado(idEstado: any) {
+    this.idEstado = idEstado;
+  }
+
+  showModalCidades(){
+    let modal = this.modalCtrl.create(ModalCidadesPage, {idEstado: this.idEstado});
+
+    modal.onDidDismiss((data) => {
+      if (data) {
+        this.idCidade = data.idCidade;
+        this.dadosCidades = data;
+      }
+    });
+
+    modal.present();
+  }
   
 
   

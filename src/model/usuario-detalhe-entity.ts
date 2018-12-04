@@ -24,6 +24,7 @@ export class UsuarioDetalheEntity {
       public cepEndereco: string;
       public receberPromocoes: boolean;
       public isCadastroCompleto: boolean;
+      public isCadastroEnderecoCompleto: boolean;
       public codigoIndicacao: string;
 
       constructor(){

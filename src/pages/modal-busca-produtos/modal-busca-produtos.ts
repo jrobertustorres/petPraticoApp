@@ -24,6 +24,8 @@ export class ModalBuscaProdutosPage {
   private refresh: boolean = false;
   tabBarElement: any;
   public idUsuarioLogado: string;
+  public isCadastroCompleto: any;
+  public isCadastroEnderecoCompleto: any;
 
   constructor(public navCtrl: NavController, 
               public navParams: NavParams,
@@ -32,6 +34,8 @@ export class ModalBuscaProdutosPage {
               public alertCtrl: AlertController) {
     this.produtoEntity = new ProdutoEntity();
     this.tabBarElement = document.querySelector('.tabbar.show-tabbar');
+    this.isCadastroCompleto = localStorage.getItem(Constants.IS_CADASTRO_COMPLETO);
+    this.isCadastroEnderecoCompleto = localStorage.getItem(Constants.IS_CADASTRO_ENDERECO_COMPLETO);
   }
 
   ngOnInit() {

@@ -14,7 +14,6 @@ import { UsuarioEntity } from '../../model/usuario-entity';
 })
 export class ModalMeusPontosPage {
   public loading = null;
-  // private usuarioEntity: UsuarioEntity;
   private qtdPontos: number;
   private dataAtualizacaoPontosFormat: string;
 
@@ -24,13 +23,11 @@ export class ModalMeusPontosPage {
               public alertCtrl: AlertController,
               private usuarioService: UsuarioService,
               public viewCtrl: ViewController) {
-    // this.usuarioEntity = new UsuarioEntity();
     this.qtdPontos = navParams.get('qtdPontos');
     this.dataAtualizacaoPontosFormat = navParams.get('dataAtualizacaoPontosFormat');
   }
 
   ngOnInit() {
-    // this.findByPontuacao();
   }
 
   ionViewDidLoad() {
@@ -39,33 +36,5 @@ export class ModalMeusPontosPage {
   closeModal() {
     this.viewCtrl.dismiss();
   }
-
-  // findByPontuacao() {
-  //   try {
-  //     this.loading = this.loadingCtrl.create({
-  //       content: 'Aguarde...'
-  //     });
-  //     this.loading.present();
-
-  //     this.usuarioService.findByPontuacao()
-  //     .then((usuarioEntityResult: UsuarioEntity) => {
-  //       this.usuarioEntity = usuarioEntityResult;
-
-  //       this.loading.dismiss();
-  //     }, (err) => {
-  //       this.loading.dismiss();
-  //       this.alertCtrl.create({
-  //         subTitle: err.message,
-  //         buttons: ['OK']
-  //       }).present();
-  //     });
-
-  //   }catch (err){
-  //     if(err instanceof RangeError){
-  //     }
-  //     console.log(err);
-  //   }
-
-  // }
 
 }

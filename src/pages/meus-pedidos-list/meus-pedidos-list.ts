@@ -81,8 +81,10 @@ export class MeusPedidosListPage {
   }
 
   goHome() {
-    this.navCtrl.setRoot(HomePage);
-    // this.tab1Root = HomePage;
+    let currentIndex = this.navCtrl.getActive().index;
+      this.navCtrl.parent.select(0).then(() => {
+        this.navCtrl.remove(currentIndex);
+    });
   }
 
 }
