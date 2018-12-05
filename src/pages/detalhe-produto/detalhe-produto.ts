@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, LoadingController, AlertController, ToastController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, LoadingController, AlertController, ToastController, App, ViewController, Events } from 'ionic-angular';
 
 //ENTITYS
 import { ProdutoFornecedorEntity } from '../../model/produto-fornecedor-entity';
@@ -48,6 +48,9 @@ export class DetalheProdutoPage {
               private favoritosService: FavoritosService,
               private carrinhoService: CarrinhoService,
               private toastCtrl: ToastController,
+              private viewCtrl: ViewController,
+              private events: Events,
+              private app: App,
               public navParams: NavParams) {
     this.idProduto = navParams.get("idProduto");
     this.idFornecedor = navParams.get("idFornecedor");
@@ -89,6 +92,7 @@ export class DetalheProdutoPage {
 
   getDetalhesProduto(){
     try {
+
       this.loading = this.loadingCtrl.create({
         content: 'Aguarde...'
       });
@@ -297,7 +301,7 @@ export class DetalheProdutoPage {
       
               this.loading.dismiss();
               this.showConfirmItemCarrinho();
-              this.presentToast();
+              // this.presentToast();
             }, (err) => {
               this.loading.dismiss();
               this.alertCtrl.create({
@@ -328,29 +332,41 @@ export class DetalheProdutoPage {
   }
 
   showConfirmItemCarrinho() {
+    let qtd = localStorage.getItem(Constants.QTD_ITENS_CARRINHO);
+    let labelItem = parseInt(qtd) == 1 ? 'item' : 'itens';
+    
     const confirm = this.alertCtrl.create({
       title: 'Item adicionando ao carrinho',
-      message: 'Você possui ' + localStorage.getItem(Constants.QTD_ITENS_CARRINHO) + ' item(s) em seu \ncarrinho de compras',
+      message: 'Você possui ' + localStorage.getItem(Constants.QTD_ITENS_CARRINHO) +' '+ labelItem + ' em seu \ncarrinho de compras',
       buttons: [
         {
           text: 'VISUALIZAR CARRINHO',
           handler: () => {
-            // this.navCtrl.push(CarrinhoPage);
-            this.navCtrl.setRoot(CarrinhoPage);
-            // this.navCtrl.parent.select(0);
+            // this.navCtrl.setRoot(CarrinhoPage);
+
+            this.navCtrl.popToRoot().then(() => {
+              this.events.publish('fromDetalhe:go');
+              let currentIndex = this.navCtrl.getActive().index;
+              this.navCtrl.parent.select(2).then(() => {
+                // this.navCtrl.remove(currentIndex); 
+              });
+            });
+
           }
         },
         {
           text: 'CONTINUAR COMPRANDO',
           handler: () => {
-            this.navCtrl.setRoot(HomePage);
-            // se não fizer assim, a tela de login fica aberta sobre a tela de configurações
-            // let currentIndex = this.navCtrl.getActive().index;
-            // this.navCtrl.parent.select(0).then(() => {
-            //     this.navCtrl.remove(currentIndex);
-            // });
-            // this.navCtrl.push(HomePage);
-            // this.navCtrl.parent.select(0);
+
+            this.navCtrl.popToRoot().then(() => {
+              this.events.publish('fromDetalhe:go');
+              // this.navCtrl.setRoot(CarrinhoPage);
+              let currentIndex = this.navCtrl.getActive().index;
+              this.navCtrl.parent.select(0).then(() => {
+                console.log(currentIndex);
+                // this.navCtrl.remove(currentIndex); 
+              });
+            });
           }
         }
       ]

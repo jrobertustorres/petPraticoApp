@@ -25,7 +25,10 @@
 }
 
 .h2-color-cards {
-    // color: #fff!important;
+    color: #484848!important;
+}
+.h2-color-cards-tema {
+    font-size: 15px;
     color: #484848!important;
 }
 
@@ -117,6 +120,14 @@ hr {
     padding: 0;
 }
 
+.hr10 {
+    display: block;
+    height: 10px;
+    border: 0;
+    border-top: 0.1px solid #DEDEDE!important;
+    padding: 0;
+}
+
 alertDanger {
     background-color: white;
     color: red;
@@ -150,4 +161,7 @@ alertDanger {
     margin-top: -20px!important;
     border-bottom-color: #FFFFFF!important;
     margin-bottom: 40px!important;
+}
+.largura-thumbnail {
+    width: 70px!important;
 }

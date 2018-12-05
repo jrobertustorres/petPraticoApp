@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { NavController, Slides, AlertController, LoadingController } from 'ionic-angular';
+import { NavController, Slides, AlertController, LoadingController, Events } from 'ionic-angular';
 import {DomSanitizer} from '@angular/platform-browser';
 import { Constants } from '../../app/constants';
 
@@ -32,12 +32,16 @@ export class HomePage {
   private usuarioEntity: UsuarioEntity;
   private idUsuarioLogado: string;
   private qtdPontos: number;
+  private temaLigado: boolean;
+
+  public qtdItensCarrinho: string;
 
   constructor(public navCtrl: NavController,
               public alertCtrl: AlertController,
               private homeService: HomeService,
               private loginService: LoginService,
               private sanitizer: DomSanitizer,
+              public events: Events,
               public loadingCtrl: LoadingController) {
 
     this.publicidadePropagandaEntity = new PublicidadePropagandaEntity();
@@ -45,7 +49,10 @@ export class HomePage {
   }
   
   ngOnInit() {
-    
+    this.temaLigado = JSON.parse(localStorage.getItem(Constants.ESTADO_TEMA));
+    this.events.subscribe('setEstadoTema:change', (estadoTema) => {
+      this.temaLigado = estadoTema;
+    });
   }
       
   ionViewWillEnter() {

@@ -4,11 +4,11 @@ import { Constants } from '../app/constants';
 
 @Injectable()
 export class CarrinhoService {
-
+  
   private headers = new Headers({ 'Content-Type': 'application/json' });
   private options = new RequestOptions({ headers: this.headers, method: "post" });
   public qtdItensCarrinhoChangeEvent = new EventEmitter();
-
+  
   constructor(public _http: Http) {
   }
 
@@ -21,7 +21,7 @@ export class CarrinhoService {
           .map(res=>res.json())
           .subscribe(data => {
             resolve(data);
-            data.qtdItemcarrinhoCliente = data.qtdItemcarrinhoCliente == null ? "0" : data.qtdItemcarrinhoCliente;
+            data.qtdItemcarrinhoCliente = data.qtdItemcarrinhoCliente == null ? "0" : data.qtdItemcarrinhoCliente;            
             this.qtdItensCarrinhoChangeEvent.emit(data.qtdItemcarrinhoCliente);
           }, (err) => {
             reject(err.json());
@@ -57,16 +57,11 @@ export class CarrinhoService {
 
   public removerItemPedidoCarrinho(itemPedidoEntity) {
     try {
-      return new Promise((resolve, reject) => {
-          this._http.post(Constants.API_URL + 'removerItemPedidoCarrinho/'
-          + localStorage.getItem(Constants.TOKEN_USUARIO), JSON.stringify(itemPedidoEntity), this.options)
-          .map(res=>res.json())
-          .subscribe(data => {
-            resolve(data);
-          }, (err) => {
-            reject(err.json());
-          });
-      });
+      return this._http.post(Constants.API_URL + 'removerItemPedidoCarrinho/'
+        + localStorage.getItem(Constants.TOKEN_USUARIO), JSON.stringify(itemPedidoEntity), this.options)
+        .map(res => res.json())
+        .toPromise()
+        .catch();
 
     } catch (e){
       if(e instanceof RangeError){

@@ -16,8 +16,8 @@
 
         <ion-item>
             <ion-thumbnail item-start>
-                <img *ngIf="!imagemProduto" src="assets/imgs/no-photo.png" style="width: 80px; height: 80px;" />
-                <img *ngIf="imagemProduto" src="{{ imagemProduto }}" style="width: 80px; height: 80px;" imageViewer/>
+                <img *ngIf="!imagemProduto" src="assets/imgs/no-photo.png" />
+                <img *ngIf="imagemProduto" src="{{ imagemProduto }}" class="largura-thumbnail" imageViewer/>
             </ion-thumbnail>
             <h4>{{ nomeProduto }}</h4>
             <p><span style="color: #999;">A partir de:</span> <span style="color: #0c60ee; font-size: 13px;">{{ menorValor | currency:'BRL' }}</span></p>
@@ -34,7 +34,7 @@
     </div>
     <ion-list>
         <ion-item *ngFor="let produto of dadosProduto" text-wrap (click)="openDetalheProdutoPage(produto.idProduto, produto.idFornecedor)">
-            <h3 style="color: #69717d;">{{ produto.nomeFantasiaFornecedor }}</h3>
+            <h3 style="color: #69717d; font-weight: 500">{{ produto.nomeFantasiaFornecedor }}</h3>
             <h4 style="height: 20px;color: #69717d;">A partir de:
                 <span style="color: #0c60ee; font-size: 13px;"> {{ produto.valor | currency:'BRL' }}</span>
                 <span style="height: 20px; font-size: 13px; float: right;" *ngIf="produto.valorFrete">Frete: {{ produto.valorFrete | currency:'BRL' }}</span>

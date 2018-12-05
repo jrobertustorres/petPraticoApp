@@ -11,6 +11,7 @@ export class LoginService {
   private headers = new Headers({ 'Content-Type': 'application/json' });
   private options = new RequestOptions({ headers: this.headers, method: "post" });
   public userChangeEvent = new EventEmitter();
+  public carrinhoChangeEvent = new EventEmitter();
   public emailPessoaChangeEvent = new EventEmitter();
   private usuarioEntity: UsuarioEntity;
 
@@ -43,6 +44,7 @@ export class LoginService {
 
             this.userChangeEvent.emit(data.nomePessoa);
             this.emailPessoaChangeEvent.emit(data.email);
+            this.carrinhoChangeEvent.emit(data.qtdItemcarrinho);
 
           }, (err) => {
             reject(err.json());
@@ -80,6 +82,7 @@ export class LoginService {
 
             this.userChangeEvent.emit(data.nomePessoa);
             this.emailPessoaChangeEvent.emit(data.email);
+            this.carrinhoChangeEvent.emit(data.qtdItemcarrinho);
 
           }, (err) => {
             reject(err.json());
@@ -121,6 +124,7 @@ export class LoginService {
 
             this.userChangeEvent.emit(data.nomePessoa);
             this.emailPessoaChangeEvent.emit(data.login);
+            this.carrinhoChangeEvent.emit(data.qtdItemcarrinho);
           }, (err) => {
             reject(err.json());
           });

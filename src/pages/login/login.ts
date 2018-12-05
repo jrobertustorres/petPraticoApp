@@ -103,8 +103,6 @@ export class LoginPage implements OnInit {
       this.loginService.login(this.loginForm.value)
         .then((usuarioEntityResult: UsuarioEntity) => {
 
-          // this.navCtrl.parent.select(0);
-
           // se não fizer assim, a tela de login fica aberta sobre a tela de configurações
           let currentIndex = this.navCtrl.getActive().index;
           this.navCtrl.parent.select(0).then(() => {

@@ -123,6 +123,7 @@ import { ModalIndiqueEGanhePage } from '../pages/modal-indique-e-ganhe/modal-ind
     IonicImageViewerModule,
     // IonicModule.forRoot(MyApp)
     IonicModule.forRoot(MyApp, {
+      // tabsHideOnSubPages: true, // esconde as tab bar em sub telas
       backButtonText: '',
     },
   ),

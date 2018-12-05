@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, AlertController, LoadingController, ToastController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, AlertController, LoadingController, ToastController, Events } from 'ionic-angular';
 import { Constants } from '../../app/constants';
 
 //SERVICES
@@ -12,6 +12,8 @@ import { FavoritoEntity } from '../../model/favorito-entity';
 import { ProdutosPorLojaListPage } from '../produtos-por-loja-list/produtos-por-loja-list';
 import { LoginPage } from '../login/login';
 
+import { CarrinhoPage } from '../carrinho/carrinho';
+
 @IonicPage()
 @Component({
   selector: 'page-favoritos-list',
@@ -23,18 +25,19 @@ export class FavoritosListPage {
   private favoritoEntity: FavoritoEntity;
   private toastMessage: string;
   public idUsuario: string = null;
+  public showLoading: boolean = true;
 
   constructor(public navCtrl: NavController, 
               public loadingCtrl: LoadingController,
               public alertCtrl: AlertController,
               private toastCtrl: ToastController,
               public favoritosService: FavoritosService,
+              public events: Events,
               public navParams: NavParams) {
     this.favoritoEntity = new FavoritoEntity();
   }
 
   ngOnInit() {
-    // this.idUsuario = localStorage.getItem(Constants.ID_USUARIO);
   }
   
   ionViewWillEnter(){
@@ -59,17 +62,20 @@ export class FavoritosListPage {
     toast.present();
   }
 
-  getListaFavoritos(){
+  getListaFavoritos() {
     try {
-      this.loading = this.loadingCtrl.create({
-        content: 'Aguarde...'
-      });
-      this.loading.present();
+
+      if(this.showLoading == true) {
+        this.loading = this.loadingCtrl.create({
+          content: 'Aguarde...'
+        });
+        this.loading.present();
+      }
 
       this.favoritosService.getFavoritos()
       .then((favoritosListResult: FavoritoEntity) => {
         this.favoritosList = favoritosListResult;
-
+        this.showLoading = true;
         this.loading.dismiss();
       }, (err) => {
         this.loading.dismiss();
@@ -87,7 +93,6 @@ export class FavoritosListPage {
   }
 
   removerFavorito(idFavoritos) {
-    console.log(idFavoritos);
     try {
       this.loading = this.loadingCtrl.create({
         content: 'Aguarde...'
@@ -97,9 +102,14 @@ export class FavoritosListPage {
       this.favoritoEntity.idFavoritos = idFavoritos;
       this.favoritosService.removerFavoritos(this.favoritoEntity)
       .then((favoritosListResult: FavoritoEntity) => {
-        let index = this.favoritosList.indexOf(idFavoritos);
-        this.favoritosList.splice(index, 1);
-        this.loading.dismiss();
+
+        // let index = this.favoritosList.indexOf(idFavoritos);
+        // this.favoritosList.splice(index, 1);
+
+        this.showLoading = false;
+        this.getListaFavoritos();
+
+        // this.loading.dismiss();
         this.toastMessage = 'O produto foi removido dos seus favoritos!';
 
         this.presentToast();

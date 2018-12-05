@@ -47,7 +47,8 @@ export class UsuarioService {
 
       return new Promise((resolve, reject) => {
 
-        this._http.post(Constants.API_URL + 'editaUsuario/', 
+        this._http.post(Constants.API_URL + 'editaUsuario/'
+        + localStorage.getItem(Constants.TOKEN_USUARIO),
           JSON.stringify(usuarioEntity), this.options)
           .map(function (res) { return res.json(); })
           .subscribe(data => {
@@ -63,21 +64,6 @@ export class UsuarioService {
             reject(err.json());
           });
       });
-
-      // return new Promise((resolve, reject) => {
-      //   this._http.post(Constants.API_URL + 'editaUsuario/'+
-      //   localStorage.getItem(Constants.TOKEN_USUARIO), 
-      //   JSON.stringify(usuarioEntity), this.options)
-      //     .subscribe(data => {
-      //       resolve(data);
-      //       this.userChangeEvent.emit(usuarioEntity.nomePessoa);
-      //       this.emailPessoaChangeEvent.emit(usuarioEntity.emailUsuario);
-      //       localStorage.setItem(Constants.IS_CADASTRO_COMPLETO, data.isCadastroCompleto);
-      //       localStorage.setItem(Constants.IS_CADASTRO_ENDERECO_COMPLETO, data.isCadastroEnderecoCompleto);
-      //     }, (err) => {
-      //       reject(err.json());
-      //     });
-      // });
 
     } catch (e){
       if(e instanceof RangeError){

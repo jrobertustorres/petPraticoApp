@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { NavController, NavParams, LoadingController, ModalController, AlertController, Platform, App } from 'ionic-angular';
+import { Component, OnInit, EventEmitter } from '@angular/core';
+import { NavController, NavParams, LoadingController, ModalController, AlertController, Platform, Events } from 'ionic-angular';
 import { EmailComposer } from '@ionic-native/email-composer';
 import { Device } from '@ionic-native/device';
 import { SocialSharing } from '@ionic-native/social-sharing';
@@ -20,6 +20,7 @@ import { ModalIndiqueEGanhePage } from '../modal-indique-e-ganhe/modal-indique-e
 //SERVICES
 import { IndicacaoService } from '../../providers/indicacao-service';
 import { UsuarioService } from '../../providers/usuario-service';
+import { LoginService } from '../../providers/login-service';
 
 //ENTITIES
 import { IndicacaoUsuarioEntity } from '../../model/indicacao-usuario-entity';
@@ -37,6 +38,9 @@ export class ConfiguracoesPage implements OnInit {
   private loading = null;
   private indicacaoUsuarioEntity: IndicacaoUsuarioEntity;
   private usuarioEntity: UsuarioEntity;
+  public carrinhoChangeEvent = new EventEmitter();
+  private estadoTema: string = 'Ligar';
+  private temaChecked: boolean = false;
 
   constructor(public navCtrl: NavController, 
               public navParams: NavParams, 
@@ -46,16 +50,18 @@ export class ConfiguracoesPage implements OnInit {
               private socialSharing: SocialSharing,
               public platform: Platform,
               private device: Device,
-              private app: App,
               private indicacaoService: IndicacaoService,
               private usuarioService: UsuarioService,
+              private loginService: LoginService,
+              public events: Events,
               public alertCtrl: AlertController) {
     this.indicacaoUsuarioEntity = new IndicacaoUsuarioEntity();
     this.usuarioEntity = new UsuarioEntity();
   }
 
   ngOnInit() {
-    
+    this.estadoTema = JSON.parse(localStorage.getItem(Constants.ESTADO_TEMA)) == false ? 'Ligar' : 'Desligar';
+    this.temaChecked = JSON.parse(localStorage.getItem(Constants.ESTADO_TEMA)) == false ? false : true;
   }
 
   ionViewWillEnter() {  
@@ -64,6 +70,12 @@ export class ConfiguracoesPage implements OnInit {
     if(this.idUsuarioLogado) {
       this.findByPontuacao();
     }  
+  }
+
+  setStatusTema(state) { 
+    this.estadoTema = state.checked == false ? 'Ligar' : 'Desligar';
+    this.events.publish('setEstadoTema:change', state.checked);
+    localStorage.setItem(Constants.ESTADO_TEMA, state.checked);
   }
 
   findByPontuacao() {
@@ -161,7 +173,6 @@ export class ConfiguracoesPage implements OnInit {
   }
   
   openModalMeusPontos(){
-    console.log(this.usuarioEntity);
     let modal = this.modalCtrl.create(ModalMeusPontosPage, {qtdPontos: this.usuarioEntity.qtdPontos, 
       dataAtualizacaoPontosFormat: this.usuarioEntity.dataAtualizacaoPontosFormat});
     modal.present();
@@ -211,7 +222,7 @@ export class ConfiguracoesPage implements OnInit {
             localStorage.removeItem(Constants.CIDADES_POR_ESTADO);
             localStorage.removeItem(Constants.IS_CADASTRO_COMPLETO);
             localStorage.removeItem(Constants.IS_CADASTRO_ENDERECO_COMPLETO);
-            // this.navCtrl.setRoot(HomePage);
+            this.events.publish('atualizaBadgeCarrinhoLogoutEvent:change', localStorage.getItem(Constants.QTD_ITENS_CARRINHO));
             this.navCtrl.parent.select(0);
           }
         }

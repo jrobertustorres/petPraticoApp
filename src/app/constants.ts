@@ -16,7 +16,7 @@ export class Constants {
   public static QTD_PONTOS = 'qtd_pontos';
   public static CIDADES_POR_ESTADO = 'cidades_por_estado';
   public static ID_FORNECEDOR_ATUAL_CARRINHO = 'id_fornecedor_atual_carrinho';
-  // public static EMAIL_PESSOA = 'email_pessoa';
+  public static ESTADO_TEMA = 'estado_tema';
   // public static APP_NAME = 'app_name';
   // public static VERSION_CODE = 'version_code';
   public static VERSION_NUMBER = 'version_number';

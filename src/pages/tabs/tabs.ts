@@ -1,5 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { Constants } from '../../app/constants';
+import { Events, Tabs } from 'ionic-angular';
+import { NavController } from 'ionic-angular/navigation/nav-controller';
 
 //PAGES
 import { HomePage } from '../home/home';
@@ -9,12 +11,13 @@ import { FavoritosListPage } from '../favoritos-list/favoritos-list';
 
 //SERVICES
 import { CarrinhoService } from '../../providers/carrinho-service';
+import { LoginService } from '../../providers/login-service';
 
 @Component({
   templateUrl: 'tabs.html'
 })
 export class TabsPage {
-  // @ViewChild('myTabs') tabRef: Tabs;
+  @ViewChild('myTabs') tabRef: Tabs;
 
   tab1Root = HomePage;
   tab2Root = CarrinhoPage;
@@ -22,11 +25,24 @@ export class TabsPage {
   tab4Root = FavoritosListPage;
   public qtdItensCarrinho: string;
 
-  constructor(private carrinhoService: CarrinhoService) {
+  constructor(private carrinhoService: CarrinhoService,
+              public events: Events,
+              private navCtrl: NavController,
+              private loginService: LoginService) {
+
     this.qtdItensCarrinho = localStorage.getItem(Constants.QTD_ITENS_CARRINHO);
   }
 
   ngOnInit() {
+
+    this.events.subscribe('atualizaBadgeCarrinhoLogoutEvent:change', (qtdItensCarrinhoChangeEvent) => {
+      this.qtdItensCarrinho = qtdItensCarrinhoChangeEvent;
+    });
+
+    this.loginService.carrinhoChangeEvent.subscribe(qtdItensCarrinhoChangeEvent => {
+      this.qtdItensCarrinho = localStorage.getItem(Constants.QTD_ITENS_CARRINHO);
+    });
+
     this.carrinhoService.qtdItensCarrinhoChangeEvent.subscribe(qtdItensCarrinhoChangeEvent => {
       localStorage.setItem(Constants.QTD_ITENS_CARRINHO, qtdItensCarrinhoChangeEvent);
       this.qtdItensCarrinho = localStorage.getItem(Constants.QTD_ITENS_CARRINHO);

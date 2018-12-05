@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, LoadingController, AlertController, ToastController, App } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, LoadingController, AlertController, ToastController } from 'ionic-angular';
 import { Constants } from '../../app/constants';
 
 //ENTITYS
@@ -11,7 +11,6 @@ import { CarrinhoService } from '../../providers/carrinho-service';
 
 //PAGES
 import { LoginPage } from '../login/login';
-import { HomePage } from '../home/home';
 import { ConfiguracoesPage } from '../configuracoes/configuracoes';
 import { PagamentoPage } from '../pagamento/pagamento';
 
@@ -32,28 +31,38 @@ export class CarrinhoPage {
   private valorDescontoFormat: any;
   private isRequerDesconto: boolean;
   public showLoading: boolean = true;
+  public mostraBotao: boolean = true;
+  tabBarElement: any;
 
   constructor(public navCtrl: NavController, 
               public navParams: NavParams,
               private carrinhoService: CarrinhoService,
               public loadingCtrl: LoadingController,
               private toastCtrl: ToastController,
-              private appCtrl: App,
               public alertCtrl: AlertController) {
-    this.itemPedidoEntity = new ItemPedidoEntity;
+    this.itemPedidoEntity = new ItemPedidoEntity();
     this.meusPedidoEntity = new MeusPedidoEntity();
+    this.tabBarElement = document.querySelector('.tabbar.show-tabbar');
   }
 
   ngOnInit() {
-    }
     
+  }
+
   ionViewWillEnter(){
+    // this.itemPedidoEntity = new ItemPedidoEntity();
+    // this.meusPedidoEntity = new MeusPedidoEntity();
     this.idUsuarioLogado = localStorage.getItem(Constants.ID_USUARIO);
     if (localStorage.getItem(Constants.ID_USUARIO)) {
       this.getDadosCarrinho();
     }
   }
-  
+
+  // ionViewWillLeave() {
+  //   this.itemPedidoEntity = new ItemPedidoEntity();
+  //   this.meusPedidoEntity = new MeusPedidoEntity();
+  // }
+
   presentToast() {
     let toast = this.toastCtrl.create({
       message: this.toastMessage,
@@ -83,7 +92,8 @@ export class CarrinhoPage {
 
         this.itensCarrinho = this.meusPedidoEntity.listMeusItemPedidoEntities;
         this.isRequerDesconto = this.meusPedidoEntity.isRequerDesconto;
-
+        this.mostraBotao = this.itensCarrinho ? true : false;
+       
         if (this.meusPedidoEntity.isRequerDesconto || this.meusPedidoEntity.valorDescontoFormat != null) {
           this.valorDescontoFormat = this.meusPedidoEntity.valorDescontoFormat;
         } else {
@@ -94,44 +104,8 @@ export class CarrinhoPage {
         // this.imagemProduto = this.dadosProduto[0].imagem;
         // this.menorValor = this.dadosProduto[0].menorValor;
 
+        this.showLoading = true;
         this.loading.dismiss();
-      }, (err) => {
-        this.loading.dismiss();
-        this.alertCtrl.create({
-          subTitle: err.message,
-          buttons: ['OK']
-        }).present();
-      });
-
-    }catch (err){
-      if(err instanceof RangeError){
-      }
-      console.log(err);
-    }
-  }
-
-  removerCarrinho(itemCarrinho) {
-    try {
-      this.loading = this.loadingCtrl.create({
-        content: 'Aguarde...'
-      });
-      this.loading.present();
-
-      this.carrinhoService.removerItemPedidoCarrinho(itemCarrinho)
-      .then((itemPedidoResult: MeusPedidoEntity) => {
-        localStorage.setItem(Constants.ID_FORNECEDOR_ATUAL_CARRINHO, JSON.stringify(itemPedidoResult.idFornecedor));
-        if(itemPedidoResult) {
-          localStorage.setItem(Constants.QTD_ITENS_CARRINHO, JSON.stringify(itemPedidoResult.qtdItemcarrinhoCliente));
-        } else {
-          this.itensCarrinhoAtual = itemPedidoResult;
-          localStorage.setItem(Constants.QTD_ITENS_CARRINHO, JSON.stringify(0));
-        }
-        this.showLoading = false;
-        this.getDadosCarrinho();
-
-        // this.loading.dismiss();
-        this.toastMessage = 'O produto foi removido do carrinho!';
-        this.presentToast();
       }, (err) => {
         this.loading.dismiss();
         this.alertCtrl.create({
@@ -175,7 +149,6 @@ export class CarrinhoPage {
       });
       this.loading.present();
 
-      // this.qtdItemCarrinho = this.quantidade;
       this.itemPedidoEntity.idItemPedido = item.idItemPedido;
       this.itemPedidoEntity.qtdItemCarrinho = item.quantidadeItem;
       this.itemPedidoEntity.isRequerDesconto = this.meusPedidoEntity.isRequerDesconto;
@@ -184,7 +157,6 @@ export class CarrinhoPage {
       .then((itemPedidoResult: MeusPedidoEntity) => {
         this.getDadosCarrinho();
 
-        // this.loading.dismiss();
       }, (err) => {
         this.loading.dismiss();
         this.alertCtrl.create({
@@ -223,25 +195,65 @@ export class CarrinhoPage {
     confirm.present();
   }
 
+  removerCarrinho(idItemPedido) {
+    try {
+      this.loading = this.loadingCtrl.create({
+        content: 'Aguarde...'
+      });
+      this.loading.present();
+
+      this.itemPedidoEntity.idItemPedido = idItemPedido;
+
+      this.carrinhoService.removerItemPedidoCarrinho(this.itemPedidoEntity)
+      .then((itemPedidoResult: MeusPedidoEntity) => {
+
+        if(itemPedidoResult.idPedido != null) {
+          localStorage.setItem(Constants.QTD_ITENS_CARRINHO, JSON.stringify(itemPedidoResult.qtdItemcarrinhoCliente));
+          localStorage.setItem(Constants.ID_FORNECEDOR_ATUAL_CARRINHO, JSON.stringify(itemPedidoResult.idFornecedor));
+        } else {
+          this.itensCarrinhoAtual = itemPedidoResult;
+          localStorage.removeItem(Constants.QTD_ITENS_CARRINHO);
+          localStorage.removeItem(Constants.ID_FORNECEDOR_ATUAL_CARRINHO);
+        }
+
+        this.showLoading = false;
+        this.getDadosCarrinho();
+
+        // this.loading.dismiss();
+        this.toastMessage = 'O produto foi removido do carrinho!';
+        this.presentToast();
+      }, (err) => {
+        this.loading.dismiss();
+        this.alertCtrl.create({
+          subTitle: err.message,
+          buttons: ['OK']
+        }).present();
+      });
+
+    }catch (err){
+      if(err instanceof RangeError){
+      }
+      console.log(err);
+    }
+  }
+
   continuarCarrinho() {
     if (this.meusPedidoEntity.isCadastroCompleto) {
-      // if (!this.meusPedidoEntity.isAtendimento) {
       if (!this.meusPedidoEntity.isAtendimento) {
           this.showAlertIsAtendimento();
       } else {
-          // $location.path("/pagamento/" + idPedido + "/" + idFornecedor);
           this.navCtrl.push(PagamentoPage, {idPedido: this.meusPedidoEntity.idPedido, idFornecedor: this.meusPedidoEntity.idFornecedor});
       }
-  } else {
-      this.showAlertCadastro();
-  }
-
+    } else {
+        this.showAlertCadastro();
+    }
   }
 
   showAlertCadastro() {
     const alert = this.alertCtrl.create({
       title: 'Seu cadastro está incompleto!',
-      subTitle: 'Para continuar complete seus dados pessoais e endereço.',
+      subTitle: 'Para continuar complete seus dados pessoais.',
+      // subTitle: 'Para continuar complete seus dados pessoais e endereço.',
       buttons: [{
         text: 'COMPLETAR CADASTRO',
         handler: () => {

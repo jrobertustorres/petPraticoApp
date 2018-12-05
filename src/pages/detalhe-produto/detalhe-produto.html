@@ -44,30 +44,20 @@
 
                 <ion-item *ngFor="let medida of medidasVenda" style="padding-left: 0px;">
                     <ion-radio item-left checked="true" value="medida.unidadeProduto"></ion-radio>
-                    <ion-label style="text-align: right;">
-                        {{ medida.unidadeProduto }}
-                        <span *ngIf="medida.disponivel" style="margin-left: 40%; margin-top: -15px; font-weight: 400;">{{ medida.valor | currency:'R$ ':2 }}</span>
-                        <span *ngIf="!medida.disponivel" style="margin-left: 40%; margin-top: -15px;color:#234ED8;">Indisponível</span>
+                    <!-- <ion-label style="text-align: right;"> -->
+                    <ion-label>
+                        <span>{{ medida.unidadeProduto }}</span>
+                        <!-- <span *ngIf="medida.disponivel" style="float: rigth; margin-top: -15px; font-weight: 400;">{{ medida.valor | currency:'R$ ':2 }}</span> -->
+                        <span *ngIf="medida.disponivel" class="span-medidas">{{ medida.valor | currency:'R$ ':2 }}</span>
+                        <span *ngIf="!medida.disponivel" class="span-medidas-ind">Indisponível</span>
+                        <!-- <span *ngIf="medida.disponivel" style="margin-left: 40%; margin-top: -15px;color:#234ED8;">Indisponível</span> -->
 
                     </ion-label>
     
                 </ion-item>
-
-                <p style="color:#69717d;">Frete:
-                    <span style="color:#0c60ee;" *ngIf="valorFrete">{{ valorFrete | currency:'BRL' }}</span>
-                    <span style="color:#0c60ee;" *ngIf="valorFrete == null || valorFrete == 0">Entrega grátis!</span>
-                </p>
                 <hr class="hr">
 
-                <div class="col col-50">
-                    <p style="color:#69717d;">Total:
-                        <span style="color:#234ED8; float: right;" *ngIf="produtoFornecedorEntity.valorTotal && estaDisponivel">{{ produtoFornecedorEntity.valorTotal | currency:'R$ ':2}}</span>
-                        <span style="color:#234ED8; float: right;" *ngIf="!produtoFornecedorEntity.valorTotal && estaDisponivel">{{ valorInicial | currency:'R$ ':2}}</span>
-                        <span style="color:#234ED8; float: right;" *ngIf="!estaDisponivel">R$ ---</span>
-                    </p>
-                </div>
-
-                <div style="text-align: right;">
+                <div style="text-align: right; margin-top: 20px;">
                     <button ion-button icon-only item-end color="danger" round (click)="subtrairProduto();" 
                         style="width: 20px; height: 20px;">
                         <ion-icon name="remove"></ion-icon>
@@ -81,9 +71,26 @@
                     <button ion-button icon-only item-end color="secondary" round (click)="addProduto();" 
                         style="width: 20px; height: 20px;">
                         <ion-icon name="add"></ion-icon>
-                    </button>
-
+                    </button>    
                 </div>
+
+                <div style="margin-top: 20px;">
+                    <p style="color:#69717d;">Frete:
+                        <span style="color:#0c60ee; float: right;" *ngIf="valorFrete">{{ valorFrete | currency:'BRL' }}</span>
+                        <span style="color:#0c60ee; float: right;" *ngIf="valorFrete == null || valorFrete == 0">Entrega grátis!</span>
+                    </p>
+                    <!-- <hr class="hr"> -->
+
+                    <!-- <div class="col col-50"> -->
+                    <div>
+                        <p style="color:#69717d; font-weight: 500">Total:
+                            <span style="color:#234ED8; float: right;" *ngIf="produtoFornecedorEntity.valorTotal && estaDisponivel">{{ produtoFornecedorEntity.valorTotal | currency:'BRL' }}</span>
+                            <span style="color:#234ED8; float: right;" *ngIf="!produtoFornecedorEntity.valorTotal && estaDisponivel">{{ valorInicial | currency:'BRL' }}</span>
+                            <span style="color:#234ED8; float: right;" *ngIf="!estaDisponivel">R$ ---</span>
+                        </p>
+                    </div>
+                </div>
+
 
                 <!-- <ion-grid>
                     <ion-row>

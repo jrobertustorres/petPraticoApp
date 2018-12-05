@@ -37,7 +37,6 @@
         </div>
     </div>
 
-    <!-- <div class="style-box-home" style="padding: 5px;" *ngIf="meusPedidoEntity.isDireitoADesconto && (itensCarrinhoAtual.length > 0 || itensCarrinho.length > 0)"> -->
     <div class="style-box-home" style="padding: 5px;" *ngIf="meusPedidoEntity.isDireitoADesconto && meusPedidoEntity.idPedido > 0">
         <div style="text-align: center; color: #fff;">Nesta compra você pode resgatar {{ meusPedidoEntity.qtdPontos }} pontos</div>
         <div style="text-align: center; color: #fff;">que dá direito à R$ {{ meusPedidoEntity.valorDescontoPontoFormat }} de desconto</div>
@@ -47,7 +46,6 @@
         </ion-item>
     </div>
     <div class="style-box-home" style="padding: 5px;" *ngIf="meusPedidoEntity.primeiraCompra">
-    <!-- <div class="style-box-home" style="padding: 5px;" *ngIf="meusPedidoEntity.primeiraCompra && (itensCarrinhoAtual.length > 0 || itensCarrinho.length > 0)"> -->
         <div style="text-align: center; color: #fff;">Esta é sua primeira compra.</div>
         <div style="text-align: center; color: #fff;">Parabéns, você ganhou um desconto exclusivo!</div>
     </div>
@@ -56,7 +54,7 @@
         <ion-item *ngFor="let item of itensCarrinho" text-wrap>
             <ion-thumbnail item-start>
                 <img *ngIf="!item.imagemProduto" src="assets/imgs/no-photo.png" style="width: 60px; height: 60px;" />
-                <img *ngIf="item.imagemProduto" src="{{ item.imagemProduto }}" style="width: 60px; height: 60px;" imageViewer />
+                <img *ngIf="item.imagemProduto" src="{{ item.imagemProduto }}" imageViewer />
             </ion-thumbnail>
             <p>
                 <span style="font-size: 14px;">{{ item.nomeProduto }}</span>
@@ -64,9 +62,7 @@
             <p>
                 <span style="color: #0c60ee; font-size: 14px;">R$ {{ item.valorTotalFormat }}</span>
             </p>
-            <!-- <button ion-button clear item-end (click)="removerCarrinho(itemCarrinho);$event.stopPropagation();"> -->
-            <ion-icon ios="ios-trash" md="md-trash" style="float: right; font-size: 20px; color: red" (click)="confirmaRemoverCarrinho(item);$event.stopPropagation();"></ion-icon>
-                <!-- </button> -->
+            <ion-icon ios="ios-trash" md="md-trash" style="float: right; font-size: 20px; color: red" (click)="confirmaRemoverCarrinho(item.idItemPedido);$event.stopPropagation();"></ion-icon>
                 
             <div style="text-align: left;">
                 <button ion-button icon-only item-end color="danger" round (click)="subtrairProduto(item);" 
@@ -88,13 +84,12 @@
         </ion-item>
     </ion-list>
 
-    <!-- <div class="item style-div-carrinho" *ngIf="idUsuarioLogado && itensCarrinho.length > 0"> -->
     <div padding class="style-div-carrinho" *ngIf="idUsuarioLogado != null && meusPedidoEntity.idPedido > 0">
-            <div>
+            <div text-wrap>
                 <label style="font-size: 14px; color: #000; font-style: italic; font-weight: 500;">
                     {{ meusPedidoEntity.nomeFantasiaFornecedor }}
                 </label>
-                <label class="label-money" style="font-size: 12px;margin-left: 60%;margin-top: -15px; color: #FF0000;" 
+                <label class="label-money" style="font-size: 12px; float: right; color: #FF0000;" 
                     *ngIf="!meusPedidoEntity.isAtendimento">
           {{ meusPedidoEntity.horarioAtendimento }}
         </label>
@@ -128,8 +123,8 @@
 
 </ion-content>
 
-<!-- <ion-footer *ngIf="idUsuarioLogado && (itensCarrinhoAtual.length > 0 || itensCarrinho.length > 0)" > -->
-<ion-footer *ngIf="meusPedidoEntity.idPedido != null && idUsuarioLogado != null" >
+<!-- <ion-footer *ngIf="meusPedidoEntity.idPedido != null && idUsuarioLogado != null" > -->
+<ion-footer *ngIf="mostraBotao && idUsuarioLogado" >
     <ion-grid>
         <ion-row>
             <ion-col no-padding>

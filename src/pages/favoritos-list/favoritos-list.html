@@ -4,7 +4,6 @@
         <button ion-button menuToggle>
                   <ion-icon name="menu"></ion-icon>
               </button>
-        <!-- <ion-title style="margin-top: 8px;"> -->
         <ion-title>
             <span>Meus favoritos</span>
         </ion-title>
@@ -23,7 +22,6 @@
 
     <div *ngIf="!idUsuario" style="margin-top: 25px;" padding>
         <p style="text-align: center">
-            <!-- <ion-icon ios="ios-person" md="md-person" style="color: #8f8f8f; font-size: 50px;"></ion-icon> -->
             <ion-icon ios="ios-person" md="md-person" color="navBar" style="font-size: 50px;"></ion-icon>
         </p>
         <p style="text-align: center">
@@ -38,10 +36,10 @@
         <ion-item *ngFor="let favorito of favoritosList" text-wrap (click)="openProdutosPorLojaListPage(favorito.idProduto)">
             <ion-thumbnail item-start>
                 <img *ngIf="!favorito.imagem" src="assets/imgs/no-photo.png" />
-                <img *ngIf="favorito.imagem" src="{{favorito.imagem}}" />
+                <img *ngIf="favorito.imagem" src="{{favorito.imagem}}" class="largura-thumbnail"/>
             </ion-thumbnail>
             <h5>{{favorito.produto}}</h5>
-            <p><span style="color: #999;">A partir de:</span> <span style="color: #0c60ee; font-size: 13px;"> {{ favorito.apartirDe | currency:'BRL':true }}</span></p>
+            <p><span style="color: #999;">A partir de:</span> <span style="color: #0c60ee; font-size: 13px;"> {{ favorito.apartirDe | currency:'BRL' }}</span></p>
             <button ion-button clear item-end (click)="showConfirmrRemover(favorito.idFavoritos);$event.stopPropagation();">
               <ion-icon ios="ios-trash" md="md-trash" style="font-size: 20px; color: red"></ion-icon>
             </button>

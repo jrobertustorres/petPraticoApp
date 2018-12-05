@@ -40,6 +40,7 @@
     </div>
 
     <div *ngIf="idUsuarioLogado">
+
         <ion-card>
             <ion-card-header class="custom-ion-card-header">
                 <p class="h2-color-cards">
@@ -69,6 +70,13 @@
                     <span class="h2-color-cards">Minha senha</span>
             </button>
             </ion-list>
+        </ion-card>
+
+        <ion-card>
+            <ion-item>
+                <ion-label class="h2-color-cards-tema">{{estadoTema}} tema dinâmico</ion-label>
+                <ion-toggle [(ngModel)]="temaChecked" color="navBar" (ionChange)="setStatusTema($event)"></ion-toggle>
+            </ion-item>
         </ion-card>
 
         <ion-card>

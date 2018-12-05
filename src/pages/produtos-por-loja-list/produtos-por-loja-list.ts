@@ -62,6 +62,9 @@ export class ProdutosPorLojaListPage {
       this.loading.present();
 
       this.produtoFornecedorEntity.idProduto = this.idProduto;
+
+      console.log(this.produtoFornecedorEntity);
+
       this.produtoService.findProdutoFornecedorByProduto(this.produtoFornecedorEntity)
       .then((produtoResult: ProdutoFornecedorEntity) => {
         this.dadosProduto = produtoResult;

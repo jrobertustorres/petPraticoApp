@@ -1,7 +1,7 @@
 <ion-header>
     <ion-navbar color="navBar">
         <ion-title style="text-align: left;">
-            <img height="30" src="assets/imgs/logo.png">
+            <img height="30" src="assets/imgs/logo-natal.png">
         </ion-title>
         <ion-buttons end>
             <button ion-button icon-only (click)="openSearchProdutosPage()">
@@ -12,13 +12,13 @@
 </ion-header>
 
 <ion-content class="content-stable">
+
     <div class="style-box-home">
         <div style="text-align: center" *ngIf="idUsuarioLogado">Você possui {{ qtdPontos }} pontos!</div>
         <div style="text-align: center" *ngIf="idUsuarioLogado">Acumule 1 ponto a cada R$ 1,00 em compras</div>
         <div style="text-align: center" *ngIf="!idUsuarioLogado">Faça compras pelo app e acumule pontos!</div>
     </div>
     
-    <!-- <div id='conteudo' class="div-style-publicidade"> -->
     <div>
         <div class="center">
             <ion-spinner *ngIf="!propagandas"></ion-spinner>
@@ -93,5 +93,42 @@
         </ion-scroll>
         
     </ion-item>
+
+
+    <div class="snowflakes" aria-hidden="true" *ngIf="temaLigado" >
+        <div class="snowflake">
+        ❄
+        </div>
+        <div class="snowflake">
+        ❅
+        </div>
+        <div class="snowflake">
+        ❆
+        </div>
+        <div class="snowflake">
+        ❄
+        </div>
+        <div class="snowflake">
+        ❅
+        </div>
+        <div class="snowflake">
+        ❆
+        </div>
+        <div class="snowflake">
+        ❄
+        </div>
+        <div class="snowflake">
+        ❅
+        </div>
+        <div class="snowflake">
+        ❆
+        </div>
+        <div class="snowflake">
+        ❄
+        </div>
+    </div>
+
+
+
 
 </ion-content>
