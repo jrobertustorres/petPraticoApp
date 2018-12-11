@@ -20,7 +20,7 @@
     </div>
     <ion-list>
         <button ion-item *ngFor="let pedido of pedidosList" text-wrap (click)="openPedidoDetalhePage(pedido.idPedido)">
-              <p>{{ pedido.nomeFantasiaFornecedor }}</p>
+              <p style="font-weight: 600;">{{ pedido.nomeFantasiaFornecedor }}</p>
               <p>{{ pedido.dataPedidoFormat }}</p>
               <p> Status do pedido: <span [ngClass]="{Concluido:'corVerde', Pendente:'corAzul', Aberto:'corLaranja'}[pedido.statusPedido]"> {{ pedido.statusPedido }}</span></p>
           </button>

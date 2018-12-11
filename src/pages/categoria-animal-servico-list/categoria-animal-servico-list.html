@@ -1,0 +1,50 @@
+<ion-header>
+  <ion-navbar color="navBar">
+    <ion-title>
+      Escolha o tipo de animal
+    </ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+
+    <ion-list>
+        <ion-item (click)="openServicoList(1)">
+          <ion-avatar item-start>
+              <img src="assets/imgs/dog.svg" />
+          </ion-avatar>
+          <h2>Cães</h2>
+        </ion-item>
+        <ion-item (click)="openServicoList(2)">
+          <ion-avatar item-start>
+              <img src="assets/imgs/cat.svg" />
+          </ion-avatar>
+          <h2>Gatos</h2>
+        </ion-item>
+        <ion-item (click)="openServicoList(3)">
+          <ion-avatar item-start>
+              <img src="assets/imgs/bird.svg" />
+          </ion-avatar>
+          <h2>Aves</h2>
+        </ion-item>
+        <ion-item (click)="openServicoList(5)">
+          <ion-avatar item-start>
+              <img src="assets/imgs/aquarium.svg" />
+          </ion-avatar>
+          <h2>Peixes</h2>
+        </ion-item>
+        <ion-item (click)="openServicoList(6)">
+          <ion-avatar item-start>
+              <img src="assets/imgs/rabbit.svg" />
+          </ion-avatar>
+          <h2>Roedores</h2>
+        </ion-item>
+        <ion-item (click)="openServicoList(4)">
+          <ion-avatar item-start>
+              <img src="assets/imgs/turtle.svg" />
+          </ion-avatar>
+          <h2>Répteis</h2>
+        </ion-item>
+      </ion-list>
+
+</ion-content>

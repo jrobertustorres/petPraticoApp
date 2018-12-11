@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, LoadingController, AlertController, ToastController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, LoadingController, AlertController, ToastController, Platform } from 'ionic-angular';
 import { Constants } from '../../app/constants';
 
 //ENTITYS
@@ -39,10 +39,12 @@ export class CarrinhoPage {
               private carrinhoService: CarrinhoService,
               public loadingCtrl: LoadingController,
               private toastCtrl: ToastController,
+              public platform: Platform,
               public alertCtrl: AlertController) {
     this.itemPedidoEntity = new ItemPedidoEntity();
     this.meusPedidoEntity = new MeusPedidoEntity();
     this.tabBarElement = document.querySelector('.tabbar.show-tabbar');
+    this.platform.registerBackButtonAction(()=>this.myHandlerFunction());
   }
 
   ngOnInit() {
@@ -50,18 +52,19 @@ export class CarrinhoPage {
   }
 
   ionViewWillEnter(){
-    // this.itemPedidoEntity = new ItemPedidoEntity();
-    // this.meusPedidoEntity = new MeusPedidoEntity();
     this.idUsuarioLogado = localStorage.getItem(Constants.ID_USUARIO);
     if (localStorage.getItem(Constants.ID_USUARIO)) {
       this.getDadosCarrinho();
     }
   }
 
-  // ionViewWillLeave() {
-  //   this.itemPedidoEntity = new ItemPedidoEntity();
-  //   this.meusPedidoEntity = new MeusPedidoEntity();
-  // }
+  // se o loading estiver ativo, permite fechar o loading e voltar à tela anterior
+  myHandlerFunction(){
+    if(this.loading) {
+      this.loading.dismiss();
+      this.navCtrl.pop();
+    }
+  }
 
   presentToast() {
     let toast = this.toastCtrl.create({

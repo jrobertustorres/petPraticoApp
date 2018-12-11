@@ -1,0 +1,58 @@
+<ion-header>
+
+    <ion-navbar color="navBar">
+        <button ion-button menuToggle>
+                    <ion-icon name="menu"></ion-icon>
+                </button>
+        <ion-title style="margin-top: 8px;">
+            <span>Outros serviços</span>
+        </ion-title>
+    </ion-navbar>
+
+</ion-header>
+
+<ion-content>
+    <!-- <ion-card style="border: 2px solid yellow; text-align: center;" *ngIf="outrosServicosList?.length > 0">
+        <ion-card-content>
+          <span>Você pode adicionar mais serviços desta loja</span>
+        </ion-card-content>
+    </ion-card> -->
+    <!-- <form [formGroup]="outrosServicosForm" (ngSubmit)="submeterDadosAgenda()"> -->
+
+    <ion-item>
+        <ion-avatar item-start *ngIf="!isProduto">
+            <img *ngIf="!imagemProduto" src="assets/imgs/no-photo.png" />
+            <img *ngIf="imagemProduto" src="{{ imagemProduto }}" />
+        </ion-avatar>
+        <h4>{{ nomeProduto }}</h4>
+        <h4>{{ nomeFantasiaFornecedor }}</h4>
+    </ion-item>
+    <p style="text-align: center;" ><span class="text-produto"> Você pode adicionar mais serviços desta loja</span></p>
+    <hr class="hr10">
+    
+
+        <ion-list text-wrap>
+          <ion-item *ngFor="let servico of outrosServicosList">
+            <ion-label style="font-size: 14px;">{{servico.nomeProduto}}<span style="float: right;">{{servico.valor | currency:'BRL'}}</span></ion-label>
+            <!-- <ion-checkbox formControlName="idProdutoFornecedor" [(ngModel)]="outrosServicosList.idProdutoFornecedor" (click)="getServicos(outrosServicosList.idProdutoFornecedor)"></ion-checkbox> -->
+            <ion-checkbox (click)="getServicos(servico.idProdutoFornecedor)"></ion-checkbox>
+            <!-- <ion-checkbox (click)="fornecedoresChecked(fornecedor.idFornecedor, fornecedor.isAtendimento)"></ion-checkbox>   -->
+        </ion-item>
+        </ion-list>
+    <!-- </form> -->
+
+</ion-content>
+
+<!-- <ion-footer *ngIf="servico.idProdutoFornecedor" style="background-color: #fff;"> -->
+<ion-footer style="background-color: #fff;">
+    <ion-grid>
+        <ion-row>
+            <ion-col no-padding>
+                <button no-margin ion-button full icon-end color="navBar" 
+                    (click)="openAgendaPage()">
+                    <span class="span-style-color" style="font-size: 12px;">IR PARA AGENDA</span>
+                </button>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+</ion-footer>

@@ -14,6 +14,7 @@ import { UsuarioEntity } from '../../model/usuario-entity';
 //PAGES
 import { GruposListPage } from '../grupos-list/grupos-list';
 import { ModalBuscaProdutosPage } from '../modal-busca-produtos/modal-busca-produtos';
+import { CategoriaAnimalServicoListPage } from '../categoria-animal-servico-list/categoria-animal-servico-list';
 import { AgendaPage } from '../agenda/agenda';
 
 @Component({
@@ -49,7 +50,7 @@ export class HomePage {
   }
   
   ngOnInit() {
-    this.temaLigado = JSON.parse(localStorage.getItem(Constants.ESTADO_TEMA));
+    this.temaLigado = JSON.parse(localStorage.getItem(Constants.ESTADO_TEMA)) != true ? false : JSON.parse(localStorage.getItem(Constants.ESTADO_TEMA));
     this.events.subscribe('setEstadoTema:change', (estadoTema) => {
       this.temaLigado = estadoTema;
     });
@@ -127,8 +128,9 @@ export class HomePage {
     this.navCtrl.push(ModalBuscaProdutosPage);
   }
 
-  openServicoList() {
-    this.navCtrl.push(AgendaPage);
+  openCategoriaServico(tipoServico) {
+    // this.navCtrl.push(AgendaPage);
+    this.navCtrl.push(CategoriaAnimalServicoListPage, {tipoServico: tipoServico});
   }
 
 }

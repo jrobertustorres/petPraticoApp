@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, LoadingController, AlertController, ToastController, App, ViewController, Events } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, LoadingController, AlertController, ToastController, ViewController, Events, Platform } from 'ionic-angular';
 
 //ENTITYS
 import { ProdutoFornecedorEntity } from '../../model/produto-fornecedor-entity';
@@ -50,7 +50,7 @@ export class DetalheProdutoPage {
               private toastCtrl: ToastController,
               private viewCtrl: ViewController,
               private events: Events,
-              private app: App,
+              public platform: Platform,
               public navParams: NavParams) {
     this.idProduto = navParams.get("idProduto");
     this.idFornecedor = navParams.get("idFornecedor");
@@ -59,6 +59,7 @@ export class DetalheProdutoPage {
     this.favoritoEntity = new FavoritoEntity();
     this.itemPedidoEntity = new ItemPedidoEntity();
     this.tabBarElement = document.querySelector('.tabbar.show-tabbar');
+    this.platform.registerBackButtonAction(()=>this.myHandlerFunction());
   }
 
   ngOnInit() {
@@ -74,6 +75,14 @@ export class DetalheProdutoPage {
 
   ionViewWillLeave() {
     this.tabBarElement.style.display = 'flex';
+  }
+
+  // se o loading estiver ativo, permite fechar o loading e voltar à tela anterior
+  myHandlerFunction(){
+    if(this.loading) {
+      this.loading.dismiss();
+      this.navCtrl.pop();
+    }
   }
 
   presentToast() {
@@ -104,14 +113,15 @@ export class DetalheProdutoPage {
       .then((produtoResult: ProdutoFornecedorDetalheEntity) => {
         this.produtoFornecedorDetalheEntity = produtoResult;
 
-        this.showIcon = this.produtoFornecedorDetalheEntity.idFavoritos != null ? true : false;
-
+        this.showIcon = this.produtoFornecedorDetalheEntity.idFavoritos != null ? true : false;        
         this.medidasVenda = this.produtoFornecedorDetalheEntity.listProdutoFornecedorEntities;
+
         this.valorInicial = this.medidasVenda[0].valor;
         this.valorFrete = this.medidasVenda[0].valorFrete;
 
         // $scope.medidasVenda = data.listProdutoFornecedorEntities;
         this.idProdutoFornecedorInicial = this.medidasVenda[0].idProdutoFornecedor;
+
         // localStorage.setItem("idProdutoFornecedorInicial", $scope.medidasVenda[0].idProdutoFornecedor);
         // $scope.valorInicial = $scope.medidasVenda[0].valor;
         // $scope.valorFrete = $scope.medidasVenda[0].valorFrete;
@@ -121,7 +131,7 @@ export class DetalheProdutoPage {
         // this.menorValor = this.dadosProduto[0].menorValor;
 
         this.estaDisponivel = this.medidasVenda[0].disponivel;
-        this.calculoIdProdutoFornecedor();
+        this.calculoIdProdutoFornecedor(this.idProdutoFornecedorInicial);
 
         // this.loading.dismiss();
       }, (err) => {
@@ -145,17 +155,17 @@ export class DetalheProdutoPage {
     if (this.quantidade < 1) {
         this.quantidade = 1;
     } else {
-        this.calculoIdProdutoFornecedor();
+        this.calculoIdProdutoFornecedor(this.idProdutoFornecedorInicial);
     }
   }
 
   addProduto() {
     this.quantidade += 1;
     this.showLoading = true;
-    this.calculoIdProdutoFornecedor();
+    this.calculoIdProdutoFornecedor(this.idProdutoFornecedorInicial);
   }
 
-  calculoIdProdutoFornecedor() {
+  calculoIdProdutoFornecedor(idProdutoFornecedor) {
 
     if(this.showLoading) {
       this.loading = this.loadingCtrl.create({
@@ -163,23 +173,21 @@ export class DetalheProdutoPage {
       });
       this.loading.present();
     }
-    // localStorage.setItem("idProdutoFornecedorInicial", idProdutoFornecedor);
+
+    this.idProdutoFornecedorInicial = idProdutoFornecedor ? idProdutoFornecedor : this.idProdutoFornecedorInicial;
 
     this.produtoFornecedorEntity.idProdutoFornecedor = this.idProdutoFornecedorInicial;
     this.produtoFornecedorEntity.quantidadeProduto = this.quantidade;
-    // $rootScope.qtdItemCarrinho = this.quantidade;
 
     this.produtoService.alteraCalculoProdutoFornecedorDetalhe(this.produtoFornecedorEntity)
       .then((produtoFornecedorEntity: ProdutoFornecedorEntity) => {
       this.produtoFornecedorEntity = produtoFornecedorEntity;
 
-      // localStorage.setItem(Constants.QTD_ITENS_CARRINHO, JSON.stringify(this.quantidade));
-
       this.estaDisponivel = this.produtoFornecedorEntity.disponivel;
       this.valorFrete = this.produtoFornecedorEntity.valorFrete;
 
+      this.showLoading = true;
       this.loading.dismiss();
-      // this.showLoading = false;
       }, (err) => {
         this.loading.dismiss();
         this.alertCtrl.create({
@@ -372,6 +380,10 @@ export class DetalheProdutoPage {
       ]
     });
     confirm.present();
+  }
+
+  openModalAvaliarFornecedor(idFornecedor) {
+
   }
 
 }

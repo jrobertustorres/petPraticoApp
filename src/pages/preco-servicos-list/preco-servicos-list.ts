@@ -1,13 +1,13 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, AlertController, LoadingController, Platform } from 'ionic-angular';
-import { DomSanitizer } from '@angular/platform-browser';
+import { IonicPage, NavController, NavParams, LoadingController, AlertController, Platform } from 'ionic-angular';
 import { Constants } from '../../app/constants';
 
-//ENTITYS
+//ENTITIES
+import { GrupoEntity } from '../../model/grupo-entity';
 import { ProdutoEntity } from '../../model/produto-entity';
 
 //SERVICES
-import { GrupoService } from '../../providers/grupo-service';
+import { ServicoService } from '../../providers/servico-service';
 
 //PAGES
 import { ProdutosPorLojaListPage } from '../produtos-por-loja-list/produtos-por-loja-list';
@@ -15,16 +15,15 @@ import { ConfiguracoesPage } from '../configuracoes/configuracoes';
 
 @IonicPage()
 @Component({
-  selector: 'page-produtos-sub-grupo-list',
-  templateUrl: 'produtos-sub-grupo-list.html',
+  selector: 'page-preco-servicos-list',
+  templateUrl: 'preco-servicos-list.html',
 })
-export class ProdutosSubGrupoListPage {
+export class PrecoServicosListPage {
   private loading = null;
-  public idSubGrupo: number;
-  public nomeSubGrupo: string;
-  private produtosList;
+  private idCategoria: number;
+  private grupoEntity: GrupoEntity;
   private produtoEntity: ProdutoEntity;
-  tabBarElement: any;
+  private servicosPrecoList;
   private idUsuarioLogado: any;
   private isCadastroCompleto: any;
   private isCadastroEnderecoCompleto: any;
@@ -32,20 +31,22 @@ export class ProdutosSubGrupoListPage {
   private canLoadMore: boolean = true;
 
   constructor(public navCtrl: NavController, 
-              public navParams: NavParams,
+              public loadingCtrl: LoadingController,
               public alertCtrl: AlertController,
-              private grupoService: GrupoService,
-              private sanitizer: DomSanitizer,
+              private servicoService: ServicoService,
               public platform: Platform,
-              public loadingCtrl: LoadingController) {
-    this.produtoEntity = new ProdutoEntity();
-    this.idSubGrupo = navParams.get("idSubGrupo");
-    this.nomeSubGrupo = navParams.get("nomeSubGrupo");
-    this.tabBarElement = document.querySelector('.tabbar.show-tabbar');
+              public navParams: NavParams) {
+    this.idCategoria = navParams.get("idCategoria"); 
+    this.grupoEntity = new GrupoEntity();
     this.isCadastroCompleto = localStorage.getItem(Constants.IS_CADASTRO_COMPLETO);
     this.isCadastroEnderecoCompleto = localStorage.getItem(Constants.IS_CADASTRO_ENDERECO_COMPLETO);
     this.platform.registerBackButtonAction(()=>this.myHandlerFunction());
+     
+  }
 
+  ngOnInit() {
+    this.idUsuarioLogado = localStorage.getItem(Constants.ID_USUARIO);
+    this.findPrecosServicosList(null);
   }
 
   // se o loading estiver ativo, permite fechar o loading e voltar à tela anterior
@@ -56,64 +57,40 @@ export class ProdutosSubGrupoListPage {
     }
   }
 
-  ngOnInit() {
-    this.idUsuarioLogado = localStorage.getItem(Constants.ID_USUARIO);
-    // this.isCadastroCompleto = localStorage.getItem(Constants.IS_CADASTRO_COMPLETO);
-    // this.isCadastroEnderecoCompleto = localStorage.getItem(Constants.IS_CADASTRO_ENDERECO_COMPLETO);
-    this.findProdutosSubGruposList(null);
-  }
-
-  ionViewDidLoad() {
-  }
-
-  ionViewWillEnter() {
-    this.tabBarElement.style.display = 'none';
-  }
-
-  ionViewWillLeave() {
-    this.tabBarElement.style.display = 'flex';
-  }
-
   loadMore(infiniteScroll) {
     setTimeout(() => {
-      this.findProdutosSubGruposList(infiniteScroll);
-      // infiniteScroll.complete();
+      this.findPrecosServicosList(infiniteScroll);
     }, 500);
   }
-  
-  findProdutosSubGruposList(infiniteScroll) {
-    try {
-      this.produtoEntity.limiteDados = this.produtoEntity.limiteDados ? this.produtosList.length : null;
 
-      if(this.produtoEntity.limiteDados == null) {
+  findPrecosServicosList(infiniteScroll) {
+    try {
+      this.grupoEntity.idCategoria = this.idCategoria;
+      this.grupoEntity.limiteDados = this.grupoEntity.limiteDados ? this.servicosPrecoList.length : null;
+
+      if(this.grupoEntity.limiteDados == null) {
         this.loading = this.loadingCtrl.create({
           content: 'Aguarde...',
         });
         this.loading.present();
       }
 
-      this.produtoEntity.idSubGrupo = this.idSubGrupo;
-      this.grupoService.findPrecoProdutosBySubGrupo(this.produtoEntity)
+      this.servicoService.findPrecoProdutosByBanhoETosa(this.grupoEntity)
       .then((produtosSubGruposListResult: ProdutoEntity) => {
-        this.produtosList = produtosSubGruposListResult;
-        if(this.produtoEntity.limiteDados == this.produtosList.length) {
+        this.servicosPrecoList = produtosSubGruposListResult;
+        if(this.grupoEntity.limiteDados == this.servicosPrecoList.length) {
           this.canLoadMore = false;
         }
-        this.produtoEntity.limiteDados = this.produtosList.length;
-
+        this.grupoEntity.limiteDados = this.servicosPrecoList.length;
         if(infiniteScroll) {
           infiniteScroll.complete();
         }
-
-        // this.refresh = true;
-        // this.loading ? this.loading.dismiss() : '';
-        // this.loading.dismiss();
         if(this.loading) {
           this.loading.dismiss();
         }
+        
       }, (err) => {
         this.loading.dismiss();
-        // this.loading ? this.loading.dismiss() : '';
         err.message = err.message ? err.message : 'Falha ao conectar ao servidor';
         this.alertCtrl.create({
           subTitle: err.message,
@@ -130,23 +107,13 @@ export class ProdutosSubGrupoListPage {
   }
 
   validaCadastroUsuario(idProduto) {
-    // let tipoCadastro = null;
     if(this.idUsuarioLogado) {
 
       this.messageDadosCadastrais = (!this.isCadastroCompleto && !this.isCadastroEnderecoCompleto) ? 'Finalize seu cadastro de dados pessoais e endereço para ver os preços na sua cidade' : null;
       this.messageDadosCadastrais = !this.isCadastroCompleto ? 'Para continuar, complete seus dados pessoais.' : null;
       this.messageDadosCadastrais = !this.isCadastroEnderecoCompleto ? 'Complete seu endereço para ver os preços na sua cidade' : null;
-      // if(!this.isCadastroCompleto && !this.isCadastroEnderecoCompleto) {
-      //   this.messageDadosCadastrais = 'Finalize seu cadastro de dados pessoais e endereço para ver os preços na sua cidade';
-      //   this.showConfirmCadastro();
-      // }
 
       if(this.messageDadosCadastrais != null) {
-      // if(!this.isCadastroCompleto) {
-      //   this.messageDadosCadastrais = 'Para continuar, complete seus dados pessoais.';
-      //   this.showConfirmCadastro();
-      // } else if(!this.isCadastroEnderecoCompleto) {
-      //   this.messageDadosCadastrais = 'Complete seu endereço para ver os preços na sua cidade';
         this.showConfirmCadastro();
       } else {
         this.openProdutosPorLojaListPage(idProduto);
@@ -182,5 +149,6 @@ export class ProdutosSubGrupoListPage {
       idProduto: idProduto
     })
   }
+  
 
 }

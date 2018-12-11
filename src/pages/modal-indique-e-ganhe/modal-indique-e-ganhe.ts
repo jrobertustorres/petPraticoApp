@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, AlertController, LoadingController, ViewController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, AlertController, LoadingController, ViewController, Platform } from 'ionic-angular';
 import { SocialSharing } from '@ionic-native/social-sharing';
 
 //ENTITIES
@@ -26,10 +26,12 @@ export class ModalIndiqueEGanhePage {
               private socialSharing: SocialSharing,
               public loadingCtrl: LoadingController,
               public alertCtrl: AlertController,
+              public platform: Platform,
               public navParams: NavParams) {
     this.indicacaoUsuarioEntity = new IndicacaoUsuarioEntity();
     this.qtdIndicacao = navParams.get('qtdIndicacao');
     this.qtdPontuacaoIndicacao = navParams.get('qtdPontuacaoIndicacao');
+    this.platform.registerBackButtonAction(()=>this.myHandlerFunction());
 
   }
 
@@ -38,6 +40,14 @@ export class ModalIndiqueEGanhePage {
   }
 
   ngOnInit() {
+  }
+
+  // se o loading estiver ativo, permite fechar o loading e voltar à tela anterior
+  myHandlerFunction(){
+    if(this.loading) {
+      this.loading.dismiss();
+      this.navCtrl.pop();
+    }
   }
 
   shareAnyWhere() {

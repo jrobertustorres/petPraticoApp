@@ -119,6 +119,7 @@ export class LoginService {
             localStorage.setItem(Constants.ID_USUARIO, data.idUsuario);
             localStorage.setItem(Constants.IS_CADASTRO_COMPLETO, data.isCadastroCompleto);
             localStorage.setItem(Constants.IS_CADASTRO_ENDERECO_COMPLETO, data.isCadastroEnderecoCompleto);
+            console.log(data.isCadastroEnderecoCompleto);
             localStorage.setItem(Constants.QTD_ITENS_CARRINHO, data.qtdItemcarrinho);
             localStorage.setItem(Constants.QTD_PONTOS, data.qtdPontos);
 

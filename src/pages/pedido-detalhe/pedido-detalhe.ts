@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, LoadingController, AlertController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, LoadingController, AlertController, Platform } from 'ionic-angular';
 
 //SERVICES
 import { PedidoService } from './../../providers/pedido-service';
@@ -26,11 +26,13 @@ export class PedidoDetalhePage {
               public loadingCtrl: LoadingController,
               public alertCtrl: AlertController,
               private pedidoService: PedidoService, 
+              public platform: Platform,
               public navParams: NavParams) {
     this.pedidoEntity = new PedidoEntity();
     this.meusPedidoEntity = new MeusPedidoEntity();
     this.idPedido = navParams.get('idPedido');
     this.tabBarElement = document.querySelector('.tabbar.show-tabbar');
+    this.platform.registerBackButtonAction(()=>this.myHandlerFunction());
   }
 
   ngOnInit() {
@@ -48,6 +50,14 @@ export class PedidoDetalhePage {
     this.tabBarElement.style.display = 'flex';
   }
 
+  // se o loading estiver ativo, permite fechar o loading e voltar à tela anterior
+  myHandlerFunction(){
+    if(this.loading) {
+      this.loading.dismiss();
+      this.navCtrl.pop();
+    }
+  }
+
   findPedidoDetalhe() {
     try {
       
@@ -61,6 +71,8 @@ export class PedidoDetalhePage {
       .then((pedidoEntityResult: MeusPedidoEntity) => {
         this.meusPedidoEntity = pedidoEntityResult;
         this.itensPedido = this.meusPedidoEntity.listMeusItemPedidoEntities;
+
+        console.log(this.meusPedidoEntity);
 
         this.loading.dismiss();
       }, (err) => { 

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, LoadingController, AlertController, ViewController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, LoadingController, AlertController, ViewController, Platform } from 'ionic-angular';
 
 //SEVICES
 import { CidadesService } from '../../providers/cidades-service';
@@ -22,8 +22,10 @@ export class ModalCidadesPage {
               private cidadesService: CidadesService,
               public alertCtrl: AlertController,
               public viewCtrl: ViewController,
+              public platform: Platform,
               public navParams: NavParams) {
     this.idEstado = navParams.get('idEstado');
+    this.platform.registerBackButtonAction(()=>this.myHandlerFunction());
   }
 
   ngOnInit() {
@@ -35,6 +37,14 @@ export class ModalCidadesPage {
 
   closeModal() {
     this.viewCtrl.dismiss();
+  }
+
+  // se o loading estiver ativo, permite fechar o loading e voltar à tela anterior
+  myHandlerFunction(){
+    if(this.loading) {
+      this.loading.dismiss();
+      this.navCtrl.pop();
+    }
   }
 
   getItems(searchbar) {

@@ -25,7 +25,8 @@ export class MyApp {
               public push: Push,
               splashScreen: SplashScreen) {
     this.platform.ready().then(() => {
-      this.platform.registerBackButtonAction(()=>this.myHandlerFunction());
+      //desabilitando o botão voltar do android
+      // this.platform.registerBackButtonAction(()=>this.myHandlerFunction());
       // aqui checamos a conexão ao entrar no app
       this.checkNetwork();
       if (this.platform.is('cordova')) {
@@ -57,9 +58,8 @@ export class MyApp {
     });
   }
 
-  myHandlerFunction(){
-    //desabilitando o botão voltar do android
-  }
+  //desabilitando o botão voltar do android
+  // myHandlerFunction(){}
 
   pushSetup() {
     const options: PushOptions = {

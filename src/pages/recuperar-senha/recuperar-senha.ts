@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { NavController, NavParams, LoadingController, AlertController, ToastController } from 'ionic-angular';
+import { NavController, NavParams, LoadingController, AlertController, ToastController, Platform } from 'ionic-angular';
 import { FormBuilder,	FormGroup, Validators } from '@angular/forms';
 
 //ENTITYS
@@ -29,12 +29,21 @@ export class RecuperarSenhaPage implements OnInit {
               public loadingCtrl: LoadingController,
               private formBuilder: FormBuilder,
               private usuarioService: UsuarioService,
+              public platform: Platform,
               public alertCtrl: AlertController,
               private toastCtrl: ToastController) {
 
     this.tabBarElement = document.querySelector('.tabbar.show-tabbar');
     this.usuarioEntity = new UsuarioEntity();
+    this.platform.registerBackButtonAction(()=>this.myHandlerFunction());
 
+  }
+
+  myHandlerFunction(){
+    if(this.loading) {
+      this.loading.dismiss();
+      this.navCtrl.pop();
+    }
   }
 
   ngOnInit() {

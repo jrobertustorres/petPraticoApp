@@ -14,7 +14,42 @@
 <ion-content>
     <div text-wrap *ngIf="dadosProduto?.length > 0">
 
-        <ion-item>
+            <!-- <ion-card>
+                    <ion-thumbnail item-start>
+                            <img *ngIf="!imagemProduto" src="assets/imgs/no-photo.png" />
+                            <img *ngIf="imagemProduto" src="{{ imagemProduto }}" class="largura-thumbnail" imageViewer/>
+                            <h4>{{ nomeProduto }}</h4>
+                        </ion-thumbnail>
+                    <ion-card-content>
+                      <ion-card-title>
+                        </ion-card-title>
+                      
+                            <p><span style="color: #999;">A partir de:</span> <span style="color: #0c60ee; font-size: 13px;">{{ menorValor | currency:'BRL' }}</span></p>
+                      
+                    </ion-card-content>
+                  </ion-card> -->
+
+            <ion-item>
+                <ion-thumbnail item-start *ngIf="isProduto">
+                    <img *ngIf="!imagemProduto" src="assets/imgs/no-photo.png" />
+                    <img *ngIf="imagemProduto" src="{{ imagemProduto }}" class="largura-thumbnail" imageViewer/>
+                </ion-thumbnail>
+                <ion-avatar item-start *ngIf="!isProduto">
+                    <img *ngIf="!imagemProduto" src="assets/imgs/no-photo.png" />
+                    <img *ngIf="imagemProduto" src="{{ imagemProduto }}" />
+                </ion-avatar>
+                <h4>{{ nomeProduto }}</h4>
+                <p><span style="color: #999;">A partir de:</span> <span class="text-valor-produto">{{ menorValor | currency:'BRL' }}</span></p>
+            </ion-item>
+
+                <p style="text-align: center;" *ngIf="isProduto" ><span class="text-produto"> O produto foi encontrado nas lojas abaixo</span></p>
+                <p style="text-align: center;" *ngIf="!isProduto" ><span class="text-produto"> O serviço é oferecido nas lojas abaixo</span></p>
+
+            <!-- <div padding>
+
+            </div> -->
+
+        <!-- <ion-item>
             <ion-thumbnail item-start>
                 <img *ngIf="!imagemProduto" src="assets/imgs/no-photo.png" />
                 <img *ngIf="imagemProduto" src="{{ imagemProduto }}" class="largura-thumbnail" imageViewer/>
@@ -25,24 +60,29 @@
 
         <ion-card-content>
             <ion-item style="text-align: center;" *ngIf="idUsuario">
-                <p><span style="color: #0c60ee; font-size: 12px;"> O produto foi encontrado nas lojas abaixo</span></p>
+                <p><span style="color: #0c60ee; font-size: 12px;"> O produto foi encontrado nas lojas abaixo</span></p> -->
                 <!-- <p><span style="white-space: normal;color: #69717d;font-size: 12px;"> O valor da entrega pode mudar dependendo da quantidade de itens no pedido</span></p> -->
-            </ion-item>
-        </ion-card-content>
+            <!-- </ion-item>
+        </ion-card-content> -->
 
 
     </div>
+
+    <hr class="hr10">
     <ion-list>
-        <ion-item *ngFor="let produto of dadosProduto" text-wrap (click)="openDetalheProdutoPage(produto.idProduto, produto.idFornecedor)">
-            <h3 style="color: #69717d; font-weight: 500">{{ produto.nomeFantasiaFornecedor }}</h3>
-            <h4 style="height: 20px;color: #69717d;">A partir de:
-                <span style="color: #0c60ee; font-size: 13px;"> {{ produto.valor | currency:'BRL' }}</span>
-                <span style="height: 20px; font-size: 13px; float: right;" *ngIf="produto.valorFrete">Frete: {{ produto.valorFrete | currency:'BRL' }}</span>
-                <span style="height: 20px;color: #0c60ee; font-size: 13px; float: right;" *ngIf="produto.valorFrete == null || produto.valorFrete == 0">Entrega grátis!</span>
+        <ion-item *ngFor="let produto of dadosProduto" text-wrap (click)="verificaProdutoServico(produto.idProduto, produto.idFornecedor, 
+                    produto.idProdutoFornecedor, produto.nomeProduto, produto.valor, produto.isProduto)">
+            <h3 style="color: #69717d; font-weight: 500;">{{ produto.nomeFantasiaFornecedor }}</h3>
+            <h4 class="span-style-apartir">A partir de:
+                <span class="span-style-valor-produto"> {{ produto.valor | currency:'BRL' }}</span>
+                <div *ngIf="isProduto">
+                    <span class="span-style-valor-frete" *ngIf="produto.valorFrete">Frete: {{ produto.valorFrete | currency:'BRL' }}</span>
+                    <span class="span-style-entrega" *ngIf="produto.valorFrete == null || produto.valorFrete == 0">Entrega grátis!</span>
+                </div>
             </h4>
             
             <p>
-                <span style="height: 20px; font-size: 13px;" [ngClass]="{false:'corVermelha', true:'corVerde'}[produto.isAtendimento]">
+                <span class="span-style-isatendimento" [ngClass]="{false:'corVermelha', true:'corVerde'}[produto.isAtendimento]">
                     <ion-icon ios="ios-alarm" md="md-alarm" style="font-size: 18px;"></ion-icon> {{ produto.horarioAtendimento }}
                 </span>
             </p>

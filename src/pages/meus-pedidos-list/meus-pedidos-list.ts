@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, AlertController, LoadingController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, AlertController, LoadingController, Platform } from 'ionic-angular';
 
 //SERVICES
 import { PedidoService } from './../../providers/pedido-service';
@@ -26,9 +26,11 @@ export class MeusPedidosListPage {
               private pedidoService: PedidoService, 
               public alertCtrl: AlertController,
               public loadingCtrl: LoadingController,
+              public platform: Platform,
               public navParams: NavParams) {
     this.pedidoEntity = new PedidoEntity();
     this.tabBarElement = document.querySelector('.tabbar.show-tabbar');
+    this.platform.registerBackButtonAction(()=>this.myHandlerFunction());
   }
 
   ngOnInit() {
@@ -44,6 +46,14 @@ export class MeusPedidosListPage {
 
   ionViewWillLeave() {
     this.tabBarElement.style.display = 'flex';
+  }
+
+  // se o loading estiver ativo, permite fechar o loading e voltar à tela anterior
+  myHandlerFunction(){
+    if(this.loading) {
+      this.loading.dismiss();
+      this.navCtrl.pop();
+    }
   }
 
   findPedidosList() {

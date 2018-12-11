@@ -12,6 +12,23 @@
         <ion-title>
             <div style="text-align: center;">
 
+                <!-- <div *ngIf="meusPedidoEntity.nomeFantasiaFornecedor">
+                    <ion-card style="border-radius: 15px;">
+                        <img src="assets/imgs/no-photo.png" class="item-start custom-avatar" *ngIf="!meusPedidoEntity.logoFornecedor" style="margin-top: 10px;"/>
+                        <img src="{{ meusPedidoEntity.logoFornecedor }}" class="item-start custom-avatar" *ngIf="meusPedidoEntity.logoFornecedor" style="margin-top: 10px;"/>
+    
+                        <ion-card-content>
+                            <ion-card-title>
+                                <span style="font-size: 16px;">{{ meusPedidoEntity.nomeFantasiaFornecedor }}</span>
+                            </ion-card-title>
+                        </ion-card-content>
+                    </ion-card>
+                </div> -->
+
+
+
+                
+
                 <div *ngIf="meusPedidoEntity.nomeFantasiaFornecedor">
                     <img src="assets/imgs/no-photo.png" class="item-start custom-avatar" *ngIf="!meusPedidoEntity.logoFornecedor" />
                     <img src="{{ meusPedidoEntity.logoFornecedor }}" class="item-start custom-avatar" *ngIf="meusPedidoEntity.logoFornecedor" />
@@ -26,7 +43,8 @@
 </ion-header>
 
 
-<ion-content style="margin-top: 30px;">
+<!-- <ion-content style="margin-top: 33%;"> -->
+<ion-content style="margin-top: 9%;">
 
     <div *ngIf="meusPedidoEntity.nomeFantasiaFornecedor">
         <ion-item-divider class="content-stable">

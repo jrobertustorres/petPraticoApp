@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, AlertController, LoadingController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, AlertController, LoadingController, Platform } from 'ionic-angular';
 
 //SERVICES
 import { GrupoService } from '../../providers/grupo-service';
@@ -22,14 +22,19 @@ export class SubGruposListPage {
   private subGrupoEntity: SubGrupoEntity;
   tabBarElement: any;
 
+  // private unregisterBackButtonAction: any;
+
   constructor(public navCtrl: NavController, 
               public navParams: NavParams,
               public alertCtrl: AlertController,
               private grupoService: GrupoService,
+              public platform: Platform,
               public loadingCtrl: LoadingController) {
     this.subGrupoEntity = new SubGrupoEntity();
     this.idGrupo = navParams.get("idGrupo");
     this.tabBarElement = document.querySelector('.tabbar.show-tabbar');
+    this.platform.registerBackButtonAction(()=>this.myHandlerFunction());
+
   }
 
   ngOnInit() {
@@ -46,6 +51,14 @@ export class SubGruposListPage {
   ionViewWillLeave() {
     this.tabBarElement.style.display = 'flex';
   }
+
+  // se o loading estiver ativo, permite fechar o loading e voltar à tela anterior
+  myHandlerFunction(){
+    if(this.loading) {
+      this.loading.dismiss();
+      this.navCtrl.pop();
+    }
+  }
   
   findSubGruposList() {
     try {
@@ -58,7 +71,7 @@ export class SubGruposListPage {
       this.grupoService.findSubGruposByGrupo(this.subGrupoEntity)
       .then((subGruposListResult: SubGrupoEntity) => {
         this.subGruposList = subGruposListResult;
-
+        
         this.loading.dismiss();
       }, (err) => {
         this.loading.dismiss();

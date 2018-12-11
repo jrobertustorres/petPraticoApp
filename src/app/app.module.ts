@@ -43,6 +43,9 @@ import { CidadeEntity } from './../model/cidade-entity';
 import { TipoPagamentoFornecedorEntity } from '../model/tipo-pagamento-fornecedor-entity';
 import { IndicacaoUsuarioEntity } from '../model/indicacao-usuario-entity';
 import { EnderecoEntity } from '../model/endereco-entity';
+import { DiaAgendaAtendimentoEntity } from '../model/dia-agenda-atendimento-entity';
+import { HorarioAtendimentoListEntity } from '../model/horario-atendimento-list-entity';
+import { HorarioAtendimentoEntity } from '../model/horario-atendimento-entity';
 
 //SERVICES
 import { GrupoService } from '../providers/grupo-service';
@@ -57,6 +60,7 @@ import { EstadosService } from './../providers/estados-service';
 import { CidadesService } from '../providers/cidades-service';
 import { PagamentoService } from '../providers/pagamento-service';
 import { IndicacaoService } from '../providers/indicacao-service';
+import { ServicoService } from '../providers/servico-service';
 
 //PAGES
 import { HomePage } from '../pages/home/home';
@@ -85,6 +89,9 @@ import { ModalMeusPontosPage } from '../pages/modal-meus-pontos/modal-meus-ponto
 import { ModalCidadesPage } from '../pages/modal-cidades/modal-cidades';
 import { AgendaPage } from '../pages/agenda/agenda';
 import { ModalIndiqueEGanhePage } from '../pages/modal-indique-e-ganhe/modal-indique-e-ganhe';
+import { CategoriaAnimalServicoListPage } from '../pages/categoria-animal-servico-list/categoria-animal-servico-list';
+import { PrecoServicosListPage } from '../pages/preco-servicos-list/preco-servicos-list';
+import { ServicosAdicionaisListPage } from '../pages/servicos-adicionais-list/servicos-adicionais-list';
 
 @NgModule({
   declarations: [
@@ -115,6 +122,9 @@ import { ModalIndiqueEGanhePage } from '../pages/modal-indique-e-ganhe/modal-ind
     ModalCidadesPage,
     AgendaPage,
     ModalIndiqueEGanhePage,
+    CategoriaAnimalServicoListPage,
+    PrecoServicosListPage,
+    ServicosAdicionaisListPage,
     TabsPage
   ],
   imports: [
@@ -123,7 +133,7 @@ import { ModalIndiqueEGanhePage } from '../pages/modal-indique-e-ganhe/modal-ind
     IonicImageViewerModule,
     // IonicModule.forRoot(MyApp)
     IonicModule.forRoot(MyApp, {
-      // tabsHideOnSubPages: true, // esconde as tab bar em sub telas
+      tabsHideOnSubPages: true, // esconde as tab bar em sub telas
       backButtonText: '',
     },
   ),
@@ -157,6 +167,9 @@ import { ModalIndiqueEGanhePage } from '../pages/modal-indique-e-ganhe/modal-ind
     ModalCidadesPage,
     AgendaPage,
     ModalIndiqueEGanhePage,
+    CategoriaAnimalServicoListPage,
+    PrecoServicosListPage,
+    ServicosAdicionaisListPage,
     TabsPage
   ],
   providers: [
@@ -182,6 +195,7 @@ import { ModalIndiqueEGanhePage } from '../pages/modal-indique-e-ganhe/modal-ind
     CidadesService,
     PagamentoService,
     IndicacaoService,
+    ServicoService,
     GrupoEntity,
     SubGrupoEntity,
     ProdutoEntity,
@@ -199,6 +213,9 @@ import { ModalIndiqueEGanhePage } from '../pages/modal-indique-e-ganhe/modal-ind
     TipoPagamentoFornecedorEntity,
     IndicacaoUsuarioEntity,
     EnderecoEntity,
+    DiaAgendaAtendimentoEntity,
+    HorarioAtendimentoListEntity,
+    HorarioAtendimentoEntity,
     {provide: LOCALE_ID, useValue: 'pt-BR'},
     {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]

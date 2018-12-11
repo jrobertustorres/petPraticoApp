@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, AlertController, LoadingController, ToastController, Events } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, AlertController, LoadingController, ToastController, Events, Platform } from 'ionic-angular';
 import { Constants } from '../../app/constants';
 
 //SERVICES
@@ -33,8 +33,10 @@ export class FavoritosListPage {
               private toastCtrl: ToastController,
               public favoritosService: FavoritosService,
               public events: Events,
+              public platform: Platform,
               public navParams: NavParams) {
     this.favoritoEntity = new FavoritoEntity();
+    this.platform.registerBackButtonAction(()=>this.myHandlerFunction());
   }
 
   ngOnInit() {
@@ -45,6 +47,14 @@ export class FavoritosListPage {
     this.idUsuario = localStorage.getItem(Constants.ID_USUARIO);
     if (localStorage.getItem(Constants.ID_USUARIO)) {
       this.getListaFavoritos();
+    }
+  }
+
+  // se o loading estiver ativo, permite fechar o loading e voltar à tela anterior
+  myHandlerFunction(){
+    if(this.loading) {
+      this.loading.dismiss();
+      this.navCtrl.pop();
     }
   }
 
@@ -79,6 +89,7 @@ export class FavoritosListPage {
         this.loading.dismiss();
       }, (err) => {
         this.loading.dismiss();
+        err.message = err.message ? err.message : 'Não foi possível conectar ao servidor';
         this.alertCtrl.create({
           subTitle: err.message,
           buttons: ['OK']

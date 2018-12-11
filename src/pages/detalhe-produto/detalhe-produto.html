@@ -17,44 +17,62 @@
             <p>
                 <span style="color: #484848">
                 <b>{{ produtoFornecedorDetalheEntity.nomeFornecedor }}</b>
-              </span>
+            </span>
+            <!-- <span style="float: right; font-size: 14px; color: #FFB400" (click)="openModalAvaliarFornecedor(produtoFornecedorDetalheEntity.idFornecedor)">Avaliar Loja</span> -->
             </p>
             <p>
                 <span style="color: #999">
                     {{ produtoFornecedorDetalheEntity.enderecoFornecedor }} 
-                    <ion-icon ios="ios-heart" md="md-heart" style="float: right; font-size: 24px;" 
-                        [ngClass]="{false:'corCinza', true:'corVermelha'}[showIcon]"
-                        (click)="adicionaRemoveFavoritoDetalhes(produtoFornecedorDetalheEntity.idProduto, produtoFornecedorDetalheEntity.idFavoritos)"></ion-icon>
                 </span>
             </p>
+            <!-- <p>
+                <rating style="color: #FFB400" [(ngModel)]="fornecedorEntity.avaliacao" readOnly="true" max="5" emptyStarIconName="star-outline" halfStarIconName="star-half" starIconName="star" nullable="false"></rating>
+            </p>
+            <p *ngIf="!fornecedorEntity.avaliacao">
+                Avaliação: <b style="color: #FFB400">Novo</b>
+            </p>
+            <p *ngIf="fornecedorEntity.avaliacao">
+                Avaliação: {{ fornecedorEntity.avaliacao }}
+                <ion-icon ios="ios-star" md="md-star" style="color: #FFB400"></ion-icon>
+            </p> -->
         </ion-card-header>
+        <hr class="hr10">
         <ion-card-content>
-            <hr class="hr">
+            <!-- <hr class="hr"> -->
             <p style="margin-top: 10px;">
                 <span>{{ produtoFornecedorDetalheEntity.nomeProduto }}</span>
             </p>
             <p>
                 <span style="color: #999">{{ produtoFornecedorDetalheEntity.marca }}</span>
             </p>
+
+            <p>
+                <span style="color: #999">
+                    <ion-icon ios="ios-heart" md="md-heart" style="float: right; font-size: 24px;" 
+                        [ngClass]="{false:'corCinza', true:'corVermelha'}[showIcon]"
+                        (click)="adicionaRemoveFavoritoDetalhes(produtoFornecedorDetalheEntity.idProduto, produtoFornecedorDetalheEntity.idFavoritos)">
+                    </ion-icon>
+                </span>
+            </p>
+
+
             <img src="{{ produtoFornecedorDetalheEntity.imagem }}" class="imagem-detalhes-produto" imageViewer/>
         </ion-card-content>
         
-        <ion-card-content >
+        <ion-card-content>
             <hr class="hr">
 
-                <ion-item *ngFor="let medida of medidasVenda" style="padding-left: 0px;">
-                    <ion-radio item-left checked="true" value="medida.unidadeProduto"></ion-radio>
-                    <!-- <ion-label style="text-align: right;"> -->
-                    <ion-label>
+            <ion-list radio-group >
+                <ion-item *ngFor="let medida of medidasVenda, let i = index" style="padding-left: 0px;">
+                    <ion-radio item-left checked="{{i == 0}}" value="{{medida.unidadeProduto}}" (ionSelect)="calculoIdProdutoFornecedor(medida.idProdutoFornecedor)"></ion-radio>
+                    <ion-label color="primary">
                         <span>{{ medida.unidadeProduto }}</span>
-                        <!-- <span *ngIf="medida.disponivel" style="float: rigth; margin-top: -15px; font-weight: 400;">{{ medida.valor | currency:'R$ ':2 }}</span> -->
                         <span *ngIf="medida.disponivel" class="span-medidas">{{ medida.valor | currency:'R$ ':2 }}</span>
                         <span *ngIf="!medida.disponivel" class="span-medidas-ind">Indisponível</span>
-                        <!-- <span *ngIf="medida.disponivel" style="margin-left: 40%; margin-top: -15px;color:#234ED8;">Indisponível</span> -->
-
                     </ion-label>
     
                 </ion-item>
+            </ion-list>
                 <hr class="hr">
 
                 <div style="text-align: right; margin-top: 20px;">
@@ -76,17 +94,16 @@
 
                 <div style="margin-top: 20px;">
                     <p style="color:#69717d;">Frete:
-                        <span style="color:#0c60ee; float: right;" *ngIf="valorFrete">{{ valorFrete | currency:'BRL' }}</span>
-                        <span style="color:#0c60ee; float: right;" *ngIf="valorFrete == null || valorFrete == 0">Entrega grátis!</span>
+                        <span class="span-style" *ngIf="valorFrete">{{ valorFrete | currency:'BRL' }}</span>
+                        <span class="span-style" *ngIf="valorFrete == null || valorFrete == 0">Entrega grátis!</span>
                     </p>
                     <!-- <hr class="hr"> -->
 
-                    <!-- <div class="col col-50"> -->
                     <div>
-                        <p style="color:#69717d; font-weight: 500">Total:
-                            <span style="color:#234ED8; float: right;" *ngIf="produtoFornecedorEntity.valorTotal && estaDisponivel">{{ produtoFornecedorEntity.valorTotal | currency:'BRL' }}</span>
-                            <span style="color:#234ED8; float: right;" *ngIf="!produtoFornecedorEntity.valorTotal && estaDisponivel">{{ valorInicial | currency:'BRL' }}</span>
-                            <span style="color:#234ED8; float: right;" *ngIf="!estaDisponivel">R$ ---</span>
+                        <p class="p-style-total">Total:
+                            <span class="span-style" *ngIf="produtoFornecedorEntity.valorTotal && estaDisponivel">{{ produtoFornecedorEntity.valorTotal | currency:'BRL' }}</span>
+                            <span class="span-style" *ngIf="!produtoFornecedorEntity.valorTotal && estaDisponivel">{{ valorInicial | currency:'BRL' }}</span>
+                            <span class="span-style" *ngIf="!estaDisponivel">R$ ---</span>
                         </p>
                     </div>
                 </div>

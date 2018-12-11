@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, AlertController, LoadingController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, AlertController, LoadingController, Platform } from 'ionic-angular';
 import { Constants } from '../../app/constants';
 
 //ENTITYS
@@ -10,6 +10,8 @@ import { ProdutoService } from '../../providers/produto-service';
 
 //PAGES
 import { DetalheProdutoPage } from '../../pages/detalhe-produto/detalhe-produto';
+import { ServicosAdicionaisListPage } from '../../pages/servicos-adicionais-list/servicos-adicionais-list';
+// import { AgendaPage } from '../../pages/agenda/agenda';
 
 @IonicPage()
 @Component({
@@ -24,19 +26,23 @@ export class ProdutosPorLojaListPage {
   public nomeProduto: string;
   public imagemProduto: string;
   public menorValor: string;
+  public isProduto: boolean;
   public unidadeProduto: string;
   public idUsuario: string;
+  public nomeFantasiaFornecedor: string;
   tabBarElement: any;
 
   constructor(public navCtrl: NavController, 
               public loadingCtrl: LoadingController,
               public alertCtrl: AlertController,
               private produtoService: ProdutoService,
+              public platform: Platform,
               public navParams: NavParams) {
     this.idProduto = navParams.get("idProduto");
     this.produtoFornecedorEntity = new ProdutoFornecedorEntity();
     this.idUsuario = localStorage.getItem(Constants.ID_USUARIO);
     this.tabBarElement = document.querySelector('.tabbar.show-tabbar');
+    this.platform.registerBackButtonAction(()=>this.myHandlerFunction());
   }
 
   ngOnInit() {
@@ -54,6 +60,14 @@ export class ProdutosPorLojaListPage {
     this.tabBarElement.style.display = 'flex';
   }
 
+  // se o loading estiver ativo, permite fechar o loading e voltar à tela anterior
+  myHandlerFunction(){
+    if(this.loading) {
+      this.loading.dismiss();
+      this.navCtrl.pop();
+    }
+  }
+
   getLojasPorProdutoList(){
     try {
       this.loading = this.loadingCtrl.create({
@@ -63,8 +77,6 @@ export class ProdutosPorLojaListPage {
 
       this.produtoFornecedorEntity.idProduto = this.idProduto;
 
-      console.log(this.produtoFornecedorEntity);
-
       this.produtoService.findProdutoFornecedorByProduto(this.produtoFornecedorEntity)
       .then((produtoResult: ProdutoFornecedorEntity) => {
         this.dadosProduto = produtoResult;
@@ -72,6 +84,8 @@ export class ProdutosPorLojaListPage {
         this.unidadeProduto = this.dadosProduto[0].unidadeProduto;
         this.imagemProduto = this.dadosProduto[0].imagem;
         this.menorValor = this.dadosProduto[0].menorValor;
+        this.isProduto = this.dadosProduto[0].isProduto;
+        this.nomeFantasiaFornecedor = this.dadosProduto[0].nomeFantasiaFornecedor;
 
         this.loading.dismiss();
       }, (err) => {
@@ -89,11 +103,37 @@ export class ProdutosPorLojaListPage {
     }
   }
 
+  verificaProdutoServico(idProduto, idFornecedor, idProdutoFornecedor, nomeProduto, valor, isProduto) {
+    if (isProduto) {
+      this.openDetalheProdutoPage(idProduto, idFornecedor);
+    } else {
+      this.openServicosAdicionaisPage(idProdutoFornecedor, nomeProduto, valor);
+      // this.openAgendaPage(idProdutoFornecedor, nomeProduto, valor);
+    }
+  }
+
   openDetalheProdutoPage(idProduto, idFornecedor) {
     this.navCtrl.push(DetalheProdutoPage, {
       idProduto: idProduto,
       idFornecedor: idFornecedor
     })
   }
+
+  openServicosAdicionaisPage(idProdutoFornecedor, nomeProduto, valor) {
+    this.navCtrl.push(ServicosAdicionaisListPage, {
+      idProdutoFornecedor: idProdutoFornecedor,
+      nomeFantasiaFornecedor: this.nomeFantasiaFornecedor,
+      nomeProduto: nomeProduto,
+      // valor: valor
+    })
+  }
+
+  // openAgendaPage(idProdutoFornecedor, nomeProduto, valor) {
+  //   this.navCtrl.push(AgendaPage, {
+  //     idProdutoFornecedor: idProdutoFornecedor,
+  //     nomeProduto: nomeProduto,
+  //     valor: valor
+  //   })
+  // }
 
 }

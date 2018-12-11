@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ViewController, LoadingController, AlertController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ViewController, LoadingController, AlertController, Platform } from 'ionic-angular';
 
 //SERVICES
 import { PagamentoService } from '../../providers/pagamento-service';
@@ -23,8 +23,10 @@ export class ModalTipoPagamentoPage {
               public alertCtrl: AlertController,
               public loadingCtrl: LoadingController,
               private pagamentoService: PagamentoService,
+              public platform: Platform,
               public viewCtrl: ViewController) {
     this.tipoPagamentoFornecedorEntity = new TipoPagamentoFornecedorEntity();
+    this.platform.registerBackButtonAction(()=>this.myHandlerFunction());
     this.idFornecedor = navParams.get('idFornecedor');
   }
 
@@ -37,6 +39,14 @@ export class ModalTipoPagamentoPage {
 
   closeModal() {
     this.viewCtrl.dismiss();
+  }
+
+  // se o loading estiver ativo, permite fechar o loading e voltar à tela anterior
+  myHandlerFunction(){
+    if(this.loading) {
+      this.loading.dismiss();
+      this.navCtrl.pop();
+    }
   }
 
   findFormaPagamento() {

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, AlertController, LoadingController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, AlertController, LoadingController, Platform } from 'ionic-angular';
 
 //ENTITYS
 import { GrupoEntity } from '../../model/grupo-entity';
@@ -27,10 +27,12 @@ export class GruposListPage {
               public navParams: NavParams,
               private grupoService: GrupoService,
               public alertCtrl: AlertController,
+              public platform: Platform,
               public loadingCtrl: LoadingController) {
     this.grupoEntity = new GrupoEntity();
     this.idCategoria = navParams.get("idCategoria");
     this.tabBarElement = document.querySelector('.tabbar.show-tabbar');
+    this.platform.registerBackButtonAction(()=>this.myHandlerFunction());
   }
 
   ngOnInit() {
@@ -46,6 +48,14 @@ export class GruposListPage {
 
   ionViewWillLeave() {
     this.tabBarElement.style.display = 'flex';
+  }
+
+  // se o loading estiver ativo, permite fechar o loading e voltar à tela anterior
+  myHandlerFunction(){
+    if(this.loading) {
+      this.loading.dismiss();
+      this.navCtrl.pop();
+    }
   }
 
   findGruposList(){

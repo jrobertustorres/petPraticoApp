@@ -60,8 +60,15 @@ export class ConfiguracoesPage implements OnInit {
   }
 
   ngOnInit() {
-    this.estadoTema = JSON.parse(localStorage.getItem(Constants.ESTADO_TEMA)) == false ? 'Ligar' : 'Desligar';
-    this.temaChecked = JSON.parse(localStorage.getItem(Constants.ESTADO_TEMA)) == false ? false : true;
+    if(localStorage.getItem(Constants.ID_USUARIO)) {
+      this.estadoTema = JSON.parse(localStorage.getItem(Constants.ESTADO_TEMA)) != true ? 'Ligar' : 'Desligar';
+      this.temaChecked = JSON.parse(localStorage.getItem(Constants.ESTADO_TEMA)) != true ? false : JSON.parse(localStorage.getItem(Constants.ESTADO_TEMA));
+      // this.estadoTema = (JSON.parse(localStorage.getItem(Constants.ESTADO_TEMA)) == false 
+      //   || JSON.parse(localStorage.getItem(Constants.ESTADO_TEMA)) == null) ? 'Ligar' : 'Desligar';
+      // this.temaChecked = (JSON.parse(localStorage.getItem(Constants.ESTADO_TEMA)) == false 
+      //   || JSON.parse(localStorage.getItem(Constants.ESTADO_TEMA)) == null) ? false : true;
+    }
+
   }
 
   ionViewWillEnter() {  

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Constants } from '../../app/constants';
-import { NavController, AlertController, LoadingController, MenuController, ModalController, App } from 'ionic-angular';
+import { NavController, AlertController, LoadingController, MenuController, ModalController, Platform } from 'ionic-angular';
 import { RecuperarSenhaPage } from '../recuperar-senha/recuperar-senha';
 import { FormBuilder,	FormGroup, Validators } from '@angular/forms';
 import { Facebook } from '@ionic-native/facebook';
@@ -42,12 +42,13 @@ export class LoginPage implements OnInit {
               public loadingCtrl: LoadingController,
               private menu : MenuController,
               public modalCtrl: ModalController,
-              public app: App,
               public facebook: Facebook,
+              public platform: Platform,
               private formBuilder: FormBuilder) {
 
     this.tabBarElement = document.querySelector('.tabbar.show-tabbar');
     this.usuarioEntity = new UsuarioEntity();
+    this.platform.registerBackButtonAction(()=>this.myHandlerFunction());
 
     if(localStorage.getItem(Constants.ID_USUARIO)) {
       facebook.getLoginStatus()
@@ -81,6 +82,14 @@ export class LoginPage implements OnInit {
 
   ionViewWillLeave() {
     this.tabBarElement.style.display = 'flex';
+  }
+
+  // se o loading estiver ativo, permite fechar o loading e voltar à tela anterior
+  myHandlerFunction(){
+    if(this.loading) {
+      this.loading.dismiss();
+      this.navCtrl.pop();
+    }
   }
 
   goRecuperarSenha() {

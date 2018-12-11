@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, LoadingController, AlertController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, LoadingController, AlertController, Platform } from 'ionic-angular';
 import { Constants } from '../../app/constants';
 
 //SERVICES
@@ -26,16 +26,19 @@ export class ModalBuscaProdutosPage {
   public idUsuarioLogado: string;
   public isCadastroCompleto: any;
   public isCadastroEnderecoCompleto: any;
+  private canLoadMore: boolean = true;
 
   constructor(public navCtrl: NavController, 
               public navParams: NavParams,
               private produtoService: ProdutoService,
               public loadingCtrl: LoadingController,
+              public platform: Platform,
               public alertCtrl: AlertController) {
     this.produtoEntity = new ProdutoEntity();
     this.tabBarElement = document.querySelector('.tabbar.show-tabbar');
     this.isCadastroCompleto = localStorage.getItem(Constants.IS_CADASTRO_COMPLETO);
     this.isCadastroEnderecoCompleto = localStorage.getItem(Constants.IS_CADASTRO_ENDERECO_COMPLETO);
+    this.platform.registerBackButtonAction(()=>this.myHandlerFunction());
   }
 
   ngOnInit() {
@@ -53,16 +56,21 @@ export class ModalBuscaProdutosPage {
     this.tabBarElement.style.display = 'flex';
   }
 
+  // se o loading estiver ativo, permite fechar o loading e voltar à tela anterior
+  myHandlerFunction(){
+    if(this.loading) {
+      this.loading.dismiss();
+      this.navCtrl.pop();
+    }
+  }
+
   loadMore(infiniteScroll) {
-
     setTimeout(() => {
-
-      this.getProdutoByNomeList(this.nomeProduto);
-      infiniteScroll.complete();
+      this.getProdutoByNomeList(this.nomeProduto, infiniteScroll);
     }, 500);
   }
   
-  getProdutoByNomeList(nomeProduto){
+  getProdutoByNomeList(nomeProduto, infiniteScroll){
 
     try {
       this.nomeProduto = nomeProduto;
@@ -72,7 +80,7 @@ export class ModalBuscaProdutosPage {
         this.produtoEntity.limiteDados = this.produtoEntity.limiteDados ? this.produtosList.length : null;
         this.produtoEntity.produto = this.nomeProduto;
 
-          if(this.refresh == false) {
+        if(this.produtoEntity.limiteDados == null) {
             this.loading = this.loadingCtrl.create({
               content: 'Aguarde...'
             });
@@ -82,14 +90,20 @@ export class ModalBuscaProdutosPage {
           this.produtoService.findProdutoByNome(this.produtoEntity)
           .then((produtoResult: ProdutoEntity) => {
             this.produtosList = produtoResult;
+            if(this.produtoEntity.limiteDados == this.produtosList.length) {
+              this.canLoadMore = false;
+            }
             this.produtoEntity.limiteDados = this.produtosList.length;
+            if(infiniteScroll) {
+              infiniteScroll.complete();
+            }
 
-            this.refresh = true;
-            this.loading ? this.loading.dismiss() : '';
-            // this.loading.dismiss();
+            if(this.loading) {
+              this.loading.dismiss();
+            }
           }, (err) => {
-            this.loading ? this.loading.dismiss() : '';
-            // this.loading.dismiss();
+            this.loading.dismiss();
+            err.message = err.message ? err.message : 'Falha ao conectar ao servidor';
             this.alertCtrl.create({
               subTitle: err.message,
               buttons: ['OK']

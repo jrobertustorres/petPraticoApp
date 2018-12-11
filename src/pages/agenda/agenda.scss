@@ -18,9 +18,18 @@ page-agenda {
     .currentDate, .otherDate {
         padding: 5px;
     }
+    .diasDeAgenda, .otherDate {
+        padding: 5px;
+    }
     .currentDate {
         font-weight: bold;
         background-color: red;
+        color: white;
+        border-radius: 30px;
+    }
+    .diasDeAgenda {
+        font-weight: bold;
+        background-color: green;
         color: white;
         border-radius: 30px;
     }

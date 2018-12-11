@@ -8,4 +8,32 @@ page-produtos-por-loja-list {
     .corVerde {
         color: #28a54c;
     }
+    .text-valor-produto {
+        color: #0c60ee; 
+        font-size: 13px;
+    }
+    .span-style-entrega {
+        height: 20px;
+        color: #0c60ee; 
+        font-size: 13px; 
+        float: right;
+    }
+    .span-style-valor-frete {
+        height: 20px; 
+        font-size: 13px; 
+        float: right;
+    }
+    .span-style-valor-produto {
+        color: #0c60ee; 
+        font-size: 13px;
+    }
+    .span-style-apartir {
+        height: 20px;
+        color: #69717d;
+        margin-top: 10px;
+    }
+    .span-style-isatendimento {
+        height: 20px; 
+        font-size: 13px;
+    }
 }

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, LoadingController, ToastController, AlertController, ModalController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, LoadingController, ToastController, AlertController, ModalController, Platform } from 'ionic-angular';
 import { FormBuilder,	FormGroup, Validators } from '@angular/forms';
 import { Constants } from '../../app/constants';
 
@@ -45,10 +45,12 @@ export class MeuEnderecoPage {
               private estadosService: EstadosService, 
               private cidadesService: CidadesService, 
               public modalCtrl: ModalController,
+              public platform: Platform,
               public navParams: NavParams) {
     this.usuarioDetalheEntity = new UsuarioDetalheEntity();
     this.enderecoEntity = new EnderecoEntity();
     this.tabBarElement = document.querySelector('.tabbar.show-tabbar');
+    this.platform.registerBackButtonAction(()=>this.myHandlerFunction());
 
   }
 
@@ -83,6 +85,14 @@ export class MeuEnderecoPage {
 
   ionViewWillLeave() {
     this.tabBarElement.style.display = 'flex';
+  }
+
+  // se o loading estiver ativo, permite fechar o loading e voltar à tela anterior
+  myHandlerFunction(){
+    if(this.loading) {
+      this.loading.dismiss();
+      this.navCtrl.pop();
+    }
   }
 
   presentToast() {

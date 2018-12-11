@@ -2,6 +2,7 @@ page-detalhe-produto {
     .imagem-detalhes-produto {
         width: 100%;
         height: 100%;
+        margin-top: 20px;
     }
     .hide {
         display: none;
@@ -24,5 +25,14 @@ page-detalhe-produto {
         float: right;
         font-weight: 500;
         color:#234ED8;
+    }
+    .p-style-total {
+        color:#69717d; 
+        font-weight: 500; 
+        margin-top: 10px;
+    }
+    .span-style {
+        color:#234ED8; 
+        float: right;
     }
 }

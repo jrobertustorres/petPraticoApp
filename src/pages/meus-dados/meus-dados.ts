@@ -1,5 +1,5 @@
 import { Component, OnInit, EventEmitter } from '@angular/core';
-import { IonicPage, NavController, NavParams, LoadingController, AlertController, ToastController, ModalController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, LoadingController, AlertController, ToastController, ModalController, Platform } from 'ionic-angular';
 import { Constants } from '../../app/constants';
 import { FormBuilder,	FormGroup, Validators } from '@angular/forms';
 
@@ -41,12 +41,14 @@ export class MeusDadosPage implements OnInit {
               private usuarioService: UsuarioService,
               private formBuilder: FormBuilder,
               private toastCtrl: ToastController,
+              public platform: Platform,
               public modalCtrl: ModalController) {
 
     this.usuarioDetalheEntity = new UsuarioDetalheEntity();
     this.usuarioEntity = new UsuarioEntity();
     this.tabBarElement = document.querySelector('.tabbar.show-tabbar');
     this.isCadastroCompleto = localStorage.getItem(Constants.IS_CADASTRO_COMPLETO);
+    this.platform.registerBackButtonAction(()=>this.myHandlerFunction());
 
   }
 
@@ -84,6 +86,14 @@ export class MeusDadosPage implements OnInit {
 
   ionViewWillLeave() {
     this.tabBarElement.style.display = 'flex';
+  }
+
+  // se o loading estiver ativo, permite fechar o loading e voltar à tela anterior
+  myHandlerFunction(){
+    if(this.loading) {
+      this.loading.dismiss();
+      this.navCtrl.pop();
+    }
   }
 
   presentToast() {

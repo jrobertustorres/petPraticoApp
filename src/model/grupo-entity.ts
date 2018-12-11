@@ -5,6 +5,7 @@ export class GrupoEntity {
   public nomeCategoria: string;
   public grupo: string;
   public status: boolean;
+  public limiteDados: number;
 
   constructor(){
   }

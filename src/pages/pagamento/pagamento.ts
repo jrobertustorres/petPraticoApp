@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, LoadingController, AlertController, ModalController, ToastController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, LoadingController, AlertController, ModalController, ToastController, Platform } from 'ionic-angular';
 import { FormBuilder,	FormGroup } from '@angular/forms';
 import { Constants } from '../../app/constants';
 
@@ -44,11 +44,13 @@ export class PagamentoPage {
               private formBuilder: FormBuilder,
               public modalCtrl: ModalController,
               private toastCtrl: ToastController,
+              public platform: Platform,
               public navParams: NavParams) {
     this.idPedido = navParams.get('idPedido');
     this.idFornecedor = navParams.get('idFornecedor');
     this.pedidoEntity = new PedidoEntity();
     this.tabBarElement = document.querySelector('.tabbar.show-tabbar');
+    this.platform.registerBackButtonAction(()=>this.myHandlerFunction());
   }
   
   ngOnInit() {
@@ -65,6 +67,14 @@ export class PagamentoPage {
 
   ionViewWillLeave() {
     this.tabBarElement.style.display = 'flex';
+  }
+
+  // se o loading estiver ativo, permite fechar o loading e voltar à tela anterior
+  myHandlerFunction(){
+    if(this.loading) {
+      this.loading.dismiss();
+      this.navCtrl.pop();
+    }
   }
 
   presentToast() {
