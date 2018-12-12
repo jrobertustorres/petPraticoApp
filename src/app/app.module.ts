@@ -46,6 +46,7 @@ import { EnderecoEntity } from '../model/endereco-entity';
 import { DiaAgendaAtendimentoEntity } from '../model/dia-agenda-atendimento-entity';
 import { HorarioAtendimentoListEntity } from '../model/horario-atendimento-list-entity';
 import { HorarioAtendimentoEntity } from '../model/horario-atendimento-entity';
+import { ItemPedidoListServicoEntity } from '../model/item-pedido-list-servico-entity';
 
 //SERVICES
 import { GrupoService } from '../providers/grupo-service';
@@ -216,6 +217,7 @@ import { ServicosAdicionaisListPage } from '../pages/servicos-adicionais-list/se
     DiaAgendaAtendimentoEntity,
     HorarioAtendimentoListEntity,
     HorarioAtendimentoEntity,
+    ItemPedidoListServicoEntity,
     {provide: LOCALE_ID, useValue: 'pt-BR'},
     {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]

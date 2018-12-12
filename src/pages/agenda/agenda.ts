@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, AlertController, LoadingController, Platform } from 'ionic-angular';
-// import { FormBuilder,	FormGroup, Validators } from '@angular/forms';
+import { IonicPage, NavController, NavParams, AlertController, LoadingController, Platform, Events } from 'ionic-angular';
+import { Constants } from '../../app/constants';
 import { Calendar } from '@ionic-native/calendar';
 
 //ENTITIES
@@ -8,10 +8,12 @@ import { DiaAgendaAtendimentoEntity } from '../../model/dia-agenda-atendimento-e
 import { HorarioAtendimentoEntity } from '../../model/horario-atendimento-entity';
 import { ProdutoFornecedorEntity } from '../../model/produto-fornecedor-entity';
 import { HorarioAtendimentoListEntity } from '../../model/horario-atendimento-list-entity';
-// import { HorarioAtendimentoListEntity } from '../../model/horario-atendimento-list-entity';
+import { ItemPedidoEntity } from '../../model/item-pedido-entity';
+import { ItemPedidoListServicoEntity } from '../../model/item-pedido-list-servico-entity';
 
 //SERVICES
 import { ServicoService } from '../../providers/servico-service';
+import { CarrinhoService } from '../../providers/carrinho-service';
 
 @IonicPage()
 @Component({
@@ -21,19 +23,24 @@ import { ServicoService } from '../../providers/servico-service';
 export class AgendaPage {
   tabBarElement: any;
   private loading = null;
-  // public agendaForm: FormGroup;
   private idProdutoFornecedor: number;
   private nomeProduto: string;
+  private idFornecedor: number;
   private valor: string;
   private diaAgendaAtendimentoEntity: DiaAgendaAtendimentoEntity;
   private horarioAtendimentoEntity: HorarioAtendimentoEntity;
   private produtoFornecedorEntity: ProdutoFornecedorEntity;
   private horarioAtendimentoListEntity: HorarioAtendimentoListEntity;
+  private itemPedidoEntity: ItemPedidoEntity;
+  private itemPedidoListServicoEntity: ItemPedidoListServicoEntity;
   private horarioAtendimentoList: any;
   private diaAgendaAtendimentoList: any;
   private listIdProdutoFornecedor: any[];
   private outrosServicosList: any;
   private dataAtendimento: any;
+  private diaDisponivel: string;
+  private diaSelecionado: string;
+  private dataHorarioAgenda: any;
   
   date: any;
   daysInThisMonth: any;
@@ -43,9 +50,7 @@ export class AgendaPage {
   currentMonth: any;
   currentYear: any;
   currentDate: any;
-
   diasDeAgendaServidor: any;
-  // dataCompleta: any;
 
   eventList: any;
   selectedEvent: any;
@@ -57,27 +62,26 @@ export class AgendaPage {
               public alertCtrl: AlertController,
               public loadingCtrl: LoadingController,
               private servicoService: ServicoService,
+              private carrinhoService: CarrinhoService,
               public platform: Platform,
-              // private formBuilder: FormBuilder,
+              private events: Events,
               public navParams: NavParams) {
     this.tabBarElement = document.querySelector('.tabbar.show-tabbar');
-    // this.idProdutoFornecedor = navParams.get("idProdutoFornecedor");
     this.nomeProduto = navParams.get("nomeProduto");
+    this.idFornecedor = navParams.get("idFornecedor");
     this.listIdProdutoFornecedor = navParams.get("listIdProdutoFornecedor");
     this.valor = navParams.get("valor");
     this.diaAgendaAtendimentoEntity = new DiaAgendaAtendimentoEntity();
     this.horarioAtendimentoEntity = new HorarioAtendimentoEntity();
     this.produtoFornecedorEntity = new ProdutoFornecedorEntity();
     this.horarioAtendimentoListEntity = new HorarioAtendimentoListEntity();
+    this.itemPedidoEntity = new ItemPedidoEntity();
+    this.itemPedidoListServicoEntity = new ItemPedidoListServicoEntity();
     this.platform.registerBackButtonAction(()=>this.myHandlerFunction());
 
-    console.log(this.listIdProdutoFornecedor);
   }
 
   ngOnInit() {
-    // this.agendaForm = this.formBuilder.group({
-    //   'idProdutoFornecedor': [''],
-    // });
   }
 
   ionViewWillEnter() {
@@ -85,10 +89,9 @@ export class AgendaPage {
     
     this.date = new Date();
     this.monthNames = ["Janeiro","Fevereiro","Março","Abril","Maio","Junho","Julho","Agosto","Setembro","Outubro","Novembro","Dezembro"];
-    this.verificaHorarioAtendimento();
-    // this.findProdutoFornecedorByProdutoESubGrupo();
     this.getDaysOfMonth();
-    this.loadEventThisMonth();
+    this.verificaHorarioAtendimento();
+    // this.loadEventThisMonth();
   }
 
   ionViewWillLeave() {
@@ -110,20 +113,13 @@ export class AgendaPage {
     this.currentMonth = this.monthNames[this.date.getMonth()];
     this.currentYear = this.date.getFullYear();
 
-    // var teste = new Date(this.date.getFullYear(), this.date.getMonth(), 1);
-    // this.dataCompleta = new Date(this.date.getFullYear(), this.date.getMonth());
-
-    console.log(this.currentMonth);
-    console.log(this.currentYear);
-
     if(this.date.getMonth() === new Date().getMonth()) {
       this.currentDate = new Date().getDate();      
     } else {
       this.currentDate = 999;
     }
-  
+
     var firstDayThisMonth = new Date(this.date.getFullYear(), this.date.getMonth(), 1).getDay();
-    // console.log(new Date(this.date.getFullYear(), this.date.getMonth()));
     var prevNumOfDays = new Date(this.date.getFullYear(), this.date.getMonth(), 0).getDate();
     for(var i = prevNumOfDays-(firstDayThisMonth-1); i <= prevNumOfDays; i++) {
       this.daysInLastMonth.push(i);
@@ -133,7 +129,6 @@ export class AgendaPage {
     for (var i = 0; i < thisNumOfDays; i++) {
       // this.daysInThisMonth.push(i+1); // original
       let dia = i+1;
-      // let dataCompleta = 
       this.daysInThisMonth.push({dia, 'seleciona': false});
       
     }
@@ -150,78 +145,63 @@ export class AgendaPage {
       }
     }
   }
-
+  
   goToLastMonth() {
     this.date = new Date(this.date.getFullYear(), this.date.getMonth(), 0);
     this.getDaysOfMonth();
+    if(this.date.getMonth() === new Date().getMonth()) {
+      this.verificaHorarioAtendimento();
+    }
   }
-
+  
   goToNextMonth() {
     this.date = new Date(this.date.getFullYear(), this.date.getMonth()+2, 0);
     this.getDaysOfMonth();
+    if(this.date.getMonth() === new Date().getMonth()) {
+      this.verificaHorarioAtendimento();
+    }
   }
 
-  loadEventThisMonth() {
-    this.eventList = new Array();
-    var startDate = new Date(this.date.getFullYear(), this.date.getMonth(), 1);
-    var endDate = new Date(this.date.getFullYear(), this.date.getMonth()+1, 0);
-    this.calendar.listEventsInRange(startDate, endDate).then(
-      (msg) => {
-        msg.forEach(item => {
-          this.eventList.push(item);
-        });
-      },
-      (err) => {
-        console.log(err);
-      }
-    );
-  }
+  // loadEventThisMonth() {
+  //   this.eventList = new Array();
+  //   var startDate = new Date(this.date.getFullYear(), this.date.getMonth(), 1);
+  //   var endDate = new Date(this.date.getFullYear(), this.date.getMonth()+1, 0);
+  //   this.calendar.listEventsInRange(startDate, endDate).then(
+  //     (msg) => {
+  //       msg.forEach(item => {
+  //         this.eventList.push(item);
+  //       });
+  //     },
+  //     (err) => {
+  //       console.log(err);
+  //     }
+  //   );
+  // }
 
-  checkEvent(day) {
-    var hasEvent = false;
-    var thisDate1 = this.date.getFullYear()+"-"+(this.date.getMonth()+1)+"-"+day+" 00:00:00";
-    var thisDate2 = this.date.getFullYear()+"-"+(this.date.getMonth()+1)+"-"+day+" 23:59:59";
-    this.eventList.forEach(event => {
-      if(((event.startDate >= thisDate1) && (event.startDate <= thisDate2)) || ((event.endDate >= thisDate1) && (event.endDate <= thisDate2))) {
-        hasEvent = true;
-      }
-    });
-    return hasEvent;
-  }
+  // checkEvent(day) {
+  //   var hasEvent = false;
+  //   var thisDate1 = this.date.getFullYear()+"-"+(this.date.getMonth()+1)+"-"+day+" 00:00:00";
+  //   var thisDate2 = this.date.getFullYear()+"-"+(this.date.getMonth()+1)+"-"+day+" 23:59:59";
+  //   this.eventList.forEach(event => {
+  //     if(((event.startDate >= thisDate1) && (event.startDate <= thisDate2)) || ((event.endDate >= thisDate1) && (event.endDate <= thisDate2))) {
+  //       hasEvent = true;
+  //     }
+  //   });
+  //   return hasEvent;
+  // }
 
   selectDate(day) {
     this.isSelected = false;
     this.selectedEvent = new Array();
-
-    // this.dataCompleta = this.date.getFullYear()+"-"+(this.date.getMonth()+1)+"-"+day+" 00:00:00";
-    // this.dataCompleta = new Date(this.date.getFullYear(), this.date.getMonth())+"-"+day.dia+" 00:00:00";
     this.dataAtendimento = new Date(this.date.getFullYear(), this.date.getMonth(), day.dia);
-    // this.dataCompleta = new Date(this.date.getFullYear(), this.date.getMonth());
-    console.log(this.dataAtendimento);
-
     this.horarioAtendimentoByProdutoFornecedor();
 
-    // Sat Dec 01 2018 00:00:00 GMT-0200 (Horário de Verão de Brasília)
+    // var thisDate1 = this.date.getFullYear()+"-"+(this.date.getMonth()+1)+"-"+day.dia+" 00:00:00";
 
-    // console.log(new Date());
-
-    // var thisDate1 = this.date.getFullYear()+"-"+(this.date.getMonth()+1)+"-"+day+" 00:00:00";
-    // var thisDate2 = this.date.getFullYear()+"-"+(this.date.getMonth()+1)+"-"+day+" 23:59:59";
-
-    // this.findProdutoFornecedorByProdutoESubGrupo();
-
-    // this.day = day;
-    // this.dataAtendimento = new Date(day);
-    // this.dataAtendimento = new Date('Mon Dec 10 2018 15:49:27 GMT-0200 (Horário de Verão de Brasília)');
-
-    console.log('select day ', day);
-    
-    // this.eventList.forEach(event => {
-    //   if(((event.startDate >= thisDate1) && (event.startDate <= thisDate2)) || ((event.endDate >= thisDate1) && (event.endDate <= thisDate2))) {
-    //     this.isSelected = true;
-    //     this.selectedEvent.push(event);
-    //   }
-    // });
+    // console.log(thisDate1);
+    // console.log(day.dia);
+    // console.log(this.date.getMonth());
+    this.diaSelecionado = day.dia+"/"+(this.date.getMonth()+1);
   }
 
   // deleteEvent(evt) {
@@ -304,13 +284,9 @@ export class AgendaPage {
       
       this.horarioAtendimentoEntity.listIdProdutoFornecedor = this.listIdProdutoFornecedor;
 
-      console.log(JSON.stringify(this.horarioAtendimentoEntity));
-
       this.servicoService.verificaHorarioAtendimentoByProdutoFornecedor(this.horarioAtendimentoEntity)
       .then((horarioAtendimentoResult: DiaAgendaAtendimentoEntity) => {
         this.diaAgendaAtendimentoList = horarioAtendimentoResult;
-
-        // console.log(this.horarioAtendimentoList);
 
         this.printaCorDia();
 
@@ -331,18 +307,14 @@ export class AgendaPage {
   }
 
   printaCorDia(){
-    
     for (let diaCalendario of this.daysInThisMonth) {
       for (let diaAgenda of this.diaAgendaAtendimentoList) {
-        // this.diasDeAgendaServidor = new Date(diaAgenda.dataAgenda);
         this.diasDeAgendaServidor = new Date(diaAgenda.dataAgenda).getDate();
         if(diaCalendario.dia == this.diasDeAgendaServidor) {
           diaCalendario.seleciona = true;
         }
       }
-      
     }
-
   }
 
   horarioAtendimentoByProdutoFornecedor() {
@@ -358,8 +330,7 @@ export class AgendaPage {
       this.servicoService.horarioAtendimentoByProdutoFornecedor(this.horarioAtendimentoEntity)
       .then((horarioAtendimentoResult: HorarioAtendimentoListEntity) => {
         this.horarioAtendimentoList = horarioAtendimentoResult;
-
-        console.log(this.horarioAtendimentoList);
+        this.diaDisponivel = this.horarioAtendimentoList[0].dia;
 
         this.loading.dismiss();
       }, (err) => {
@@ -375,6 +346,105 @@ export class AgendaPage {
       }
       console.log(err);
     }
+  }
+
+  selecionaHorario(horarioAtendimentoList) {
+    let hora = new Date(horarioAtendimentoList.horarioAgenda).getHours();
+    let date = new Date(new Date(horarioAtendimentoList.dataAgenda));
+    date.setHours(hora, 0, 0);
+    this.dataHorarioAgenda = date.toString();
+  }
+
+  addCarrinho() {
+    try {
+
+      if ((localStorage.getItem(Constants.ID_FORNECEDOR_ATUAL_CARRINHO) == null) || 
+          this.idFornecedor == parseInt(localStorage.getItem(Constants.ID_FORNECEDOR_ATUAL_CARRINHO))) {
+
+          this.loading = this.loadingCtrl.create({
+            content: 'Adicionando...'
+          });
+          this.loading.present();
+  
+          this.itemPedidoListServicoEntity.listIdProdutoFornecedor = this.listIdProdutoFornecedor;
+          this.itemPedidoListServicoEntity.dataHorarioAgenda = this.dataHorarioAgenda;
+
+          console.log(JSON.stringify(this.itemPedidoListServicoEntity));
+
+          this.carrinhoService.adicionaItemPedidoServicoCarrinho(this.itemPedidoListServicoEntity)
+          .then((itemPedidoResult: ItemPedidoEntity) => {
+            localStorage.setItem(Constants.QTD_ITENS_CARRINHO, JSON.stringify(itemPedidoResult.qtdItemCarrinho));
+            localStorage.setItem(Constants.ID_FORNECEDOR_ATUAL_CARRINHO, JSON.stringify(itemPedidoResult.idFornecedor));
+    
+            this.loading.dismiss();
+            this.showConfirmItemCarrinho();
+          }, (err) => {
+            this.loading.dismiss();
+            this.alertCtrl.create({
+              subTitle: err.message,
+              buttons: ['OK']
+            }).present();
+          });
+
+      } else {
+        this.alertaFornecedorCarrinho();
+      }
+
+    }catch (err){
+      if(err instanceof RangeError){
+      }
+      console.log(err);
+    }
+}
+
+alertaFornecedorCarrinho() {
+  const alert = this.alertCtrl.create({
+    title: 'Atenção!',
+    subTitle: 'Já existe itens de outra loja em seu carrinho de compras. \nFinalze a compra antes de inserir serviços desta loja.',
+    buttons: ['OK']
+  });
+  alert.present();
+}
+
+showConfirmItemCarrinho() {
+  let qtd = localStorage.getItem(Constants.QTD_ITENS_CARRINHO);
+  let labelItem = parseInt(qtd) == 1 ? 'item' : 'itens';
+  
+  const confirm = this.alertCtrl.create({
+    title: 'Item adicionando ao carrinho',
+    message: 'Você possui ' + localStorage.getItem(Constants.QTD_ITENS_CARRINHO) +' '+ labelItem + ' em seu \ncarrinho de compras',
+    buttons: [
+      {
+        text: 'VISUALIZAR CARRINHO',
+        handler: () => {
+          this.navCtrl.popToRoot().then(() => {
+            this.events.publish('fromDetalhe:go');
+            let currentIndex = this.navCtrl.getActive().index;
+            this.navCtrl.parent.select(2).then(() => {
+            });
+          });
+
+        }
+      },
+      {
+        text: 'CONTINUAR COMPRANDO',
+        handler: () => {
+          this.navCtrl.popToRoot().then(() => {
+            this.events.publish('fromDetalhe:go');
+            let currentIndex = this.navCtrl.getActive().index;
+            this.navCtrl.parent.select(0).then(() => {
+              console.log(currentIndex);
+            });
+          });
+        }
+      }
+    ]
+  });
+  confirm.present();
+}
+
+  continuarCarrinho() {
+    // this.navCtrl.push(PagamentoPage, {idPedido: this.meusPedidoEntity.idPedido, idFornecedor: this.meusPedidoEntity.idFornecedor});
   }
 
 }

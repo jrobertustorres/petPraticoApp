@@ -107,7 +107,7 @@ export class ProdutosPorLojaListPage {
     if (isProduto) {
       this.openDetalheProdutoPage(idProduto, idFornecedor);
     } else {
-      this.openServicosAdicionaisPage(idProdutoFornecedor, nomeProduto, valor);
+      this.openServicosAdicionaisPage(idProdutoFornecedor, nomeProduto, valor, idFornecedor);
       // this.openAgendaPage(idProdutoFornecedor, nomeProduto, valor);
     }
   }
@@ -119,12 +119,13 @@ export class ProdutosPorLojaListPage {
     })
   }
 
-  openServicosAdicionaisPage(idProdutoFornecedor, nomeProduto, valor) {
+  openServicosAdicionaisPage(idProdutoFornecedor, nomeProduto, valor, idFornecedor) {
     this.navCtrl.push(ServicosAdicionaisListPage, {
       idProdutoFornecedor: idProdutoFornecedor,
       nomeFantasiaFornecedor: this.nomeFantasiaFornecedor,
       nomeProduto: nomeProduto,
-      // valor: valor
+      valor: valor,
+      idFornecedor: idFornecedor
     })
   }
 

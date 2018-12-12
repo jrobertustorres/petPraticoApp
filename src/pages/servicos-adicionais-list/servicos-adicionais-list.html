@@ -12,34 +12,25 @@
 </ion-header>
 
 <ion-content>
-    <!-- <ion-card style="border: 2px solid yellow; text-align: center;" *ngIf="outrosServicosList?.length > 0">
-        <ion-card-content>
-          <span>Você pode adicionar mais serviços desta loja</span>
-        </ion-card-content>
-    </ion-card> -->
-    <!-- <form [formGroup]="outrosServicosForm" (ngSubmit)="submeterDadosAgenda()"> -->
-
-    <ion-item>
+    <ion-item text-wrap>
         <ion-avatar item-start *ngIf="!isProduto">
             <img *ngIf="!imagemProduto" src="assets/imgs/no-photo.png" />
             <img *ngIf="imagemProduto" src="{{ imagemProduto }}" />
         </ion-avatar>
+        <h4 style="color: #999;">{{ nomeFantasiaFornecedor }}</h4>
         <h4>{{ nomeProduto }}</h4>
-        <h4>{{ nomeFantasiaFornecedor }}</h4>
+        <p><span style="color: #999;">Valor:</span> <span class="text-valor-produto">{{ valor | currency:'BRL' }}</span></p>
+        <p><span class="text-produto">Total:</span> <span class="text-valor-produto">{{ priceTotal | currency:'BRL' }}</span></p>
     </ion-item>
     <p style="text-align: center;" ><span class="text-produto"> Você pode adicionar mais serviços desta loja</span></p>
     <hr class="hr10">
-    
 
         <ion-list text-wrap>
           <ion-item *ngFor="let servico of outrosServicosList">
             <ion-label style="font-size: 14px;">{{servico.nomeProduto}}<span style="float: right;">{{servico.valor | currency:'BRL'}}</span></ion-label>
-            <!-- <ion-checkbox formControlName="idProdutoFornecedor" [(ngModel)]="outrosServicosList.idProdutoFornecedor" (click)="getServicos(outrosServicosList.idProdutoFornecedor)"></ion-checkbox> -->
             <ion-checkbox (click)="getServicos(servico.idProdutoFornecedor)"></ion-checkbox>
-            <!-- <ion-checkbox (click)="fornecedoresChecked(fornecedor.idFornecedor, fornecedor.isAtendimento)"></ion-checkbox>   -->
         </ion-item>
         </ion-list>
-    <!-- </form> -->
 
 </ion-content>
 

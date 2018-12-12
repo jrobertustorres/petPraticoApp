@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, LoadingController, AlertController, ToastController, ViewController, Events, Platform } from 'ionic-angular';
+import { Constants } from '../../app/constants';
 
 //ENTITYS
 import { ProdutoFornecedorEntity } from '../../model/produto-fornecedor-entity';
@@ -11,11 +12,10 @@ import { ItemPedidoEntity } from '../../model/item-pedido-entity';
 import { ProdutoService } from '../../providers/produto-service';
 import { FavoritosService } from './../../providers/favoritos-service';
 import { CarrinhoService } from '../../providers/carrinho-service';
-import { Constants } from '../../app/constants';
 
 //PAGES
-import { CarrinhoPage } from '../carrinho/carrinho';
-import { HomePage } from '../home/home';
+// import { CarrinhoPage } from '../carrinho/carrinho';
+// import { HomePage } from '../home/home';
 
 @IonicPage()
 @Component({
@@ -195,7 +195,6 @@ export class DetalheProdutoPage {
           buttons: ['OK']
         }).present();
       });
-
   }
 
   adicionaRemoveFavoritoDetalhes(idProduto, idFavoritos){
@@ -288,7 +287,6 @@ export class DetalheProdutoPage {
   }
 
   addCarrinho(idProdutoFornecedor) {
-
       try {
 
         if ((localStorage.getItem(Constants.ID_FORNECEDOR_ATUAL_CARRINHO) == null) || 
@@ -327,13 +325,12 @@ export class DetalheProdutoPage {
         }
         console.log(err);
       }
-
   }
 
   alertaFornecedorCarrinho() {
       const alert = this.alertCtrl.create({
         title: 'Atenção!',
-        subTitle: 'Já existe um pedido de outra loja em seu carrinho de compras. \nNão é possível inserir o produto desta loja.',
+        subTitle: 'Já existe itens de outra loja em seu carrinho de compras. \nNão é possível inserir o produto desta loja.',
         buttons: ['OK']
       });
       alert.present();

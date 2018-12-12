@@ -29,9 +29,22 @@ page-agenda {
     }
     .diasDeAgenda {
         font-weight: bold;
-        background-color: green;
+        background-color: #999;
+        // background-color: green;
         color: white;
         border-radius: 30px;
+    }
+    .currentDateBorder {
+        border: 1.5px solid #1A732D;
+        // border: 1px solid red;
+    }
+    .aviso-calendar {
+        text-align: center;
+        margin-top: 10px;
+        font-weight: 500;
+        border: 1px solid grey;
+        background-color: #EEDD82;
+        padding: 2px;
     }
     .calendar-header {
         background-color: #1a732d;

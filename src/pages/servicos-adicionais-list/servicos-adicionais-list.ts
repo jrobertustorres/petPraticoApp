@@ -1,12 +1,12 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, AlertController, LoadingController } from 'ionic-angular';
-import { FormBuilder,	FormGroup, Validators } from '@angular/forms';
 
 //ENTITIES
 import { ProdutoFornecedorEntity } from '../../model/produto-fornecedor-entity';
 
 //SERVICES
 import { ServicoService } from '../../providers/servico-service';
+import { ProdutoService } from '../../providers/produto-service';
 
 //PAGES
 import { AgendaPage } from '../../pages/agenda/agenda';
@@ -18,32 +18,40 @@ import { AgendaPage } from '../../pages/agenda/agenda';
 })
 export class ServicosAdicionaisListPage {
   private loading = null;
-  public outrosServicosForm: FormGroup;
   private produtoFornecedorEntity: ProdutoFornecedorEntity;
   private idProdutoFornecedor: number;
+  private idFornecedor: number;
   private outrosServicosList: any;
   public listIdProdutoFornecedor: number[] = [];
   public contador: number;
   public nomeFantasiaFornecedor: string;
   public nomeProduto: string;
+  public valor: string;
+  public priceTotal: number = 0;
 
   constructor(public navCtrl: NavController, 
               public navParams: NavParams,
               public alertCtrl: AlertController,
               public loadingCtrl: LoadingController,
               private servicoService: ServicoService,
-              private formBuilder: FormBuilder) {
+              private produtoService: ProdutoService) {
     this.produtoFornecedorEntity = new ProdutoFornecedorEntity();
     this.idProdutoFornecedor = navParams.get("idProdutoFornecedor");
+    this.idFornecedor = navParams.get("idFornecedor");
     this.nomeFantasiaFornecedor = navParams.get("nomeFantasiaFornecedor");
     this.nomeProduto = navParams.get("nomeProduto");
+    this.valor = navParams.get("valor");
   }
 
   ngOnInit() {
-    // this.outrosServicosForm = this.formBuilder.group({
-    //   'idProdutoFornecedor': ['']
-    // });
     this.findProdutoFornecedorByProdutoESubGrupo();
+  }
+  
+  ionViewWillEnter(){
+    this.priceTotal = JSON.parse(this.valor);
+    if (this.listIdProdutoFornecedor.indexOf(this.idProdutoFornecedor) != -1) {
+      this.listIdProdutoFornecedor.splice(this.listIdProdutoFornecedor.indexOf( this.idProdutoFornecedor),1);
+    }
   }
 
   findProdutoFornecedorByProdutoESubGrupo() {
@@ -61,8 +69,6 @@ export class ServicosAdicionaisListPage {
 
         // this.verificaHorarioAtendimento();
         // this.horarioAtendimentoByProdutoFornecedor();
-
-        console.log(this.outrosServicosList);
 
         this.loading.dismiss();
       }, (err) => {
@@ -86,18 +92,33 @@ export class ServicosAdicionaisListPage {
       this.listIdProdutoFornecedor.push(idProdutoFornecedor);
       this.contador = this.contador +1;
     }else{
-      this.listIdProdutoFornecedor.splice(this.listIdProdutoFornecedor.indexOf( idProdutoFornecedor),1);
+      this.listIdProdutoFornecedor.splice(this.listIdProdutoFornecedor.indexOf(idProdutoFornecedor),1);
       this.contador = this.contador == 0 ? this.contador : this.contador-1;
+    }
+
+    this.calculaTotal();
+  }
+  
+  calculaTotal() {
+    let aux = 0;
+    for(let i = 0; i < this.outrosServicosList.length; i++) {
+      for(let j = 0; j < this.listIdProdutoFornecedor.length; j++) {
+        if(this.listIdProdutoFornecedor[j] == this.outrosServicosList[i].idProdutoFornecedor) {
+          this.priceTotal = (this.outrosServicosList[i].valor + aux) + JSON.parse(this.valor);
+          aux = this.outrosServicosList[i].valor;
+        }
+      }
+    }
+    if(this.listIdProdutoFornecedor.length == 0) {
+      this.priceTotal = JSON.parse(this.valor);
     }
   }
   
-  // openAgendaPage(idProdutoFornecedor, nomeProduto, valor) {
   openAgendaPage() {
     this.listIdProdutoFornecedor.push(this.idProdutoFornecedor);
-    console.log(this.idProdutoFornecedor);
     this.navCtrl.push(AgendaPage, {
       listIdProdutoFornecedor: this.listIdProdutoFornecedor,
-      // idProdutoFornecedor: idProdutoFornecedor,
+      idFornecedor: this.idFornecedor,
       // nomeProduto: nomeProduto,
       // valor: valor,
     })

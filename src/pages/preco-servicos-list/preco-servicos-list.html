@@ -14,11 +14,18 @@
           </div>
       </div>
 
-        <ion-card style="border: 2px solid yellow; text-align: center;" *ngIf="servicosPrecoList?.length > 0">
+      <div text-wrap *ngIf="servicosPrecoList?.length > 0" style="text-align: center;">
+        <p>
+            <ion-icon ios="ios-information-circle" md="md-information-circle" class="text-indicativo-icon"></ion-icon>
+            <span class="text-indicativo">Serviços adicionais poderão ser incluídos <br>depois que você selecionar a loja</span>
+        </p>
+      </div>
+
+        <!-- <ion-card style="border: 2px solid yellow; text-align: center;" *ngIf="servicosPrecoList?.length > 0">
             <ion-card-content>
                 <p style="text-align: center;" ><span class="text-produto">Serviços adicionais poderão ser incluídos mais à frente</span></p>
             </ion-card-content>
-        </ion-card>
+        </ion-card> -->
 
       <ion-list>
           <ion-item *ngFor="let servico of servicosPrecoList" text-wrap (click)="validaCadastroUsuario(servico.idProduto)" 
