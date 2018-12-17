@@ -53,8 +53,6 @@
     </div>
   </div>
 
-  <!-- <hr class="hr10"> -->
-
   <ion-list radio-group *ngIf="horarioAtendimentoList?.length > 0" style="margin-bottom: 60px;">
     <ion-list-header style="background-color: #eee;">
       Horários disponíveis - {{ diaDisponivel }} {{ diaSelecionado }}
@@ -62,25 +60,10 @@
   
     <ion-item *ngFor="let horario of horarioAtendimentoList; let i = index">
       <ion-label style="font-size: 14px;">{{horario.horarioAgendaFormat}}</ion-label>
-      <ion-radio value="{{ horario }}" (ionSelect)="selecionaHorario(horario)"></ion-radio>
+      <ion-radio (ionSelect)="selecionaHorario(horario)"></ion-radio>
     </ion-item>
   </ion-list>
 
-  <!-- <div class="selected-event" *ngIf="isSelected">
-    <ion-list>
-      <ion-item *ngFor="let se of selectedEvent">
-        <ion-buttons end>
-          <button ion-button clear icon-only (click)="deleteEvent(se)">
-            <ion-icon name="close"></ion-icon>
-          </button>
-        </ion-buttons>
-        <h2>{{se.title}}</h2>
-        <h3>{{se.message}}</h3>
-        <p>Start Date: {{se.startDate}}<br>
-        Start Date: {{se.endDate}}</p>
-      </ion-item>
-    </ion-list>
-  </div> -->
 </ion-content>
 
 <ion-footer *ngIf="horarioAtendimentoList?.length > 0" style="background-color: #fff;">

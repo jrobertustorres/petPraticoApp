@@ -36,7 +36,7 @@
         <ion-item *ngFor="let favorito of favoritosList" text-wrap (click)="openProdutosPorLojaListPage(favorito.idProduto)">
             <ion-thumbnail item-start>
                 <img *ngIf="!favorito.imagem" src="assets/imgs/no-photo.png" />
-                <img *ngIf="favorito.imagem" src="{{favorito.imagem}}" class="largura-thumbnail"/>
+                <img *ngIf="favorito.imagem" src="{{favorito.imagem}}"/>
             </ion-thumbnail>
             <h5>{{favorito.produto}}</h5>
             <p><span style="color: #999;">A partir de:</span> <span style="color: #0c60ee; font-size: 13px;"> {{ favorito.apartirDe | currency:'BRL' }}</span></p>

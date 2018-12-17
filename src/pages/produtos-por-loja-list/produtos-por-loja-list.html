@@ -14,57 +14,20 @@
 <ion-content>
     <div text-wrap *ngIf="dadosProduto?.length > 0">
 
-            <!-- <ion-card>
-                    <ion-thumbnail item-start>
-                            <img *ngIf="!imagemProduto" src="assets/imgs/no-photo.png" />
-                            <img *ngIf="imagemProduto" src="{{ imagemProduto }}" class="largura-thumbnail" imageViewer/>
-                            <h4>{{ nomeProduto }}</h4>
-                        </ion-thumbnail>
-                    <ion-card-content>
-                      <ion-card-title>
-                        </ion-card-title>
-                      
-                            <p><span style="color: #999;">A partir de:</span> <span style="color: #0c60ee; font-size: 13px;">{{ menorValor | currency:'BRL' }}</span></p>
-                      
-                    </ion-card-content>
-                  </ion-card> -->
-
-            <ion-item>
-                <ion-thumbnail item-start *ngIf="isProduto">
-                    <img *ngIf="!imagemProduto" src="assets/imgs/no-photo.png" />
-                    <img *ngIf="imagemProduto" src="{{ imagemProduto }}" class="largura-thumbnail" imageViewer/>
-                </ion-thumbnail>
-                <ion-avatar item-start *ngIf="!isProduto">
-                    <img *ngIf="!imagemProduto" src="assets/imgs/no-photo.png" />
-                    <img *ngIf="imagemProduto" src="{{ imagemProduto }}" />
-                </ion-avatar>
-                <h4>{{ nomeProduto }}</h4>
-                <p><span style="color: #999;">A partir de:</span> <span class="text-valor-produto">{{ menorValor | currency:'BRL' }}</span></p>
-            </ion-item>
-
-                <p style="text-align: center;" *ngIf="isProduto" ><span class="text-produto"> O produto foi encontrado nas lojas abaixo</span></p>
-                <p style="text-align: center;" *ngIf="!isProduto" ><span class="text-produto"> O serviço é oferecido nas lojas abaixo</span></p>
-
-            <!-- <div padding>
-
-            </div> -->
-
-        <!-- <ion-item>
-            <ion-thumbnail item-start>
+        <ion-item>
+            <ion-thumbnail item-start *ngIf="isProduto">
                 <img *ngIf="!imagemProduto" src="assets/imgs/no-photo.png" />
                 <img *ngIf="imagemProduto" src="{{ imagemProduto }}" class="largura-thumbnail" imageViewer/>
             </ion-thumbnail>
+            <ion-avatar item-start *ngIf="!isProduto">
+                <img *ngIf="!imagemProduto" src="assets/imgs/no-photo.png" />
+                <img *ngIf="imagemProduto" src="{{ imagemProduto }}" />
+            </ion-avatar>
             <h4>{{ nomeProduto }}</h4>
-            <p><span style="color: #999;">A partir de:</span> <span style="color: #0c60ee; font-size: 13px;">{{ menorValor | currency:'BRL' }}</span></p>
+            <p><span style="color: #999;">A partir de:</span> <span class="text-valor-produto">{{ menorValor | currency:'BRL' }}</span></p>
         </ion-item>
-
-        <ion-card-content>
-            <ion-item style="text-align: center;" *ngIf="idUsuario">
-                <p><span style="color: #0c60ee; font-size: 12px;"> O produto foi encontrado nas lojas abaixo</span></p> -->
-                <!-- <p><span style="white-space: normal;color: #69717d;font-size: 12px;"> O valor da entrega pode mudar dependendo da quantidade de itens no pedido</span></p> -->
-            <!-- </ion-item>
-        </ion-card-content> -->
-
+        <p style="text-align: center;" *ngIf="isProduto" ><span class="text-produto"> O produto foi encontrado nas lojas abaixo</span></p>
+        <p style="text-align: center;" *ngIf="!isProduto" ><span class="text-produto"> O serviço é oferecido nas lojas abaixo</span></p>
 
     </div>
 

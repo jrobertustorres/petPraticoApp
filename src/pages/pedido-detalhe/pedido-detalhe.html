@@ -1,98 +1,135 @@
-<ion-header>
-
+<ion-header no-border>
     <ion-navbar color="navBar">
         <button ion-button menuToggle>
           <ion-icon name="menu"></ion-icon>
       </button>
-        <ion-title style="margin-top: 8px; font-size: 16px;">
-            <span>Detalhes do pedido</span>
+        <ion-title>
+            <span style="font-size: 16px;">Detalhes do pedido</span>
         </ion-title>
     </ion-navbar>
-    <ion-toolbar color="navBar">
-        <ion-title>
-            <div style="text-align: center;">
-
-                <!-- <div *ngIf="meusPedidoEntity.nomeFantasiaFornecedor">
-                    <ion-card style="border-radius: 15px;">
-                        <img src="assets/imgs/no-photo.png" class="item-start custom-avatar" *ngIf="!meusPedidoEntity.logoFornecedor" style="margin-top: 10px;"/>
-                        <img src="{{ meusPedidoEntity.logoFornecedor }}" class="item-start custom-avatar" *ngIf="meusPedidoEntity.logoFornecedor" style="margin-top: 10px;"/>
-    
-                        <ion-card-content>
-                            <ion-card-title>
-                                <span style="font-size: 16px;">{{ meusPedidoEntity.nomeFantasiaFornecedor }}</span>
-                            </ion-card-title>
-                        </ion-card-content>
-                    </ion-card>
-                </div> -->
-
-
-
-                
-
-                <div *ngIf="meusPedidoEntity.nomeFantasiaFornecedor">
-                    <img src="assets/imgs/no-photo.png" class="item-start custom-avatar" *ngIf="!meusPedidoEntity.logoFornecedor" />
-                    <img src="{{ meusPedidoEntity.logoFornecedor }}" class="item-start custom-avatar" *ngIf="meusPedidoEntity.logoFornecedor" />
-                </div>
-                <div>
-                    <span style="font-size: 16px;">{{ meusPedidoEntity.nomeFantasiaFornecedor }}</span>
-                </div>
-            </div>
-        </ion-title>
-    </ion-toolbar>
-
 </ion-header>
 
+<ion-content>
+    <ion-item no-lines *ngIf="meusPedidoEntity.nomeFantasiaFornecedor" style="background-color: #633492;">
+        <ion-avatar item-start *ngIf="!isProduto">
+            <img src="assets/imgs/no-photo.png" class="item-start custom-avatar-pedido" *ngIf="!meusPedidoEntity.logoFornecedor" />
+            <img src="{{ meusPedidoEntity.logoFornecedor }}" class="item-start custom-avatar-pedido" *ngIf="meusPedidoEntity.logoFornecedor" imageViewer/>
+        </ion-avatar>
+        <h4 style="color: #fff;">{{ meusPedidoEntity.nomeFantasiaFornecedor }}</h4>
+    </ion-item>
 
-<!-- <ion-content style="margin-top: 33%;"> -->
-<ion-content style="margin-top: 9%;">
+    <div style="margin-bottom: 70px;" *ngIf="meusPedidoEntity.nomeFantasiaFornecedor">
+        <div>
+            <ion-item-divider class="content-stable">
+                <ion-icon ios="ios-cube" md="md-cube"></ion-icon> Pedido: #{{ meusPedidoEntity.idPedido }}
+            </ion-item-divider>
 
-    <div *ngIf="meusPedidoEntity.nomeFantasiaFornecedor">
-        <ion-item-divider class="content-stable">
-            <ion-icon ios="ios-cube" md="md-cube"></ion-icon> Pedido: #{{ meusPedidoEntity.idPedido }}
-        </ion-item-divider>
+            <ion-list>
+                <ion-item text-wrap *ngFor="let item of itensPedido" style="padding: 0; padding-top: 1px;">
 
-        <ion-list>
-            <ion-item text-wrap *ngFor="let item of itensPedido" style="padding: 0; margin-bottom: -10px;">
+                    <ion-grid>
+                        <ion-row>
+                            <ion-col col-8>
+                                <span style="color: #000; font-size: 13px;">
+                                    {{ item.quantidadeItem }} x {{ item.nomeProduto }}
+                                </span>
+                            </ion-col>
+                            <ion-col col-4>
+                                <span style="color: #000; float: right; font-size: 13px;">
+                                    R$ {{ item.valorTotalFormat }}
+                                </span>
+                            </ion-col>
+                        </ion-row>
+                    </ion-grid>
 
-                <ion-grid>
-                    <ion-row>
-                        <ion-col col-8>
-                            <span style="color: #000; font-size: 13px;">
-                          {{ item.quantidadeItem }} x {{ item.nomeProduto }}
-                      </span>
-                        </ion-col>
-                        <ion-col col-4>
-                            <span style="color: #000; float: right; font-size: 13px;">
-                          R$ {{ item.valorTotalFormat }}
-                      </span>
-                        </ion-col>
-                    </ion-row>
-                </ion-grid>
+                </ion-item>
+            </ion-list>
+        </div>
 
-            </ion-item>
-        </ion-list>
-        <hr>
-        <div style="padding: 0px 9px 0px;">
+        <hr class="hr10">
+
+        <div style="padding-left: 16px; padding-right: 16px;">
+            
+            <p>
+                <span>Taxa de entrega </span>
+                <span style="float: right; text-transform: lowercase;" *ngIf="meusPedidoEntity.valorFrete > 0">R$ {{ meusPedidoEntity.valorFreteFormat }}</span>
+                <span style="color: #234ED8; float: right; font-size: 13px;" *ngIf="meusPedidoEntity.valorFrete == 0">
+                    Entrega grátis
+                </span>
+            </p>
+            
+            <p>
+                <span>Valor desconto </span>
+                <span style="float: right;" *ngIf="meusPedidoEntity.valorDescontoFormat">{{ meusPedidoEntity.valorDescontoFormat }}</span>
+                <span style="float: right;" *ngIf="!meusPedidoEntity.valorDescontoFormat">0,00</span>
+            </p>
+
+            <p>
+                <b><span>Total: </span><span style="float: right;">R$ {{ meusPedidoEntity.valorTotalPedidoFormat }}</span></b>
+            </p>
+                
+        </div>
+
+        <hr class="hr10">
+
+        <div style="padding-left: 16px; padding-right: 16px;">
+            <p>
+                <b><span style="color: #484848;"><ion-icon ios="ios-pin" md="md-pin"></ion-icon> Endereço de entrega</span></b>
+            </p>
+            <p>
+                <span>
+                    {{ meusPedidoEntity.endereco }}
+                </span>
+            </p>
+        </div>
+        <hr class="hr10">
+
+        <div style="padding-left: 16px; padding-right: 16px;">
+            <p>
+                <b><span style="color: #484848;"><ion-icon ios="ios-information-circle" md="md-information-circle"></ion-icon> Mais informações</span></b>
+            </p>
+            <p>
+                <span>
+                    Data do pedido:
+                </span>
+                <span>
+                    {{ meusPedidoEntity.dataPedidoFormat }}
+                </span>
+            </p>
+            <p>
+                <span>
+                    Tipo de pagamento:
+                </span>
+                <span>
+                    {{ meusPedidoEntity.tipoPagamento }}
+                </span>
+            </p>
+        </div>
+            
+        <!-- <div padding>
             <p>
                 <span style="color: #000">
-                Taxa de entrega:
-            </span>
-                <span style="color: #000; float: right; font-size: 13px;" *ngIf="meusPedidoEntity.valorFrete > 0">
-                R$ {{ meusPedidoEntity.valorFreteFormat }}
-              </span>
+                    Taxa de entrega:
+                </span>
+                <span class="span-pedido-list" *ngIf="meusPedidoEntity.valorFrete > 0">
+                    R$ {{ meusPedidoEntity.valorFreteFormat }}
+                </span>
                 <span style="color: #234ED8; float: right; font-size: 13px;" *ngIf="meusPedidoEntity.valorFrete == 0">
-                Entrega grátis
-              </span>
+                    Entrega grátis
+                </span>
             </p>
         </div>
         <div style="padding: 0px 9px 0px;">
             <p>
                 <span style="color: #000">
-                Valor desconto:
-            </span>
-                <span style="color: #000; float: right; font-size: 13px;">
-                R$ {{ meusPedidoEntity.valorDescontoFormat }}
-              </span>
+                    Valor desconto:
+                </span>
+                <span class="span-pedido-list" *ngIf="meusPedidoEntity.valorDescontoFormat" >
+                    R$ {{ meusPedidoEntity.valorDescontoFormat }}
+                </span>
+                <span class="span-pedido-list" *ngIf="!meusPedidoEntity.valorDescontoFormat">
+                    0,00
+                </span>
             </p>
         </div>
         <div style="padding: 0px 9px 0px;">
@@ -100,9 +137,9 @@
                 <span style="color: #000">
                     <strong>Total:</strong>
             </span>
-                <span style="color: #000; float: right; font-size: 13px;">
-                <strong>R$ {{ meusPedidoEntity.valorTotalPedidoFormat }}</strong>
-              </span>
+                <span class="span-pedido-list">
+                    <strong>R$ {{ meusPedidoEntity.valorTotalPedidoFormat }}</strong>
+                </span>
             </p>
         </div>
         <ion-item-divider class="content-stable">
@@ -123,25 +160,21 @@
             <p>
                 <span style="color: #000">
                     Data do pedido:
-            </span>
-                <span style="color: #000; float: right; font-size: 13px;">
-                {{ meusPedidoEntity.dataPedidoFormat }}
-              </span>
+                </span>
+                <span class="span-pedido-list">
+                    {{ meusPedidoEntity.dataPedidoFormat }}
+                </span>
             </p>
             <p>
                 <span style="color: #000">
                     Tipo de pagamento:
-            </span>
-                <span style="color: #000; float: right; font-size: 13px;">
-                {{ meusPedidoEntity.tipoPagamento }}
-              </span>
+                </span>
+                <span class="span-pedido-list">
+                    {{ meusPedidoEntity.tipoPagamento }}
+                </span>
             </p>
-        </div>
-
-
+        </div> -->
 
     </div>
-
-
 
 </ion-content>

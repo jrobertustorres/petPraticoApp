@@ -4,6 +4,7 @@ export class HorarioAtendimentoListEntity {
   public horarioAgendaFormat: string;
   public dataAgenda: Date;
   public horarioAgenda: Date;
+  public dataHorarioAgenda: Date;
 
   constructor(){
   }

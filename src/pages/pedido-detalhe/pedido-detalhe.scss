@@ -1,11 +1,22 @@
 page-pedido-detalhe {
     .custom-avatar {
-        height: 15vw;
-        width: 15vw;
+        // height: 15vw;
+        // width: 15vw;
+        height: 25vw;
+        width: 25vw;
         border: 1px solid #fff;
         border-radius: 50%;
         display: inline-block;
         margin-left: auto;
         margin-right: auto;
+    }
+    .span-pedido-list {
+        color: #000; 
+        float: right; 
+        font-size: 13px;
+    }
+    .custom-avatar-pedido {
+        width: 60px!important;
+        height: 60px!important;
     }
 }

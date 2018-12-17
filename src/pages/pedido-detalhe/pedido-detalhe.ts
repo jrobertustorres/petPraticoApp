@@ -72,8 +72,6 @@ export class PedidoDetalhePage {
         this.meusPedidoEntity = pedidoEntityResult;
         this.itensPedido = this.meusPedidoEntity.listMeusItemPedidoEntities;
 
-        console.log(this.meusPedidoEntity);
-
         this.loading.dismiss();
       }, (err) => { 
         this.loading.dismiss();

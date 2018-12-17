@@ -67,9 +67,6 @@ export class ServicosAdicionaisListPage {
       .then((outrosServicosResult: ProdutoFornecedorEntity) => {
         this.outrosServicosList = outrosServicosResult;
 
-        // this.verificaHorarioAtendimento();
-        // this.horarioAtendimentoByProdutoFornecedor();
-
         this.loading.dismiss();
       }, (err) => {
         this.loading.dismiss();

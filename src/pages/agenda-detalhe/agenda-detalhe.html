@@ -1,0 +1,37 @@
+<ion-header>
+
+    <ion-navbar color="navBar">
+        <button ion-button menuToggle>
+                  <ion-icon name="menu"></ion-icon>
+              </button>
+        <ion-title style="margin-top: 8px;">
+            <span>Detalhes da agenda</span>
+        </ion-title>
+    </ion-navbar>
+
+</ion-header>
+
+<ion-content text-wrap>
+    <ion-card *ngIf="agendaDetalheEntity.fornecedor != null" >
+        <ion-card-header>
+          {{ agendaDetalheEntity.fornecedor }}
+        </ion-card-header>
+        <hr class="hr10">
+        <ion-card-content>
+            <p>Data da agenda:</p>
+            <p class="p-agenda">{{ agendaDetalheEntity.dataAgendaFormat }}</p>
+            <p>Funcionário responsável:</p>
+            <p class="p-agenda"> {{ agendaDetalheEntity.funcionario }}</p>
+            <p>Status da agenda:</p>
+            <p class="p-agenda">{{ agendaDetalheEntity.statusAgenda }}</p>
+            <hr>
+            <p style="text-align: center;">
+              <ion-icon ios="ios-alert" md="md-alert"></ion-icon>
+              <span *ngIf="agendaDetalheEntity.statusAgenda == 'Pendente'">Você ainda não confirmou os produtos/serviços do carrinho.<br>
+                Este horário pode não estar mais disponível!
+              </span>
+            </p>
+        </ion-card-content>
+      </ion-card>
+
+</ion-content>

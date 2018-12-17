@@ -6,6 +6,7 @@ export class MeusItemPedidoEntity {
   public quantidadeItem: number;
   public valorUnitarioFormat: string;
   public valorTotalFormat: string;
+  public isProduto: boolean;
 
   public imagemProduto: string;
 

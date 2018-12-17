@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, LoadingController, AlertController, ToastController, ViewController, Events, Platform } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, LoadingController, AlertController, ToastController, Events, Platform } from 'ionic-angular';
 import { Constants } from '../../app/constants';
 
 //ENTITYS
@@ -12,10 +12,6 @@ import { ItemPedidoEntity } from '../../model/item-pedido-entity';
 import { ProdutoService } from '../../providers/produto-service';
 import { FavoritosService } from './../../providers/favoritos-service';
 import { CarrinhoService } from '../../providers/carrinho-service';
-
-//PAGES
-// import { CarrinhoPage } from '../carrinho/carrinho';
-// import { HomePage } from '../home/home';
 
 @IonicPage()
 @Component({
@@ -48,7 +44,6 @@ export class DetalheProdutoPage {
               private favoritosService: FavoritosService,
               private carrinhoService: CarrinhoService,
               private toastCtrl: ToastController,
-              private viewCtrl: ViewController,
               private events: Events,
               public platform: Platform,
               public navParams: NavParams) {
@@ -351,7 +346,7 @@ export class DetalheProdutoPage {
 
             this.navCtrl.popToRoot().then(() => {
               this.events.publish('fromDetalhe:go');
-              let currentIndex = this.navCtrl.getActive().index;
+              // let currentIndex = this.navCtrl.getActive().index;
               this.navCtrl.parent.select(2).then(() => {
                 // this.navCtrl.remove(currentIndex); 
               });
@@ -366,9 +361,9 @@ export class DetalheProdutoPage {
             this.navCtrl.popToRoot().then(() => {
               this.events.publish('fromDetalhe:go');
               // this.navCtrl.setRoot(CarrinhoPage);
-              let currentIndex = this.navCtrl.getActive().index;
+              // let currentIndex = this.navCtrl.getActive().index;
               this.navCtrl.parent.select(0).then(() => {
-                console.log(currentIndex);
+                // console.log(currentIndex);
                 // this.navCtrl.remove(currentIndex); 
               });
             });

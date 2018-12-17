@@ -1,0 +1,40 @@
+<ion-header>
+    <ion-navbar color="navBar">
+      <ion-title>
+          <span>Suas agendas</span>
+      </ion-title>
+    </ion-navbar>
+  </ion-header>
+
+<ion-content>
+
+    <div class="h2-color-cards" text-wrap padding style="margin-top: 50px;" *ngIf="agendaList?.length == 0 && idUsuario">
+        <div style="text-align: center;color: #484848;"><strong>Você não possui nenhuma agenda aberta</strong></div>
+        <div style="text-align: center;">
+            <ion-icon style="font-size: 30px;color: #484848;" ios="ios-sad" md="md-sad"></ion-icon>
+        </div>
+    </div>
+
+    <div *ngIf="!idUsuario" style="margin-top: 25px;" padding>
+        <p style="text-align: center">
+            <ion-icon ios="ios-person" md="md-person" color="navBar" style="font-size: 50px;"></ion-icon>
+        </p>
+        <p style="text-align: center">
+            <span style="color:#484848;">Faça login para acessar <br>sua agenda.</span>
+        </p>
+        <div style="text-align: center; margin-top: 20px;">
+            <button ion-button block (click)="openLoginPage()" color="navBar" class="margin-button-save span-style-color">ENTRAR OU CADASTRAR</button>
+        </div>
+    </div>
+
+    <ion-list>
+        <ion-item *ngFor="let agenda of agendaList" (click)="openDetalhesAgenda(agenda.idAgenda)">
+          <ion-avatar item-start>
+            <img src="assets/imgs/calendar.png">
+          </ion-avatar>
+          <h2>{{ agenda.fornecedor }}</h2>
+          <p>{{ agenda.dataAgendaFormat }}</p>
+        </ion-item>
+      </ion-list>
+      
+</ion-content>

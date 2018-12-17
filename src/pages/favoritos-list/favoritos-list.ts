@@ -12,8 +12,6 @@ import { FavoritoEntity } from '../../model/favorito-entity';
 import { ProdutosPorLojaListPage } from '../produtos-por-loja-list/produtos-por-loja-list';
 import { LoginPage } from '../login/login';
 
-import { CarrinhoPage } from '../carrinho/carrinho';
-
 @IonicPage()
 @Component({
   selector: 'page-favoritos-list',
@@ -113,21 +111,10 @@ export class FavoritosListPage {
       this.favoritoEntity.idFavoritos = idFavoritos;
       this.favoritosService.removerFavoritos(this.favoritoEntity)
       .then((favoritosListResult: FavoritoEntity) => {
-
-        // let index = this.favoritosList.indexOf(idFavoritos);
-        // this.favoritosList.splice(index, 1);
-
         this.showLoading = false;
         this.getListaFavoritos();
-
-        // this.loading.dismiss();
         this.toastMessage = 'O produto foi removido dos seus favoritos!';
-
         this.presentToast();
-        // setTimeout(() => {
-          // this.navCtrl.setRoot(HomePage);
-        // }, 2000);
-
       }, (err) => {
         this.loading.dismiss();
         this.alertCtrl.create({

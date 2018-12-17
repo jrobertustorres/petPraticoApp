@@ -47,6 +47,8 @@ import { DiaAgendaAtendimentoEntity } from '../model/dia-agenda-atendimento-enti
 import { HorarioAtendimentoListEntity } from '../model/horario-atendimento-list-entity';
 import { HorarioAtendimentoEntity } from '../model/horario-atendimento-entity';
 import { ItemPedidoListServicoEntity } from '../model/item-pedido-list-servico-entity';
+import { AgendaEntity } from '../model/agenda-entity';
+import { AgendaDetalheEntity } from '../model/agenda-detalhe-entity';
 
 //SERVICES
 import { GrupoService } from '../providers/grupo-service';
@@ -62,6 +64,7 @@ import { CidadesService } from '../providers/cidades-service';
 import { PagamentoService } from '../providers/pagamento-service';
 import { IndicacaoService } from '../providers/indicacao-service';
 import { ServicoService } from '../providers/servico-service';
+import { AgendaService } from '../providers/agenda-service';
 
 //PAGES
 import { HomePage } from '../pages/home/home';
@@ -93,6 +96,8 @@ import { ModalIndiqueEGanhePage } from '../pages/modal-indique-e-ganhe/modal-ind
 import { CategoriaAnimalServicoListPage } from '../pages/categoria-animal-servico-list/categoria-animal-servico-list';
 import { PrecoServicosListPage } from '../pages/preco-servicos-list/preco-servicos-list';
 import { ServicosAdicionaisListPage } from '../pages/servicos-adicionais-list/servicos-adicionais-list';
+import { AgendaListPage } from '../pages/agenda-list/agenda-list';
+import { AgendaDetalhePage } from '../pages/agenda-detalhe/agenda-detalhe';
 
 @NgModule({
   declarations: [
@@ -126,6 +131,8 @@ import { ServicosAdicionaisListPage } from '../pages/servicos-adicionais-list/se
     CategoriaAnimalServicoListPage,
     PrecoServicosListPage,
     ServicosAdicionaisListPage,
+    AgendaListPage,
+    AgendaDetalhePage,
     TabsPage
   ],
   imports: [
@@ -171,6 +178,8 @@ import { ServicosAdicionaisListPage } from '../pages/servicos-adicionais-list/se
     CategoriaAnimalServicoListPage,
     PrecoServicosListPage,
     ServicosAdicionaisListPage,
+    AgendaListPage,
+    AgendaDetalhePage,
     TabsPage
   ],
   providers: [
@@ -197,6 +206,7 @@ import { ServicosAdicionaisListPage } from '../pages/servicos-adicionais-list/se
     PagamentoService,
     IndicacaoService,
     ServicoService,
+    AgendaService,
     GrupoEntity,
     SubGrupoEntity,
     ProdutoEntity,
@@ -218,6 +228,8 @@ import { ServicosAdicionaisListPage } from '../pages/servicos-adicionais-list/se
     HorarioAtendimentoListEntity,
     HorarioAtendimentoEntity,
     ItemPedidoListServicoEntity,
+    AgendaEntity,
+    AgendaDetalheEntity,
     {provide: LOCALE_ID, useValue: 'pt-BR'},
     {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]

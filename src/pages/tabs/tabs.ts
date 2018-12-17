@@ -8,6 +8,7 @@ import { HomePage } from '../home/home';
 import { ConfiguracoesPage } from '../configuracoes/configuracoes';
 import { CarrinhoPage } from '../carrinho/carrinho';
 import { FavoritosListPage } from '../favoritos-list/favoritos-list';
+import { AgendaListPage } from '../agenda-list/agenda-list';
 
 //SERVICES
 import { CarrinhoService } from '../../providers/carrinho-service';
@@ -23,6 +24,7 @@ export class TabsPage {
   tab2Root = CarrinhoPage;
   tab3Root = ConfiguracoesPage;
   tab4Root = FavoritosListPage;
+  tab5Root = AgendaListPage;
   public qtdItensCarrinho: string;
 
   constructor(private carrinhoService: CarrinhoService,

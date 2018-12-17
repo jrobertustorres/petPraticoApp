@@ -53,7 +53,7 @@
     <ion-list *ngIf="meusPedidoEntity.idPedido != 0">
         <ion-item *ngFor="let item of itensCarrinho" text-wrap>
             <ion-thumbnail item-start>
-                <img *ngIf="!item.imagemProduto" src="assets/imgs/no-photo.png" style="width: 60px; height: 60px;" />
+                <img *ngIf="!item.imagemProduto" src="assets/imgs/no-photo.png" />
                 <img *ngIf="item.imagemProduto" src="{{ item.imagemProduto }}" imageViewer />
             </ion-thumbnail>
             <p>
@@ -61,10 +61,10 @@
             </p>
             <p>
                 <span style="color: #0c60ee; font-size: 14px;">R$ {{ item.valorTotalFormat }}</span>
+                <ion-icon ios="ios-trash" md="md-trash" style="float: right; font-size: 20px; color: red" (click)="confirmaRemoverCarrinho(item.idItemPedido);$event.stopPropagation();"></ion-icon>
             </p>
-            <ion-icon ios="ios-trash" md="md-trash" style="float: right; font-size: 20px; color: red" (click)="confirmaRemoverCarrinho(item.idItemPedido);$event.stopPropagation();"></ion-icon>
                 
-            <div style="text-align: left;">
+            <div style="text-align: left;" *ngIf="item.isProduto" >
                 <button ion-button icon-only item-end color="danger" round (click)="subtrairProduto(item);" 
                     style="width: 20px; height: 20px;">
                     <ion-icon name="remove"></ion-icon>

@@ -18,11 +18,10 @@ export class CategoriaAnimalServicoListPage {
   }
 
   openServicoList(idCategoria) {
-    // if(this.tipoServico == 1) {
-      this.navCtrl.push(PrecoServicosListPage, {
-        idCategoria: idCategoria
-      })
-    // }
+    this.navCtrl.push(PrecoServicosListPage, {
+      idCategoria: idCategoria,
+      tipoServico: this.tipoServico
+    })
   }
 
 }

@@ -21,6 +21,7 @@ import { ConfiguracoesPage } from '../configuracoes/configuracoes';
 export class PrecoServicosListPage {
   private loading = null;
   private idCategoria: number;
+  private tipoServico: number;
   private grupoEntity: GrupoEntity;
   private produtoEntity: ProdutoEntity;
   private servicosPrecoList;
@@ -37,6 +38,7 @@ export class PrecoServicosListPage {
               public platform: Platform,
               public navParams: NavParams) {
     this.idCategoria = navParams.get("idCategoria"); 
+    this.tipoServico = navParams.get("tipoServico"); 
     this.grupoEntity = new GrupoEntity();
     this.isCadastroCompleto = localStorage.getItem(Constants.IS_CADASTRO_COMPLETO);
     this.isCadastroEnderecoCompleto = localStorage.getItem(Constants.IS_CADASTRO_ENDERECO_COMPLETO);
@@ -75,7 +77,26 @@ export class PrecoServicosListPage {
         this.loading.present();
       }
 
-      this.servicoService.findPrecoProdutosByBanhoETosa(this.grupoEntity)
+      if(this.tipoServico == 1) {
+        this.retornaBanhoTosa(infiniteScroll);
+      }
+      if(this.tipoServico == 2) {
+        this.retornaConsulta(infiniteScroll);
+      }
+      if(this.tipoServico == 3) {
+        this.retornaOutrosServicos(infiniteScroll);
+      }
+
+    }catch (err){
+      if(err instanceof RangeError){
+      }
+      console.log(err);
+    }
+
+  }
+
+  retornaBanhoTosa(infiniteScroll) {
+    this.servicoService.findPrecoProdutosByBanhoETosa(this.grupoEntity)
       .then((produtosSubGruposListResult: ProdutoEntity) => {
         this.servicosPrecoList = produtosSubGruposListResult;
         if(this.grupoEntity.limiteDados == this.servicosPrecoList.length) {
@@ -98,12 +119,56 @@ export class PrecoServicosListPage {
         }).present();
       });
 
-    }catch (err){
-      if(err instanceof RangeError){
-      }
-      console.log(err);
-    }
+  }
 
+  retornaConsulta(infiniteScroll) {
+    this.servicoService.findPrecoProdutosByConsultasMedicacoes(this.grupoEntity)
+      .then((produtosSubGruposListResult: ProdutoEntity) => {
+        this.servicosPrecoList = produtosSubGruposListResult;
+        if(this.grupoEntity.limiteDados == this.servicosPrecoList.length) {
+          this.canLoadMore = false;
+        }
+        this.grupoEntity.limiteDados = this.servicosPrecoList.length;
+        if(infiniteScroll) {
+          infiniteScroll.complete();
+        }
+        if(this.loading) {
+          this.loading.dismiss();
+        }
+        
+      }, (err) => {
+        this.loading.dismiss();
+        err.message = err.message ? err.message : 'Falha ao conectar ao servidor';
+        this.alertCtrl.create({
+          subTitle: err.message,
+          buttons: ['OK']
+        }).present();
+      });
+  }
+
+  retornaOutrosServicos(infiniteScroll) {
+    this.servicoService.findPrecoProdutosByOutrosServicos(this.grupoEntity)
+      .then((produtosSubGruposListResult: ProdutoEntity) => {
+        this.servicosPrecoList = produtosSubGruposListResult;
+        if(this.grupoEntity.limiteDados == this.servicosPrecoList.length) {
+          this.canLoadMore = false;
+        }
+        this.grupoEntity.limiteDados = this.servicosPrecoList.length;
+        if(infiniteScroll) {
+          infiniteScroll.complete();
+        }
+        if(this.loading) {
+          this.loading.dismiss();
+        }
+        
+      }, (err) => {
+        this.loading.dismiss();
+        err.message = err.message ? err.message : 'Falha ao conectar ao servidor';
+        this.alertCtrl.create({
+          subTitle: err.message,
+          buttons: ['OK']
+        }).present();
+      });
   }
 
   validaCadastroUsuario(idProduto) {
@@ -148,7 +213,6 @@ export class PrecoServicosListPage {
     this.navCtrl.push(ProdutosPorLojaListPage, {
       idProduto: idProduto
     })
-  }
-  
+  } 
 
 }
