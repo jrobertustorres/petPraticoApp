@@ -89,7 +89,7 @@ export class MyApp {
           text: 'IGNORAR',
           role: 'cancel'
         }, {
-          text: 'ENTRAR ',
+          text: 'VER ',
           handler: () => {
             // this.nav.push(HomePage);
             // this.nav.parent.select(0);

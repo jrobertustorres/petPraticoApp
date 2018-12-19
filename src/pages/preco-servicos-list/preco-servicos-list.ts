@@ -40,6 +40,7 @@ export class PrecoServicosListPage {
     this.idCategoria = navParams.get("idCategoria"); 
     this.tipoServico = navParams.get("tipoServico"); 
     this.grupoEntity = new GrupoEntity();
+    this.produtoEntity = new ProdutoEntity();
     this.isCadastroCompleto = localStorage.getItem(Constants.IS_CADASTRO_COMPLETO);
     this.isCadastroEnderecoCompleto = localStorage.getItem(Constants.IS_CADASTRO_ENDERECO_COMPLETO);
     this.platform.registerBackButtonAction(()=>this.myHandlerFunction());

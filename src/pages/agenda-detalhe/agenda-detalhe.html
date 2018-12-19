@@ -14,7 +14,7 @@
 <ion-content text-wrap>
     <ion-card *ngIf="agendaDetalheEntity.fornecedor != null" >
         <ion-card-header>
-          {{ agendaDetalheEntity.fornecedor }}
+          <b style="color: #777">{{ agendaDetalheEntity.fornecedor }}</b>
         </ion-card-header>
         <hr class="hr10">
         <ion-card-content>
@@ -22,12 +22,15 @@
             <p class="p-agenda">{{ agendaDetalheEntity.dataAgendaFormat }}</p>
             <p>Funcionário responsável:</p>
             <p class="p-agenda"> {{ agendaDetalheEntity.funcionario }}</p>
+            <p *ngIf="listDescricaoServico?.length > 1" >Serviços:</p>
+            <p *ngIf="listDescricaoServico?.length == 1">Serviço:</p>
+            <p class="p-agenda" *ngFor="let descricao of listDescricaoServico"> - {{ descricao }}</p>
             <p>Status da agenda:</p>
             <p class="p-agenda">{{ agendaDetalheEntity.statusAgenda }}</p>
             <hr>
             <p style="text-align: center;">
               <ion-icon ios="ios-alert" md="md-alert"></ion-icon>
-              <span *ngIf="agendaDetalheEntity.statusAgenda == 'Pendente'">Você ainda não confirmou os produtos/serviços do carrinho.<br>
+              <span *ngIf="agendaDetalheEntity.statusAgenda == 'Pendente'">Você ainda não finalizou a compra dos produtos/serviços do carrinho.<br>
                 Este horário pode não estar mais disponível!
               </span>
             </p>

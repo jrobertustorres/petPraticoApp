@@ -20,7 +20,6 @@ import { ModalIndiqueEGanhePage } from '../modal-indique-e-ganhe/modal-indique-e
 //SERVICES
 import { IndicacaoService } from '../../providers/indicacao-service';
 import { UsuarioService } from '../../providers/usuario-service';
-import { LoginService } from '../../providers/login-service';
 
 //ENTITIES
 import { IndicacaoUsuarioEntity } from '../../model/indicacao-usuario-entity';
@@ -52,7 +51,6 @@ export class ConfiguracoesPage implements OnInit {
               private device: Device,
               private indicacaoService: IndicacaoService,
               private usuarioService: UsuarioService,
-              private loginService: LoginService,
               public events: Events,
               public alertCtrl: AlertController) {
     this.indicacaoUsuarioEntity = new IndicacaoUsuarioEntity();
@@ -60,18 +58,14 @@ export class ConfiguracoesPage implements OnInit {
   }
 
   ngOnInit() {
-    if(localStorage.getItem(Constants.ID_USUARIO)) {
-      this.estadoTema = JSON.parse(localStorage.getItem(Constants.ESTADO_TEMA)) != true ? 'Ligar' : 'Desligar';
-      this.temaChecked = JSON.parse(localStorage.getItem(Constants.ESTADO_TEMA)) != true ? false : JSON.parse(localStorage.getItem(Constants.ESTADO_TEMA));
-      // this.estadoTema = (JSON.parse(localStorage.getItem(Constants.ESTADO_TEMA)) == false 
-      //   || JSON.parse(localStorage.getItem(Constants.ESTADO_TEMA)) == null) ? 'Ligar' : 'Desligar';
-      // this.temaChecked = (JSON.parse(localStorage.getItem(Constants.ESTADO_TEMA)) == false 
-      //   || JSON.parse(localStorage.getItem(Constants.ESTADO_TEMA)) == null) ? false : true;
-    }
 
   }
 
   ionViewWillEnter() {  
+    if(localStorage.getItem(Constants.ID_USUARIO)) {
+      this.estadoTema = JSON.parse(localStorage.getItem(Constants.ESTADO_TEMA)) != true ? 'Ligar' : 'Desligar';
+      this.temaChecked = JSON.parse(localStorage.getItem(Constants.ESTADO_TEMA)) != true ? false : JSON.parse(localStorage.getItem(Constants.ESTADO_TEMA));
+    }
     this.idUsuarioLogado = localStorage.getItem(Constants.ID_USUARIO);
     this.nomeUsuarioLogado = localStorage.getItem(Constants.NOME_PESSOA);
     if(this.idUsuarioLogado) {
@@ -229,6 +223,7 @@ export class ConfiguracoesPage implements OnInit {
             localStorage.removeItem(Constants.CIDADES_POR_ESTADO);
             localStorage.removeItem(Constants.IS_CADASTRO_COMPLETO);
             localStorage.removeItem(Constants.IS_CADASTRO_ENDERECO_COMPLETO);
+            localStorage.removeItem(Constants.ESTADO_TEMA);
             this.events.publish('atualizaBadgeCarrinhoLogoutEvent:change', localStorage.getItem(Constants.QTD_ITENS_CARRINHO));
             this.navCtrl.parent.select(0);
           }

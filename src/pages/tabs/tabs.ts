@@ -1,7 +1,6 @@
 import { Component, ViewChild } from '@angular/core';
 import { Constants } from '../../app/constants';
 import { Events, Tabs } from 'ionic-angular';
-import { NavController } from 'ionic-angular/navigation/nav-controller';
 
 //PAGES
 import { HomePage } from '../home/home';
@@ -29,7 +28,6 @@ export class TabsPage {
 
   constructor(private carrinhoService: CarrinhoService,
               public events: Events,
-              private navCtrl: NavController,
               private loginService: LoginService) {
 
     this.qtdItensCarrinho = localStorage.getItem(Constants.QTD_ITENS_CARRINHO);

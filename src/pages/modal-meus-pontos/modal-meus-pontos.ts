@@ -1,12 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ViewController, LoadingController, AlertController } from 'ionic-angular';
 
-//SERVICES
-import { UsuarioService } from '../../providers/usuario-service';
-
-//ENTITIES
-import { UsuarioEntity } from '../../model/usuario-entity';
-
 @IonicPage()
 @Component({
   selector: 'page-modal-meus-pontos',
@@ -21,7 +15,6 @@ export class ModalMeusPontosPage {
               public navParams: NavParams,
               public loadingCtrl: LoadingController,
               public alertCtrl: AlertController,
-              private usuarioService: UsuarioService,
               public viewCtrl: ViewController) {
     this.qtdPontos = navParams.get('qtdPontos');
     this.dataAtualizacaoPontosFormat = navParams.get('dataAtualizacaoPontosFormat');

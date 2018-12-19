@@ -14,7 +14,6 @@ export class ModalCidadesPage {
   private loading = null;
   public idEstado: number;
   private cidades = [];
-  private aux = [];
   private cidadesPorEstado: any = [];
 
   constructor(public navCtrl: NavController, 

@@ -9,7 +9,6 @@ import { PedidoEntity } from './../../model/pedido-entity';
 
 //PAGES
 import { PedidoDetalhePage } from './../pedido-detalhe/pedido-detalhe';
-import { HomePage } from './../home/home';
 
 @IonicPage()
 @Component({

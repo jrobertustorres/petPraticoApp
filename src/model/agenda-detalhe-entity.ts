@@ -4,8 +4,10 @@ export class AgendaDetalheEntity {
       public funcionario: string;
       public fornecedor: string;
       public dataAgendaFormat: string;
-      public detalheServicoAgenda: string;
       public statusAgenda: string;
+      // public detalheServicoAgenda: string;
+
+      public listDescricaoServico: string[] = [];
 
       constructor(){
       }

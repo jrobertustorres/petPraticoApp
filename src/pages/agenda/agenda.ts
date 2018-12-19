@@ -166,9 +166,11 @@ export class AgendaPage {
     this.selectedEvent = new Array();
     this.dataAtendimento = new Date(this.date.getFullYear(), this.date.getMonth(), day.dia);
     this.diaSelecionado = day.dia+"/"+(this.date.getMonth()+1);
+    // abaixo desabilito os outros dias para não buscar a lista de horários
     for (let diaSelect of this.diasSelecionados) {
       if(diaSelect == day.dia) {
         this.horarioAtendimentoByProdutoFornecedor();
+        break;
       }
     }
   }
@@ -303,7 +305,7 @@ export class AgendaPage {
   alertaSelecioneHorario() {
     const alert = this.alertCtrl.create({
       title: 'Atenção!',
-      subTitle: 'Por favor, selecione um horário para atendimento.',
+      subTitle: 'Por favor, selecione um horário para o atendimento.',
       buttons: ['OK']
     });
     alert.present();

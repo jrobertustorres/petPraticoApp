@@ -15,7 +15,7 @@
     <ion-searchbar (search)="getProdutoByNomeList($event.srcElement.value)" placeholder="Buscar produtos ou lojas"></ion-searchbar>
 
     <ion-list>
-        <ion-item *ngFor="let produto of produtosList" text-wrap (click)="openProdutosPorLojaListPage(produto.idProduto)" 
+        <ion-item *ngFor="let produto of produtosList" text-wrap (click)="openProdutosPorLojaListPage(produto.idProduto)"
             [ngClass]="{'disableClick': !produto.disponivel || !idUsuarioLogado || isCadastroEnderecoCompleto =='false'}">
             <ion-thumbnail item-start>
                 <img *ngIf="!produto.imagem" src="assets/imgs/no-photo.png" />

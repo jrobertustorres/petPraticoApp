@@ -21,7 +21,6 @@ export class ModalBuscaProdutosPage {
   private produtoEntity: ProdutoEntity;
   private produtosList: any;
   public nomeProduto: string;
-  private refresh: boolean = false;
   tabBarElement: any;
   public idUsuarioLogado: string;
   public isCadastroCompleto: any;
@@ -69,18 +68,17 @@ export class ModalBuscaProdutosPage {
       this.getProdutoByNomeList(this.nomeProduto, infiniteScroll);
     }, 500);
   }
-  
+
   getProdutoByNomeList(nomeProduto, infiniteScroll){
-
+    
     try {
-      this.nomeProduto = nomeProduto;
-
+      this.nomeProduto = nomeProduto;      
       if (this.nomeProduto) {
-            
+        
         this.produtoEntity.limiteDados = this.produtoEntity.limiteDados ? this.produtosList.length : null;
         this.produtoEntity.produto = this.nomeProduto;
-
-        if(this.produtoEntity.limiteDados == null) {
+        
+        if(infiniteScroll == undefined) {
             this.loading = this.loadingCtrl.create({
               content: 'Aguarde...'
             });
@@ -111,7 +109,7 @@ export class ModalBuscaProdutosPage {
           });
 
       } else {
-        this.showAlert();
+        // this.showAlert();
       }
     }catch (err){
       if(err instanceof RangeError){
@@ -121,14 +119,14 @@ export class ModalBuscaProdutosPage {
 
   }
 
-  showAlert() {
-    const alert = this.alertCtrl.create({
-      title: 'Buscar produto!',
-      subTitle: 'Favor informar algum produto no campo de Busca!',
-      buttons: ['OK']
-    });
-    alert.present();
-  }
+  // showAlert() {
+  //   const alert = this.alertCtrl.create({
+  //     title: 'Buscar produto!',
+  //     subTitle: 'Favor informar algum produto no campo de Busca!',
+  //     buttons: ['OK']
+  //   });
+  //   alert.present();
+  // }
 
   openProdutosPorLojaListPage(idProduto) {
     this.navCtrl.push(ProdutosPorLojaListPage, {

@@ -1,13 +1,11 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, LoadingController, AlertController, ModalController, ToastController, Platform } from 'ionic-angular';
-import { FormBuilder,	FormGroup } from '@angular/forms';
 import { Constants } from '../../app/constants';
 
 // //ENTITIES
 import { PedidoEntity } from '../../model/pedido-entity';
 
 //SERVICES
-import { PagamentoService } from '../../providers/pagamento-service';
 import { PedidoService } from '../../providers/pedido-service';
 
 //PAGES
@@ -27,7 +25,6 @@ export class PagamentoPage {
   private tipoEntrega: any;
   private formaPagamento: any;
   tabBarElement: any;
-  public pagamentoForm: FormGroup;
   public idTipoPagamento: number = 0;
   public idTipoEntrega: string = 'ENTREGA_ECONOMICA';
   public idFormaPagamento: number;
@@ -37,11 +34,9 @@ export class PagamentoPage {
   public dadosTipoPagamento = {'idTipoPagamento': this.idTipoPagamento, 'nomeTipoPagamento': this.nomeTipoPagamento};
 
   constructor(public navCtrl: NavController, 
-              private pagamentoService: PagamentoService,
               private pedidoService: PedidoService,
               public loadingCtrl: LoadingController,
               public alertCtrl: AlertController,
-              private formBuilder: FormBuilder,
               public modalCtrl: ModalController,
               private toastCtrl: ToastController,
               public platform: Platform,

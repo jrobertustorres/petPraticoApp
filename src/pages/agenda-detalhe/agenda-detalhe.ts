@@ -16,6 +16,7 @@ export class AgendaDetalhePage {
   private idAgenda: number;
   private loading = null;
   private agendaDetalheEntity: AgendaDetalheEntity;
+  listDescricaoServico: string[];
 
   constructor(public navCtrl: NavController, 
               public loadingCtrl: LoadingController,
@@ -41,12 +42,14 @@ export class AgendaDetalhePage {
       this.agendaService.findDetalheAgenda(this.agendaDetalheEntity)
         .then((agendaDetalheResult: AgendaDetalheEntity) => {
           this.agendaDetalheEntity = agendaDetalheResult;
+          this.listDescricaoServico = this.agendaDetalheEntity.listDescricaoServico;
+
           this.loading.dismiss();
         }, (err) => {
           this.loading.dismiss();
-          err.message = err.message ? err.message : 'Falha ao conectar ao servidor';
+          // err.message = err.message ? err.message : 'Falha ao conectar ao servidor';
           this.alertCtrl.create({
-            subTitle: err.message,
+            subTitle: err.message = err.message ? err.message : 'Falha ao conectar ao servidor',
             buttons: ['OK']
           }).present();
         });

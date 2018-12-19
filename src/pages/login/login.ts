@@ -6,11 +6,9 @@ import { FormBuilder,	FormGroup, Validators } from '@angular/forms';
 import { Facebook } from '@ionic-native/facebook';
 
 //PAGE
-import { HomePage } from '../home/home';
 import { MeusDadosPage } from '../meus-dados/meus-dados';
 import { ModalTermosPage } from './../modal-termos/modal-termos';
 import { ModalPoliticaPrivacidadePage } from '../modal-politica-privacidade/modal-politica-privacidade';
-import { TabsPage } from '../tabs/tabs';
 
 //ENTITY
 import { UsuarioEntity } from '../../model/usuario-entity';
