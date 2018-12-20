@@ -22,7 +22,7 @@
             <p class="p-agenda">{{ agendaDetalheEntity.dataAgendaFormat }}</p>
             <p>Funcionário responsável:</p>
             <p class="p-agenda"> {{ agendaDetalheEntity.funcionario }}</p>
-            <p *ngIf="listDescricaoServico?.length > 1" >Serviços:</p>
+            <p *ngIf="listDescricaoServico?.length > 1">Serviços:</p>
             <p *ngIf="listDescricaoServico?.length == 1">Serviço:</p>
             <p class="p-agenda" *ngFor="let descricao of listDescricaoServico"> - {{ descricao }}</p>
             <p>Status da agenda:</p>
