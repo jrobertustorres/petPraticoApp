@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>AD_UNIT_ID_FOR_BANNER_TEST</key>
+	<string>ca-app-pub-3940256099942544/2934735716</string>
+	<key>AD_UNIT_ID_FOR_INTERSTITIAL_TEST</key>
+	<string>ca-app-pub-3940256099942544/4411468910</string>
+	<key>CLIENT_ID</key>
+	<string>438738926239-r3akgo582h04u9hj3ic895aqik1dqt2k.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.438738926239-r3akgo582h04u9hj3ic895aqik1dqt2k</string>
+	<key>API_KEY</key>
+	<string>AIzaSyD6nHIr4Zr-jZNI41-QTTse2mJGKNhswQU</string>
+	<key>GCM_SENDER_ID</key>
+	<string>438738926239</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>br.com.logiictecnologia.petpratico</string>
+	<key>PROJECT_ID</key>
+	<string>petpraticoapp</string>
+	<key>STORAGE_BUCKET</key>
+	<string>petpraticoapp.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<true></true>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<false></false>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:438738926239:ios:848d989b267e4bbc</string>
+	<key>DATABASE_URL</key>
+	<string>https://petpraticoapp.firebaseio.com</string>
+</dict>
+</plist>
