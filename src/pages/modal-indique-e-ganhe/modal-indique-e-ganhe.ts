@@ -40,6 +40,7 @@ export class ModalIndiqueEGanhePage {
   }
 
   ngOnInit() {
+    // this.getPlatform();
   }
 
   // se o loading estiver ativo, permite fechar o loading e voltar à tela anterior
@@ -49,6 +50,16 @@ export class ModalIndiqueEGanhePage {
       this.navCtrl.pop();
     }
   }
+
+  // getPlatform() {
+  //   if (this.platform.is('ios')) {
+  //     this.linkLoja = "https://play.google.com/store/apps/details?id=br.com.logiictecnologia.petpratico";
+  //   }
+    
+  //   if (this.platform.is('android')) {
+  //     this.linkLoja = "https://play.google.com/store/apps/details?id=br.com.logiictecnologia.petpratico";
+  //   }
+  // }
 
   shareAnyWhere() {
     this.loading = this.loadingCtrl.create({
@@ -63,8 +74,9 @@ export class ModalIndiqueEGanhePage {
 
       this.loading.dismiss();
 
+      
       this.socialSharing.share("Estou gostando muito do Pet Prático! Tenha todos os Pet Shops na palma de sua mão! Use o código de indicação e ganhe pontos: " + this.indicacaoUsuarioEntity.codigoIndicacao,
-      "http://www.petpratico.com.br/img/logo_shared.jpg", this.linkLoja)
+      null, "http://www.petpratico.com.br/img/logo_shared.jpg", "www.petpratico.com.br")
       .then(() => {
       }).catch(() => {
       });
@@ -75,7 +87,6 @@ export class ModalIndiqueEGanhePage {
         buttons: ['OK']
       }).present();
     });
-    
   }
 
 }

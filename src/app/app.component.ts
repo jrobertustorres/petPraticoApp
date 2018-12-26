@@ -91,14 +91,13 @@ export class MyApp {
         }, {
           text: 'VER ',
           handler: () => {
-            // this.nav.push(HomePage);
-            // this.nav.parent.select(0);
+            // this.navCtrl.parent.select(0);
           }
         }]
       });
       confirmAlert.present();
     } else {
-      // this.nav.push(HomePage);
+      // this.navCtrl.parent.select(0);
     }
   });
 

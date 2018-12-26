@@ -104,8 +104,6 @@ export class LoginService {
       this.usuarioEntity.versaoApp = localStorage.getItem(Constants.VERSION_NUMBER);
       this.usuarioEntity.uuid = localStorage.getItem(Constants.UUID);
 
-      console.log(JSON.stringify(this.usuarioEntity));
-
       return new Promise((resolve, reject) => {
         this.http.post(Constants.API_URL + 'loginByIdFacebook/', 
           JSON.stringify(this.usuarioEntity), this.options)

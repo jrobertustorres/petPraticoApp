@@ -8,11 +8,11 @@
             <span style="font-size: 17px;">Buscar produtos ou lojas</span>
         </ion-title>
     </ion-navbar>
+    <ion-searchbar (search)="getProdutoByNomeList($event.srcElement.value)" placeholder="Buscar produtos ou lojas"></ion-searchbar>
 
 </ion-header>
 
 <ion-content class="content-stable">
-    <ion-searchbar (search)="getProdutoByNomeList($event.srcElement.value)" placeholder="Buscar produtos ou lojas"></ion-searchbar>
 
     <ion-list>
         <ion-item *ngFor="let produto of produtosList" text-wrap (click)="openProdutosPorLojaListPage(produto.idProduto)"
@@ -35,7 +35,8 @@
                     <span style="color: #234ED8; font-size: 13px;">Complete seus dados pessoais para continuar </span>
                 </div> -->
 
-                <div *ngIf="isCadastroCompleto == 'true' && isCadastroEnderecoCompleto == 'false' && idUsuarioLogado">
+                <!-- <div *ngIf="isCadastroCompleto == 'true' && isCadastroEnderecoCompleto == 'false' && idUsuarioLogado"> -->
+                <div *ngIf="isCadastroEnderecoCompleto == 'false' && idUsuarioLogado">
                     <span class="span-style-listas">Complete seu endereço para ver os preços na sua cidade </span>
                 </div>
                 <!-- <div *ngIf="isCadastroCompleto == 'false' && isCadastroEnderecoCompleto == 'false' && idUsuarioLogado">

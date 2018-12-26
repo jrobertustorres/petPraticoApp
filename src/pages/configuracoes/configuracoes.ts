@@ -40,6 +40,7 @@ export class ConfiguracoesPage implements OnInit {
   public carrinhoChangeEvent = new EventEmitter();
   private estadoTema: string = 'Ligar';
   private temaChecked: boolean = false;
+  public versaoApp: string;
 
   constructor(public navCtrl: NavController, 
               public navParams: NavParams, 
@@ -58,7 +59,7 @@ export class ConfiguracoesPage implements OnInit {
   }
 
   ngOnInit() {
-
+    this.versaoApp = localStorage.getItem(Constants.VERSION_NUMBER);
   }
 
   ionViewWillEnter() {  
@@ -96,44 +97,6 @@ export class ConfiguracoesPage implements OnInit {
       }).present();
     });
 
-  }
-
-  getPlatform() {
-    if (this.platform.is('ios')) {
-      this.linkLoja = "https://play.google.com/store/apps/details?id=br.com.logiictecnologia.petpratico";
-    }
-    
-    if (this.platform.is('android')) {
-      this.linkLoja = "https://play.google.com/store/apps/details?id=br.com.logiictecnologia.petpratico";
-    }
-  }
-
-  shareAnyWhere() {
-    this.loading = this.loadingCtrl.create({
-      content: 'Aguarde...'
-    });
-    this.loading.present();
-
-    this.indicacaoService
-    .indicaAplicativo()
-    .then((indicacaoUsuarioEntityResult: IndicacaoUsuarioEntity) => {
-      this.indicacaoUsuarioEntity = indicacaoUsuarioEntityResult;
-
-      this.loading.dismiss();
-
-      this.socialSharing.share("Estou gostando muito do Pet Prático! Tenha todos os Pet Shops na palma de sua mão! Use o código de indicação e ganhe pontos: " + this.indicacaoUsuarioEntity.codigoIndicacao,
-      "http://www.petpratico.com.br/img/logo_shared.jpg", this.linkLoja)
-      .then(() => {
-      }).catch(() => {
-      });
-    }, (err) => {
-      this.loading.dismiss();
-      this.alertCtrl.create({
-        subTitle: err.message,
-        buttons: ['OK']
-      }).present();
-    });
-    
   }
 
   sendEmailBug() {

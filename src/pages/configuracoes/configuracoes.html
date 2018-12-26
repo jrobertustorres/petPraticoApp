@@ -60,7 +60,6 @@
             </button>
 
                 <button ion-item (click)="meuEndereco()" class="custom-background-button-config">
-                <!-- <ion-icon ios="ios-person" md="md-person" item-start color="light"></ion-icon> -->
                 <ion-icon ios="ios-pin" md="md-pin" item-start color="navBar"></ion-icon>
                     <span class="h2-color-cards">Meu endereço</span>
             </button>
@@ -101,8 +100,8 @@
                 </button>
 
                 <button ion-item (click)="politicaPontuacao()" class="custom-background-button-config">
-                    <ion-icon ios="ios-copy" md="md-copy" item-start color="navBar"></ion-icon>
-                        <span class="h2-color-cards">Política de pontuação</span>
+                    <ion-icon ios="ios-copy" md="ios-copy" item-start color="navBar"></ion-icon>
+                    <span class="h2-color-cards">Política de pontuação</span>
                 </button>
 
             </ion-list>
@@ -144,9 +143,10 @@
 
         <ion-card>
             <ion-list>
-                <button ion-item (click)="openModalSobre()">
+                <!-- <button ion-item (click)="openModalSobre()"> -->
+                <button ion-item>
                     <ion-icon ios="ios-construct" md="md-construct" item-start color="navBar"></ion-icon>
-                    <span class="h2-color-cards">Sobre esta versão</span>
+                    <span class="h2-color-cards">Versão</span><span class="versao">{{ versaoApp }}</span>
                 </button>
 
             </ion-list>
