@@ -73,8 +73,6 @@ export class ModalIndiqueEGanhePage {
       this.indicacaoUsuarioEntity = indicacaoUsuarioEntityResult;
 
       this.loading.dismiss();
-
-      
       this.socialSharing.share("Estou gostando muito do Pet Prático! Tenha todos os Pet Shops na palma de sua mão! Use o código de indicação e ganhe pontos: " + this.indicacaoUsuarioEntity.codigoIndicacao,
       null, "http://www.petpratico.com.br/img/logo_shared.jpg", "www.petpratico.com.br")
       .then(() => {

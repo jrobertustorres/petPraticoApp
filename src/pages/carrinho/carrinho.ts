@@ -96,7 +96,7 @@ export class CarrinhoPage {
         this.itensCarrinho = this.meusPedidoEntity.listMeusItemPedidoEntities;
         this.isRequerDesconto = this.meusPedidoEntity.isRequerDesconto;
         this.mostraBotao = this.itensCarrinho ? true : false;
-       
+
         if (this.meusPedidoEntity.isRequerDesconto || this.meusPedidoEntity.valorDescontoFormat != null) {
           this.valorDescontoFormat = this.meusPedidoEntity.valorDescontoFormat;
         } else {

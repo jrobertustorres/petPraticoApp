@@ -81,6 +81,7 @@ export class MyApp {
   });
 
   pushObject.on('notification').subscribe((data: any) => {
+    alert(data);
     if (data.additionalData.foreground) {
       let confirmAlert = this.alertCtrl.create({
         title: 'Nova notificação',
@@ -89,7 +90,7 @@ export class MyApp {
           text: 'IGNORAR',
           role: 'cancel'
         }, {
-          text: 'VER ',
+          text: 'ENTRAR',
           handler: () => {
             // this.navCtrl.parent.select(0);
           }
@@ -97,6 +98,8 @@ export class MyApp {
       });
       confirmAlert.present();
     } else {
+      alert('aaaaaaaaaaaaaaaaa');
+      alert(data);
       // this.navCtrl.parent.select(0);
     }
   });
